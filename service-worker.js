@@ -3,7 +3,7 @@
    Offline caching & performance
    ============================================ */
 
-const CACHE_NAME = 'kamera-bales-v1';
+const CACHE_NAME = 'kamera-bales-v2';
 const CORE_ASSETS = [
   '/',
   '/index.html',
@@ -11,9 +11,9 @@ const CORE_ASSETS = [
   '/css/styles.css',
   '/js/script.js',
   '/manifest.json',
+  '/offline.html',
   '/assets/icons/icon-192x192.svg',
-  '/assets/icons/icon-512x512.svg',
-  '/offline.html'
+  '/assets/icons/icon-512x512.svg'
 ];
 
 self.addEventListener('install', (event) => {

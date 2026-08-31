@@ -14,13 +14,13 @@
     const themeToggle = document.querySelector('.theme-toggle');
     const root = document.documentElement;
 
-    // ---------- FAQ Accordion (Auto-close others) ----------
+    // ---------- FAQ Accordion (Auto-close others, Native) ----------
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach((item) => {
         item.addEventListener('toggle', () => {
             if (item.open) {
                 faqItems.forEach((other) => {
-                    if (other !== item && other.open) other.open = false;
+                    if (other !== item) other.open = false;
                 });
             }
         });
@@ -37,7 +37,7 @@
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    // ---------- Mobile Menu Toggle ----------
+    // ---------- Mobile Menu Toggle with Focus Trap ----------
     const toggleMenu = (open) => {
         const isOpen = open !== undefined ? open : !navMenu.classList.contains('open');
         navMenu.classList.toggle('open', isOpen);
@@ -54,10 +54,25 @@
     navMenu.addEventListener('click', (event) => {
         if (event.target.closest('a')) toggleMenu(false);
     });
+    
+    // Focus Trap for Menu
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && navMenu.classList.contains('open')) {
             toggleMenu(false);
             navToggle.focus();
+        }
+        if (navMenu.classList.contains('open') && event.key === 'Tab') {
+            const focusable = navMenu.querySelectorAll('a[href], button:not([disabled])');
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
         }
     });
 
@@ -81,6 +96,18 @@
 
     // ---------- Contact Form → WhatsApp + Formspree ----------
     if (contactForm) {
+        // Auto-format phone input
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.startsWith('0')) value = value.slice(1);
+                if (value.length > 9) value = value.slice(0, 9);
+                const formatted = value.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+                e.target.value = formatted ? `0${formatted}` : '';
+            });
+        }
+
         contactForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const name = document.getElementById('name').value.trim();
@@ -185,7 +212,6 @@
                     headers: { 'Accept': 'application/json' }
                 });
                 if (response.ok) {
-                    // Generate downloadable guide
                     const blob = new Blob([guideContent], { type: 'text/html' });
                     const url = URL.createObjectURL(blob);
                     const downloadLink = document.createElement('a');
@@ -198,7 +224,6 @@
                         downloadContainer.appendChild(downloadLink);
                         downloadContainer.style.display = 'block';
                     }
-                    // Success feedback
                     submitBtn.textContent = '✅ Guide Sent!';
                     setTimeout(() => {
                         submitBtn.textContent = originalText;
@@ -254,6 +279,7 @@
         const filterCategory = document.getElementById('filterCategory');
         const filterGrade = document.getElementById('filterGrade');
         const resultsCount = document.querySelector('.results-count');
+        const activeFiltersContainer = document.getElementById('active-filters');
 
         const filterBales = () => {
             const searchTerm = searchInput.value.toLowerCase().trim();
@@ -293,6 +319,33 @@
             if (resultsCount) {
                 const total = baleCards.length;
                 resultsCount.textContent = `${visibleCount} of ${total} bales shown`;
+            }
+
+            // Update active filter chips
+            const activeFilters = [];
+            if (category !== 'all') activeFilters.push(`Category: ${category}`);
+            if (grade !== 'all') activeFilters.push(`Grade: ${grade}`);
+            if (searchTerm) activeFilters.push(`Search: "${searchTerm}"`);
+
+            activeFiltersContainer.innerHTML = '';
+            if (activeFilters.length > 0) {
+                const clearBtn = document.createElement('button');
+                clearBtn.className = 'chip clear-btn';
+                clearBtn.textContent = '✕ Clear All';
+                clearBtn.addEventListener('click', () => {
+                    searchInput.value = '';
+                    filterCategory.value = 'all';
+                    filterGrade.value = 'all';
+                    filterBales();
+                });
+                activeFiltersContainer.appendChild(clearBtn);
+
+                activeFilters.forEach(filter => {
+                    const chip = document.createElement('span');
+                    chip.className = 'chip';
+                    chip.textContent = filter;
+                    activeFiltersContainer.appendChild(chip);
+                });
             }
         };
         searchInput.addEventListener('input', filterBales);
@@ -338,7 +391,7 @@
         fetchStock();
     }
 
-    // ---------- Testimonials Carousel ----------
+    // ---------- Testimonials Carousel (with inert) ----------
     const carousel = document.querySelector('.testimonials-carousel');
     if (carousel) {
         const track = carousel.querySelector('.carousel-track');
@@ -369,8 +422,15 @@
                 dot.setAttribute('aria-selected', i === currentIndex);
             });
             slides.forEach((slide, i) => {
-                slide.setAttribute('aria-hidden', i !== currentIndex);
-                slide.setAttribute('tabindex', i === currentIndex ? '0' : '-1');
+                if (i !== currentIndex) {
+                    slide.setAttribute('aria-hidden', 'true');
+                    slide.setAttribute('tabindex', '-1');
+                    slide.setAttribute('inert', '');
+                } else {
+                    slide.removeAttribute('aria-hidden');
+                    slide.removeAttribute('inert');
+                    slide.setAttribute('tabindex', '0');
+                }
             });
         };
         const goToSlide = (index) => {
@@ -478,7 +538,6 @@
             const categoryLabel = categoryLabels[category] || category;
             const printWindow = window.open('', '_blank', 'width=700,height=500');
 
-            // Guard against popup blockers
             if (!printWindow) {
                 alert('Please allow pop-ups to print the quote.');
                 return;
@@ -591,6 +650,37 @@
         showFloatingBtn();
     }
 
+    // ---------- Back to Top Button ----------
+    const backToTopBtn = document.getElementById('backToTop');
+    if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // ---------- Scrollspy ----------
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const observerOptions = { root: null, rootMargin: '0px 0px -60% 0px', threshold: 0 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const currentId = entry.target.id;
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${currentId}`);
+                });
+            }
+        });
+    }, observerOptions);
+    sections.forEach(section => observer.observe(section));
+
     // ---------- Featured Bale Countdown ----------
     const countdownElements = document.querySelectorAll('.countdown');
     countdownElements.forEach(el => {
@@ -635,8 +725,8 @@
 
     // ---------- Exit-Intent Popup (CRO) ----------
     let exitShown = sessionStorage.getItem('exitShown');
-    document.addEventListener('mouseout', function(e) {
-        if (e.relatedTarget === null && !e.toElement && !exitShown) {
+    document.addEventListener('mouseout', (e) => {
+        if (!e.relatedTarget && !e.toElement && !exitShown) {
             const popup = document.getElementById('leadPopup');
             if (popup && !popup.open) {
                 popup.showModal();
@@ -649,7 +739,7 @@
     let deferredPrompt;
     const installBtn = document.createElement('button');
     installBtn.textContent = 'Install App';
-    installBtn.className = 'btn btn-primary btn-sm';
+    installBtn.className = 'btn btn-primary btn-sm install-prompt-btn';
     installBtn.style.display = 'none';
     document.body.appendChild(installBtn);
 
