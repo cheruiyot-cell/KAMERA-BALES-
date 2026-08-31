@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 
-    <!-- Preload hero image for faster LCP (Unsplash optimized) -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1920&q=80" fetchpriority="high">
+    <!-- Preload hero image (for LCP) -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80" fetchpriority="high">
 
     <!-- PWA meta -->
     <link rel="manifest" href="manifest.json">
@@ -28,7 +28,7 @@
 
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Schema Markup for SEO (unchanged) -->
+    <!-- Schema Markup -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -63,7 +63,6 @@
       }
     }
     </script>
-    <!-- Additional schema scripts omitted for brevity; keep as previous -->
 </head>
 <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -260,7 +259,12 @@
                     <!-- Women's Bales -->
                     <article class="bale-card" data-category="womens" data-grade="A B Premium" data-price="18000" data-search="womens bales women mitumba clothing">
                         <button class="lightbox-trigger" data-full="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=1200&q=80" aria-label="View larger image of Women's Bales">
-                            <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80" alt="Folded stack of women's mitumba clothing" width="800" height="600" loading="lazy" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80" 
+                                 srcset="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=400&q=60 400w,
+                                         https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80 800w,
+                                         https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=1200&q=80 1200w"
+                                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                                 alt="Folded stack of women's mitumba clothing" width="800" height="600" loading="lazy" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Women’s Bales</h3>
@@ -274,7 +278,12 @@
                     <!-- Men's Bales -->
                     <article class="bale-card" data-category="mens" data-grade="A B Premium" data-price="18000" data-search="mens bales men mitumba clothing">
                         <button class="lightbox-trigger" data-full="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1200&q=80" aria-label="View larger image of Men's Bales">
-                            <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=800&q=80" alt="Denim and shirts in men's mitumba bale" width="800" height="600" loading="lazy" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=800&q=80" 
+                                 srcset="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=400&q=60 400w,
+                                         https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=800&q=80 800w,
+                                         https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1200&q=80 1200w"
+                                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                                 alt="Denim and shirts in men's mitumba bale" width="800" height="600" loading="lazy" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Men’s Bales</h3>
@@ -288,7 +297,12 @@
                     <!-- Children's Bales -->
                     <article class="bale-card" data-category="childrens" data-grade="A B Premium" data-price="15000" data-search="childrens bales kids mitumba clothing">
                         <button class="lightbox-trigger" data-full="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=1200&q=80" aria-label="View larger image of Children's Bales">
-                            <img src="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80" alt="Colorful children's clothing stack" width="800" height="600" loading="lazy" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80" 
+                                 srcset="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=400&q=60 400w,
+                                         https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80 800w,
+                                         https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=1200&q=80 1200w"
+                                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                                 alt="Colorful children's clothing stack" width="800" height="600" loading="lazy" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Children’s Bales</h3>
@@ -302,7 +316,12 @@
                     <!-- Premium / Luxury Bales -->
                     <article class="bale-card" data-category="premium" data-grade="Premium" data-price="28000" data-search="premium luxury bales branded mitumba jackets">
                         <button class="lightbox-trigger" data-full="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" aria-label="View larger image of Premium Bales">
-                            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80" alt="Premium branded mitumba jackets and coats" width="800" height="600" loading="lazy" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80" 
+                                 srcset="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=400&q=60 400w,
+                                         https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80 800w,
+                                         https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80 1200w"
+                                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                                 alt="Premium branded mitumba jackets and coats" width="800" height="600" loading="lazy" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Premium / Luxury Bales</h3>
@@ -316,50 +335,75 @@
             </div>
         </section>
 
-        <!-- TESTIMONIALS CAROUSEL (updated with Unsplash avatars) -->
+        <!-- TESTIMONIALS CAROUSEL -->
         <section id="testimonials" class="testimonials section" aria-labelledby="testimonials-heading">
             <div class="container">
                 <h2 id="testimonials-heading" class="section-title">What Retailers Say</h2>
-                <div class="testimonials-carousel" aria-roledescription="carousel" aria-label="Customer testimonials">
+                <div class="testimonials-carousel" role="region" aria-roledescription="carousel" aria-label="Customer testimonials">
                     <div class="carousel-viewport">
                         <div class="carousel-track">
                             <!-- Slide 1 -->
-                            <figure class="testimonial-slide" role="group" aria-label="Testimonial 1 of 5">
+                            <figure class="testimonial-slide" role="group" aria-label="Testimonial 1 of 5" tabindex="0">
                                 <blockquote><p>“I was skeptical about buying bales online, but the quality exceeded my expectations. My sales increased 30% in the first month because I finally had consistent stock my customers love.”</p></blockquote>
                                 <figcaption>
-                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=112&h=112&q=80" alt="Grace Wanjiku" width="56" height="56" loading="lazy" decoding="async">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=112&h=112&q=60" 
+                                         srcset="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=56&h=56&q=60 56w,
+                                                 https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=112&h=112&q=60 112w,
+                                                 https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=224&h=224&q=60 224w"
+                                         sizes="56px"
+                                         alt="Grace Wanjiku" width="56" height="56" loading="lazy" decoding="async">
                                     <div><strong>Grace Wanjiku</strong><span>Grace’s Boutique, Nairobi</span><span class="result">Sales up 30%</span></div>
                                 </figcaption>
                             </figure>
                             <!-- Slide 2 -->
-                            <figure class="testimonial-slide" role="group" aria-label="Testimonial 2 of 5">
+                            <figure class="testimonial-slide" role="group" aria-label="Testimonial 2 of 5" tabindex="0">
                                 <blockquote><p>“As a bulk buyer, I need suppliers I can trust. Kamera Bales has never missed a delivery deadline, and their grading system means I know exactly what I’m getting every time.”</p></blockquote>
                                 <figcaption>
-                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=112&h=112&q=80" alt="Daniel Ochieng" width="56" height="56" loading="lazy" decoding="async">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=112&h=112&q=60" 
+                                         srcset="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=56&h=56&q=60 56w,
+                                                 https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=112&h=112&q=60 112w,
+                                                 https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=224&h=224&q=60 224w"
+                                         sizes="56px"
+                                         alt="Daniel Ochieng" width="56" height="56" loading="lazy" decoding="async">
                                     <div><strong>Daniel Ochieng</strong><span>D&J Wholesale, Mombasa</span><span class="result">20+ bales/month, 0 disputes</span></div>
                                 </figcaption>
                             </figure>
                             <!-- Slide 3 -->
-                            <figure class="testimonial-slide" role="group" aria-label="Testimonial 3 of 5">
+                            <figure class="testimonial-slide" role="group" aria-label="Testimonial 3 of 5" tabindex="0">
                                 <blockquote><p>“The curated bales are perfect for my online shop. The clothes are actually trendy, and the photos they provide help me sell faster.”</p></blockquote>
                                 <figcaption>
-                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=112&h=112&q=80" alt="Amina Hassan" width="56" height="56" loading="lazy" decoding="async">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=112&h=112&q=60" 
+                                         srcset="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=56&h=56&q=60 56w,
+                                                 https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=112&h=112&q=60 112w,
+                                                 https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=224&h=224&q=60 224w"
+                                         sizes="56px"
+                                         alt="Amina Hassan" width="56" height="56" loading="lazy" decoding="async">
                                     <div><strong>Amina Hassan</strong><span>ThriftByAmina, Instagram</span><span class="result">Sells out within 2 weeks</span></div>
                                 </figcaption>
                             </figure>
                             <!-- Slide 4 -->
-                            <figure class="testimonial-slide" role="group" aria-label="Testimonial 4 of 5">
+                            <figure class="testimonial-slide" role="group" aria-label="Testimonial 4 of 5" tabindex="0">
                                 <blockquote><p>“We source from Kamera every week. The consistency has allowed us to expand to three shops. Their team understands the market and always delivers on time.”</p></blockquote>
                                 <figcaption>
-                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=112&h=112&q=80" alt="Sarah Njoroge" width="56" height="56" loading="lazy" decoding="async">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=112&h=112&q=60" 
+                                         srcset="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=56&h=56&q=60 56w,
+                                                 https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=112&h=112&q=60 112w,
+                                                 https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=224&h=224&q=60 224w"
+                                         sizes="56px"
+                                         alt="Sarah Njoroge" width="56" height="56" loading="lazy" decoding="async">
                                     <div><strong>Sarah Njoroge</strong><span>Njoroge Fashions, Nakuru</span><span class="result">Expanded to 3 shops</span></div>
                                 </figcaption>
                             </figure>
                             <!-- Slide 5 -->
-                            <figure class="testimonial-slide" role="group" aria-label="Testimonial 5 of 5">
+                            <figure class="testimonial-slide" role="group" aria-label="Testimonial 5 of 5" tabindex="0">
                                 <blockquote><p>“The premium bales are worth every shilling. I sell high‑end jackets and coats from Kamera, and my customers keep coming back for more.”</p></blockquote>
                                 <figcaption>
-                                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=112&h=112&q=80" alt="Joseph Mwangi" width="56" height="56" loading="lazy" decoding="async">
+                                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=112&h=112&q=60" 
+                                         srcset="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=56&h=56&q=60 56w,
+                                                 https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=112&h=112&q=60 112w,
+                                                 https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=224&h=224&q=60 224w"
+                                         sizes="56px"
+                                         alt="Joseph Mwangi" width="56" height="56" loading="lazy" decoding="async">
                                     <div><strong>Joseph Mwangi</strong><span>Premium Thrifts, Eldoret</span><span class="result">Premium bales sell out fast</span></div>
                                 </figcaption>
                             </figure>
@@ -374,7 +418,7 @@
             </div>
         </section>
 
-        <!-- PRICING / OFFER (unchanged) -->
+        <!-- PRICING / OFFER -->
         <section id="pricing" class="pricing section" aria-labelledby="pricing-heading">
             <div class="container">
                 <h2 id="pricing-heading" class="section-title">Transparent Pricing</h2>
@@ -418,7 +462,7 @@
             </div>
         </section>
 
-        <!-- DIGITAL QUOTATION GENERATOR (unchanged) -->
+        <!-- DIGITAL QUOTATION GENERATOR -->
         <section id="quote-generator" class="quote-generator section" aria-labelledby="quote-heading">
             <div class="container container-md">
                 <h2 id="quote-heading" class="section-title">Get an Instant Quote</h2>
@@ -459,7 +503,7 @@
             </div>
         </section>
 
-        <!-- FAQ (unchanged) -->
+        <!-- FAQ -->
         <section id="faq" class="faq section" aria-labelledby="faq-heading">
             <div class="container container-sm">
                 <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
@@ -496,7 +540,7 @@
             </div>
         </section>
 
-        <!-- FINAL CTA (unchanged) -->
+        <!-- FINAL CTA -->
         <section class="final-cta" aria-labelledby="final-cta-heading">
             <div class="container">
                 <h2 id="final-cta-heading">Ready to Upgrade Your Inventory?</h2>
@@ -510,7 +554,7 @@
             </div>
         </section>
 
-        <!-- CONTACT SECTION (unchanged) -->
+        <!-- CONTACT SECTION -->
         <section id="contact" class="contact-section section" aria-labelledby="contact-heading">
             <div class="container">
                 <h2 id="contact-heading" class="section-title">Contact Us</h2>
@@ -545,7 +589,7 @@
             </div>
         </section>
 
-        <!-- TRUST BADGES & PAYMENT ICONS (unchanged) -->
+        <!-- TRUST BADGES & PAYMENT ICONS -->
         <section class="trust-badges-section" aria-label="Trust badges and payment methods">
             <div class="container">
                 <p class="trust-badges-label">Secure Payments & Verified Quality</p>
@@ -647,7 +691,7 @@
     </footer>
 
     <!-- LEAD MAGNET POPUP -->
-    <dialog id="leadPopup" class="lead-popup" aria-labelledby="popup-title">
+    <dialog id="leadPopup" class="lead-popup" aria-labelledby="popup-title" aria-modal="true">
         <button class="popup-close" aria-label="Close popup">✕</button>
         <div class="popup-content">
             <h3 id="popup-title">Free Grading Guide</h3>
@@ -661,7 +705,7 @@
     </dialog>
 
     <!-- IMAGE LIGHTBOX DIALOG -->
-    <dialog id="lightbox" class="lightbox" aria-label="Image viewer">
+    <dialog id="lightbox" class="lightbox" aria-label="Image viewer" aria-modal="true">
         <button class="lightbox-close" aria-label="Close image viewer">✕</button>
         <img src="" alt="" id="lightbox-image">
     </dialog>
