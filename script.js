@@ -5,38 +5,33 @@
 document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
-    // ---------- Global WhatsApp Link Generation ----------
+    // ---------- Global WhatsApp Number ----------
     const waNumber = '254702555093';
-    
-    // Automatically fill all data-wa-template links
+
+    // ---------- 1. Automatically Fill All data-wa-template Links ----------
     document.querySelectorAll('a[data-wa-template]').forEach(link => {
         const message = encodeURIComponent(link.dataset.waTemplate);
         link.href = `https://wa.me/${waNumber}?text=${message}`;
     });
 
-    // ---------- FAQ Manual Toggle (Permanent Fix) ----------
+    // ---------- 2. FAQ Manual Toggle ----------
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach((item) => {
         const summary = item.querySelector('summary');
         if (summary) {
             summary.addEventListener('click', (e) => {
-                // Prevent default to avoid double-toggle on some browsers
                 e.preventDefault();
-                
-                // If already open, close it
                 if (item.open) {
                     item.open = false;
                 } else {
-                    // Close all other items
                     faqItems.forEach((other) => { if (other !== item) other.open = false; });
-                    // Open this one
                     item.open = true;
                 }
             });
         }
     });
 
-    // ---------- Header Scroll ----------
+    // ---------- 3. Header Scroll ----------
     const header = document.querySelector('.site-header');
     if (header) {
         const handleScroll = () => {
@@ -47,10 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
         handleScroll();
     }
 
-    // ---------- Mobile Menu Toggle with Focus Trap ----------
+    // ---------- 4. Mobile Menu Toggle ----------
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
-    
     if (navToggle && navMenu) {
         const toggleMenu = (open) => {
             const isOpen = open !== undefined ? open : !navMenu.classList.contains('open');
@@ -58,41 +52,24 @@ document.addEventListener('DOMContentLoaded', () => {
             navToggle.setAttribute('aria-expanded', isOpen);
             navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
         };
-        
         navToggle.addEventListener('click', () => toggleMenu());
-
         document.addEventListener('click', (event) => {
             if (navMenu.classList.contains('open') && !navMenu.contains(event.target) && !navToggle.contains(event.target)) {
                 toggleMenu(false);
             }
         });
-        
         navMenu.addEventListener('click', (event) => {
             if (event.target.closest('a')) toggleMenu(false);
         });
-
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && navMenu.classList.contains('open')) {
                 toggleMenu(false);
                 navToggle.focus();
             }
-            if (navMenu.classList.contains('open') && event.key === 'Tab') {
-                const focusable = navMenu.querySelectorAll('a[href], button:not([disabled])');
-                const first = focusable[0];
-                const last = focusable[focusable.length - 1];
-
-                if (event.shiftKey && document.activeElement === first) {
-                    event.preventDefault();
-                    last.focus();
-                } else if (!event.shiftKey && document.activeElement === last) {
-                    event.preventDefault();
-                    first.focus();
-                }
-            }
         });
     }
 
-    // ---------- Dark Mode ----------
+    // ---------- 5. Dark Mode ----------
     const themeToggle = document.querySelector('.theme-toggle');
     const root = document.documentElement;
     if (themeToggle) {
@@ -114,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ---------- Bale Search & Filter (Robust Fix) ----------
+    // ---------- 6. Bale Search & Filter ----------
     const baleCards = document.querySelectorAll('.bale-card');
     const searchInput = document.getElementById('searchBales');
     const filterCategory = document.getElementById('filterCategory');
@@ -163,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultsCount.textContent = `${visibleCount} of ${total} bales shown`;
             }
 
-            // Update active filter chips
             if (activeFiltersContainer) {
                 const activeFilters = [];
                 if (category !== 'all') activeFilters.push(`Category: ${category}`);
@@ -193,16 +169,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Attach Event Listeners
         searchInput.addEventListener('input', filterBales);
         filterCategory.addEventListener('change', filterBales);
         filterGrade.addEventListener('change', filterBales);
-        
-        // Initial Call
         filterBales();
     }
 
-    // ---------- Stock Urgency ----------
+    // ---------- 7. Stock Urgency ----------
     const stockElements = document.querySelectorAll('.stock-urgency');
     if (stockElements.length > 0) {
         const fetchStock = async () => {
@@ -238,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchStock();
     }
 
-    // ---------- Testimonials Carousel (with inert) ----------
+    // ---------- 8. Testimonials Carousel ----------
     const carousel = document.querySelector('.testimonials-carousel');
     if (carousel) {
         const track = carousel.querySelector('.carousel-track');
@@ -253,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const dot = document.createElement('button');
             dot.classList.add('carousel-dot');
             dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
-            dot.setAttribute('role', 'button');
             dot.dataset.index = index;
             if (index === 0) dot.classList.add('active');
             dotsContainer.appendChild(dot);
@@ -326,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startAutoPlay();
     }
 
-    // ---------- Contact Form (Auto-Format Phone & WhatsApp) ----------
+    // ---------- 9. Contact Form (Auto-Format Phone & WhatsApp) ----------
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
         const phoneInput = document.getElementById('phone');
@@ -339,7 +311,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.target.value = formatted ? `0${formatted}` : '';
             });
         }
-
         contactForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const name = document.getElementById('name').value.trim();
@@ -347,13 +318,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('email').value.trim();
             const message = document.getElementById('message').value.trim();
             if (!name || !phone) { alert('Please fill in your name and phone number.'); return; }
-
             fetch(contactForm.action, {
                 method: 'POST',
                 body: new FormData(contactForm),
                 headers: { 'Accept': 'application/json' }
             }).catch(() => {});
-
             let waText = `Hi Kamera Bales!%0A%0A`;
             waText += `*Name:* ${encodeURIComponent(name)}%0A`;
             waText += `*Phone:* ${encodeURIComponent(phone)}%0A`;
@@ -361,7 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (message) waText += `*Inquiry:* ${encodeURIComponent(message)}%0A`;
             const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
             window.open(waUrl, '_blank', 'noopener,noreferrer');
-
             contactForm.reset();
             const note = contactForm.querySelector('.form-note');
             if (note) {
@@ -377,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ---------- Digital Quotation Generator ----------
+    // ---------- 10. Digital Quotation Generator ----------
     const quoteForm = document.getElementById('quoteForm');
     if (quoteForm) {
         const categorySelect = document.getElementById('category');
@@ -434,12 +402,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const { total, category, grade, quantity, unitPrice } = calculateTotal();
             const categoryLabel = categoryLabels[category] || category;
             const printWindow = window.open('', '_blank', 'width=700,height=500');
-
             if (!printWindow) {
                 alert('Please allow pop-ups to print the quote.');
                 return;
             }
-
             printWindow.document.write(`
                 <html>
                     <head>
@@ -480,55 +446,176 @@ document.addEventListener('DOMContentLoaded', () => {
         calculateTotal();
     }
 
-    // ---------- Image Lightbox (with fallback focus trap) ----------
+    // ---------- 11. Image Lightbox ----------
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
     const lightboxClose = document.querySelector('.lightbox-close');
     const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
 
-    const hasNativeDialog = typeof lightbox.showModal === 'function';
-    let lastFocusedElement = null;
+    if (lightbox && lightboxImage && lightboxClose) {
+        const hasNativeDialog = typeof lightbox.showModal === 'function';
+        let lastFocusedElement = null;
 
-    const openLightbox = (src, alt) => {
-        lightboxImage.src = src;
-        lightboxImage.alt = alt || '';
-        lastFocusedElement = document.activeElement;
-        if (hasNativeDialog) {
-            lightbox.showModal();
-            lightboxClose.focus();
-        } else {
-            lightbox.setAttribute('open', '');
-            document.body.style.overflow = 'hidden';
-            const focusable = lightbox.querySelectorAll('button, [href], [tabindex]');
-            if (focusable.length > 0) focusable[0].focus();
-        }
-    };
-    const closeLightbox = () => {
-        if (hasNativeDialog) {
-            lightbox.close();
-        } else {
-            lightbox.removeAttribute('open');
-            document.body.style.overflow = '';
-            if (lastFocusedElement) lastFocusedElement.focus();
-        }
-    };
-    lightboxTriggers.forEach((trigger) => {
-        trigger.addEventListener('click', () => {
-            const img = trigger.querySelector('img');
-            const fullSrc = trigger.dataset.full || img.src;
-            const alt = img.alt || '';
-            openLightbox(fullSrc, alt);
+        const openLightbox = (src, alt) => {
+            lightboxImage.src = src;
+            lightboxImage.alt = alt || '';
+            lastFocusedElement = document.activeElement;
+            if (hasNativeDialog) {
+                lightbox.showModal();
+                lightboxClose.focus();
+            } else {
+                lightbox.setAttribute('open', '');
+                document.body.style.overflow = 'hidden';
+                const focusable = lightbox.querySelectorAll('button, [href], [tabindex]');
+                if (focusable.length > 0) focusable[0].focus();
+            }
+        };
+        const closeLightbox = () => {
+            if (hasNativeDialog) {
+                lightbox.close();
+            } else {
+                lightbox.removeAttribute('open');
+                document.body.style.overflow = '';
+                if (lastFocusedElement) lastFocusedElement.focus();
+            }
+        };
+        lightboxTriggers.forEach((trigger) => {
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const img = trigger.querySelector('img');
+                const fullSrc = trigger.dataset.full || img.src;
+                const alt = img.alt || '';
+                openLightbox(fullSrc, alt);
+            });
         });
-    });
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (event) => {
-        if (event.target === lightbox) closeLightbox();
-    });
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && lightbox.hasAttribute('open')) closeLightbox();
-    });
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (event) => {
+            if (event.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && lightbox.hasAttribute('open')) closeLightbox();
+        });
+    }
 
-    // ---------- Floating WhatsApp Button ----------
+    // ---------- 12. BALE CARD CLICK → OPEN WHATSAPP INQUIRY POPUP ----------
+    // This is the FIX for the "can't click cards" issue.
+    const waPopup = document.getElementById('waPopup');
+    const waForm = document.getElementById('waForm');
+    const waPopupClose = document.querySelector('.wa-popup-close');
+
+    if (waPopup && waForm) {
+        // Function to open popup with card data
+        const openWaPopup = (category, grade, price) => {
+            // Set the hidden fields
+            document.getElementById('popupCategory').value = category;
+            document.getElementById('popupGrade').value = grade;
+            document.getElementById('popupPrice').value = price;
+
+            // Show popup
+            if (typeof waPopup.showModal === 'function') {
+                waPopup.showModal();
+            } else {
+                waPopup.setAttribute('open', '');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Focus on name field
+            setTimeout(() => {
+                document.getElementById('waName').focus();
+            }, 50);
+        };
+
+        // Close popup
+        const closeWaPopup = () => {
+            if (typeof waPopup.close === 'function') {
+                waPopup.close();
+            } else {
+                waPopup.removeAttribute('open');
+                document.body.style.overflow = '';
+            }
+        };
+
+        // Add click handler to each bale card
+        document.querySelectorAll('.bale-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't open popup if clicking on the lightbox trigger
+                if (e.target.closest('.lightbox-trigger')) return;
+                // Don't open popup if clicking on a link/button (they have their own handlers)
+                if (e.target.closest('a')) return;
+
+                // Get card data
+                const category = card.dataset.category || '';
+                const grade = card.dataset.grade || '';
+                const price = card.dataset.price || '';
+
+                // Open the popup
+                openWaPopup(category, grade, price);
+            });
+
+            // Also make the "Order Now" button work without opening popup twice
+            const orderBtn = card.querySelector('.btn-primary');
+            if (orderBtn) {
+                orderBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    // The button has data-wa-template, so it will use the automatic handler.
+                    // But if not, we open the popup:
+                    if (!orderBtn.dataset.waTemplate && !orderBtn.href) {
+                        e.preventDefault();
+                        openWaPopup(card.dataset.category, card.dataset.grade, card.dataset.price);
+                    }
+                });
+            }
+        });
+
+        // Handle form submission
+        waForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('waName').value.trim();
+            const phone = document.getElementById('waPhone').value.trim();
+            const category = document.getElementById('popupCategory').value;
+            const grade = document.getElementById('popupGrade').value;
+            const price = document.getElementById('popupPrice').value;
+
+            if (!name || !phone) {
+                alert('Please fill in your name and phone number.');
+                return;
+            }
+
+            // Build WhatsApp message
+            let message = `Hi Kamera Bales! I'm ${name}.%0A`;
+            message += `Phone: ${phone}%0A`;
+            message += `I'm interested in ${category} bales%0A`;
+            message += `Grade: ${grade}%0A`;
+            if (price) message += `Price: KSh ${price}%0A`;
+            message += `Please share current stock and availability.`;
+
+            // Open WhatsApp
+            const waUrl = `https://wa.me/${waNumber}?text=${message}`;
+            window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+            // Close popup and reset
+            closeWaPopup();
+            waForm.reset();
+        });
+
+        // Close popup button
+        if (waPopupClose) {
+            waPopupClose.addEventListener('click', closeWaPopup);
+        }
+
+        // Close popup when clicking backdrop
+        waPopup.addEventListener('click', (e) => {
+            if (e.target === waPopup) closeWaPopup();
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && waPopup.hasAttribute('open')) closeWaPopup();
+        });
+    }
+
+    // ---------- 13. Floating WhatsApp Button ----------
     const floatingBtn = document.querySelector('.floating-whatsapp');
     if (floatingBtn) {
         const showFloatingBtn = () => {
@@ -547,7 +634,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showFloatingBtn();
     }
 
-    // ---------- Back to Top Button ----------
+    // ---------- 14. Back to Top Button ----------
     const backToTopBtn = document.getElementById('backToTop');
     if (backToTopBtn) {
         window.addEventListener('scroll', () => {
@@ -562,7 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ---------- Scrollspy ----------
+    // ---------- 15. Scrollspy ----------
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
     const observerOptions = { root: null, rootMargin: '0px 0px -60% 0px', threshold: 0 };
@@ -578,7 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, observerOptions);
     sections.forEach(section => observer.observe(section));
 
-    // ---------- Featured Bale Countdown ----------
+    // ---------- 16. Featured Bale Countdown ----------
     const countdownElements = document.querySelectorAll('.countdown');
     countdownElements.forEach(el => {
         const deadline = new Date(el.dataset.deadline).getTime();
@@ -606,7 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateCountdown, 1000);
     });
 
-    // ---------- Analytics Event Tracking ----------
+    // ---------- 17. Analytics Event Tracking ----------
     if (typeof gtag === 'function') {
         document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
             link.addEventListener('click', () => {
@@ -620,7 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ---------- Lead Magnet (Footer & Popup) with Generated Download ----------
+    // ---------- 18. Lead Magnet ----------
     const leadForms = document.querySelectorAll('.lead-form');
     const leadPopup = document.getElementById('leadPopup');
     const popupClose = document.querySelector('.popup-close');
@@ -644,7 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ---------- Exit-Intent Popup (CRO) ----------
+    // ---------- 19. Exit-Intent Popup ----------
     let exitShown = sessionStorage.getItem('exitShown');
     document.addEventListener('mouseout', (e) => {
         if (!e.relatedTarget && !e.toElement && !exitShown) {
@@ -656,7 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ---------- PWA Install Prompt ----------
+    // ---------- 20. PWA Install Prompt ----------
     let deferredPrompt;
     const installBtn = document.createElement('button');
     installBtn.textContent = 'Install App';
@@ -680,7 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ---------- PWA Service Worker ----------
+    // ---------- 21. PWA Service Worker ----------
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/service-worker.js')

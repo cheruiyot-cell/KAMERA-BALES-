@@ -600,3 +600,157 @@ p, h1, h2, h3, h4, li, a, span {
     -webkit-user-select: none;
     width: 100%;
 }
+/* ============================================
+   WHATSAPP INQUIRY POPUP & CARD CLICK FIX
+   ============================================ */
+
+/* Make bale cards clickable */
+.bale-card {
+    cursor: pointer;
+    position: relative;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background 0.3s ease;
+}
+
+.bale-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Ensure lightbox trigger cursor is zoom-in */
+.lightbox-trigger {
+    cursor: zoom-in;
+}
+
+/* WhatsApp Inquiry Popup */
+.wa-popup {
+    border: none;
+    border-radius: var(--radius-lg);
+    padding: 0;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-lg);
+    max-width: 480px;
+    width: 90vw;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10000;
+}
+
+.wa-popup[open] {
+    opacity: 1;
+}
+
+.wa-popup::backdrop {
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+}
+
+.wa-popup-content {
+    padding: var(--space-xl);
+    text-align: center;
+}
+
+.wa-popup-content h3 {
+    margin-bottom: var(--space-2xs);
+    color: var(--color-text-primary);
+}
+
+.wa-popup-content p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-md);
+    font-size: 0.95rem;
+}
+
+.wa-popup-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    text-align: left;
+}
+
+.wa-popup-form label {
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-3xs);
+    font-size: 0.9rem;
+}
+
+.wa-popup-form input,
+.wa-popup-form select {
+    width: 100%;
+    padding: var(--space-2xs) var(--space-xs);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    min-height: 44px;
+    background: var(--color-background);
+    color: var(--color-text-primary);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.wa-popup-form input:focus,
+.wa-popup-form select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.wa-popup-actions {
+    display: flex;
+    gap: var(--space-2xs);
+    margin-top: var(--space-sm);
+}
+
+.wa-popup-actions .btn {
+    flex: 1;
+}
+
+.wa-popup-close {
+    position: absolute;
+    top: var(--space-xs);
+    right: var(--space-xs);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.1);
+    color: var(--color-text-primary);
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    transition: background var(--transition-fast);
+}
+
+.wa-popup-close:hover {
+    background: rgba(0,0,0,0.2);
+}
+
+.wa-popup-note {
+    font-size: 0.8rem;
+    color: var(--color-text-tertiary);
+    text-align: center;
+    margin-top: var(--space-2xs);
+}
+
+/* Mobile fix: Ensure cards are tappable on touch devices */
+@media (max-width: 640px) {
+    .bale-card {
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(26, 92, 58, 0.2);
+    }
+    
+    .wa-popup {
+        width: 95vw;
+        max-width: 95vw;
+    }
+    
+    .wa-popup-content {
+        padding: var(--space-lg);
+    }
+}
