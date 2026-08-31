@@ -101,9 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (baleCards.length > 0) {
         const filterBales = () => {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            const category = filterCategory.value;
-            const grade = filterGrade.value;
+            const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+            const category = filterCategory ? filterCategory.value : 'all';
+            const grade = filterGrade ? filterGrade.value : 'all';
             let visibleCount = 0;
 
             baleCards.forEach(card => {
@@ -152,9 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     clearBtn.className = 'chip clear-btn';
                     clearBtn.textContent = '✕ Clear All';
                     clearBtn.addEventListener('click', () => {
-                        searchInput.value = '';
-                        filterCategory.value = 'all';
-                        filterGrade.value = 'all';
+                        if (searchInput) searchInput.value = '';
+                        if (filterCategory) filterCategory.value = 'all';
+                        if (filterGrade) filterGrade.value = 'all';
                         filterBales();
                     });
                     activeFiltersContainer.appendChild(clearBtn);
@@ -169,9 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        searchInput.addEventListener('input', filterBales);
-        filterCategory.addEventListener('change', filterBales);
-        filterGrade.addEventListener('change', filterBales);
+        if (searchInput) searchInput.addEventListener('input', filterBales);
+        if (filterCategory) filterCategory.addEventListener('change', filterBales);
+        if (filterGrade) filterGrade.addEventListener('change', filterBales);
         filterBales();
     }
 
@@ -497,123 +497,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ---------- 12. BALE CARD CLICK → OPEN WHATSAPP INQUIRY POPUP ----------
-    // This is the FIX for the "can't click cards" issue.
-    const waPopup = document.getElementById('waPopup');
-    const waForm = document.getElementById('waForm');
-    const waPopupClose = document.querySelector('.wa-popup-close');
-
-    if (waPopup && waForm) {
-        // Function to open popup with card data
-        const openWaPopup = (category, grade, price) => {
-            // Set the hidden fields
-            document.getElementById('popupCategory').value = category;
-            document.getElementById('popupGrade').value = grade;
-            document.getElementById('popupPrice').value = price;
-
-            // Show popup
-            if (typeof waPopup.showModal === 'function') {
-                waPopup.showModal();
-            } else {
-                waPopup.setAttribute('open', '');
-                document.body.style.overflow = 'hidden';
-            }
-
-            // Focus on name field
-            setTimeout(() => {
-                document.getElementById('waName').focus();
-            }, 50);
-        };
-
-        // Close popup
-        const closeWaPopup = () => {
-            if (typeof waPopup.close === 'function') {
-                waPopup.close();
-            } else {
-                waPopup.removeAttribute('open');
-                document.body.style.overflow = '';
-            }
-        };
-
-        // Add click handler to each bale card
-        document.querySelectorAll('.bale-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                // Don't open popup if clicking on the lightbox trigger
-                if (e.target.closest('.lightbox-trigger')) return;
-                // Don't open popup if clicking on a link/button (they have their own handlers)
-                if (e.target.closest('a')) return;
-
-                // Get card data
-                const category = card.dataset.category || '';
-                const grade = card.dataset.grade || '';
-                const price = card.dataset.price || '';
-
-                // Open the popup
-                openWaPopup(category, grade, price);
+    // ---------- 12. BALE CARD ORDER NOW BUTTON (Simplified & Fixed) ----------
+    // The card itself is NOT clickable anymore. Only the "Order Now" button opens WhatsApp.
+    document.querySelectorAll('.bale-card').forEach(card => {
+        const orderBtn = card.querySelector('.btn-primary');
+        if (orderBtn) {
+            orderBtn.addEventListener('click', (e) => {
+                e.preventDefault();  // Ensure we always open WhatsApp manually
+                e.stopPropagation();
+                // The button's href is already set with data-wa-template (or fallback)
+                const waUrl = orderBtn.href || `https://wa.me/${waNumber}`;
+                window.open(waUrl, '_blank', 'noopener,noreferrer');
             });
-
-            // Also make the "Order Now" button work without opening popup twice
-            const orderBtn = card.querySelector('.btn-primary');
-            if (orderBtn) {
-                orderBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    // The button has data-wa-template, so it will use the automatic handler.
-                    // But if not, we open the popup:
-                    if (!orderBtn.dataset.waTemplate && !orderBtn.href) {
-                        e.preventDefault();
-                        openWaPopup(card.dataset.category, card.dataset.grade, card.dataset.price);
-                    }
-                });
-            }
-        });
-
-        // Handle form submission
-        waForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const name = document.getElementById('waName').value.trim();
-            const phone = document.getElementById('waPhone').value.trim();
-            const category = document.getElementById('popupCategory').value;
-            const grade = document.getElementById('popupGrade').value;
-            const price = document.getElementById('popupPrice').value;
-
-            if (!name || !phone) {
-                alert('Please fill in your name and phone number.');
-                return;
-            }
-
-            // Build WhatsApp message
-            let message = `Hi Kamera Bales! I'm ${name}.%0A`;
-            message += `Phone: ${phone}%0A`;
-            message += `I'm interested in ${category} bales%0A`;
-            message += `Grade: ${grade}%0A`;
-            if (price) message += `Price: KSh ${price}%0A`;
-            message += `Please share current stock and availability.`;
-
-            // Open WhatsApp
-            const waUrl = `https://wa.me/${waNumber}?text=${message}`;
-            window.open(waUrl, '_blank', 'noopener,noreferrer');
-
-            // Close popup and reset
-            closeWaPopup();
-            waForm.reset();
-        });
-
-        // Close popup button
-        if (waPopupClose) {
-            waPopupClose.addEventListener('click', closeWaPopup);
         }
-
-        // Close popup when clicking backdrop
-        waPopup.addEventListener('click', (e) => {
-            if (e.target === waPopup) closeWaPopup();
-        });
-
-        // Close on Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && waPopup.hasAttribute('open')) closeWaPopup();
-        });
-    }
+    });
 
     // ---------- 13. Floating WhatsApp Button ----------
     const floatingBtn = document.querySelector('.floating-whatsapp');
