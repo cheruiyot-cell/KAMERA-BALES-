@@ -14,6 +14,25 @@
     const themeToggle = document.querySelector('.theme-toggle');
     const root = document.documentElement;
 
+    // ---------- FAQ Accordion & Click-Outside ----------
+    const faqItems = document.querySelectorAll('.faq-item');
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.faq-item')) {
+            faqItems.forEach((item) => {
+                if (item.open) item.open = false;
+            });
+        }
+    });
+    faqItems.forEach((item) => {
+        item.addEventListener('toggle', () => {
+            if (item.open) {
+                faqItems.forEach((other) => {
+                    if (other !== item && other.open) other.open = false;
+                });
+            }
+        });
+    });
+
     // ---------- Sticky Header Scroll Detection ----------
     const handleScroll = () => {
         if (window.scrollY > 20) {
@@ -22,7 +41,6 @@
             header.classList.remove('scrolled');
         }
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
@@ -33,13 +51,18 @@
         navToggle.setAttribute('aria-expanded', isOpen);
         navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
     };
-
     navToggle.addEventListener('click', () => toggleMenu());
 
-    navMenu.addEventListener('click', (event) => {
-        if (event.target.closest('a')) {
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (navMenu.classList.contains('open') && !navMenu.contains(event.target) && !navToggle.contains(event.target)) {
             toggleMenu(false);
         }
+    });
+
+    // Close menu when clicking a link
+    navMenu.addEventListener('click', (event) => {
+        if (event.target.closest('a')) toggleMenu(false);
     });
 
     document.addEventListener('keydown', (event) => {
@@ -55,15 +78,12 @@
         if (stored) return stored;
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     };
-
     const applyTheme = (theme) => {
         root.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
         themeToggle.setAttribute('aria-pressed', theme === 'dark');
     };
-
     applyTheme(getPreferredTheme());
-
     themeToggle.addEventListener('click', () => {
         const current = root.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
@@ -74,34 +94,25 @@
     if (contactForm) {
         contactForm.addEventListener('submit', (event) => {
             event.preventDefault();
-
             const name = document.getElementById('name').value.trim();
             const phone = document.getElementById('phone').value.trim();
             const email = document.getElementById('email').value.trim();
             const message = document.getElementById('message').value.trim();
+            if (!name || !phone) { alert('Please fill in your name and phone number.'); return; }
 
-            if (!name || !phone) {
-                alert('Please fill in your name and phone number.');
-                return;
-            }
-
-            // Send data to Formspree (fire-and-forget)
             fetch(contactForm.action, {
                 method: 'POST',
                 body: new FormData(contactForm),
                 headers: { 'Accept': 'application/json' }
-            }).catch(() => { /* silently ignore network errors */ });
+            }).catch(() => {});
 
-            // Build WhatsApp message
             let waText = `Hi Kamera Bales!%0A%0A`;
             waText += `*Name:* ${encodeURIComponent(name)}%0A`;
             waText += `*Phone:* ${encodeURIComponent(phone)}%0A`;
             if (email) waText += `*Email:* ${encodeURIComponent(email)}%0A`;
             if (message) waText += `*Inquiry:* ${encodeURIComponent(message)}%0A`;
-
             const waNumber = '254702555093';
             const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
-
             window.open(waUrl, '_blank', 'noopener,noreferrer');
 
             contactForm.reset();
@@ -110,7 +121,6 @@
                 note.textContent = '✅ Inquiry sent via WhatsApp. We’ll respond within 2 hours.';
                 note.style.color = 'var(--color-success)';
             }
-
             setTimeout(() => {
                 if (note) {
                     note.textContent = '🔒 Your information is secure · No spam';
@@ -120,10 +130,49 @@
         });
     }
 
-    // ---------- Lead Magnet (Footer & Popup) ----------
+    // ---------- Lead Magnet (Footer & Popup) with Generated Download ----------
     const leadForms = document.querySelectorAll('.lead-form');
     const leadPopup = document.getElementById('leadPopup');
     const popupClose = document.querySelector('.popup-close');
+
+    const guideContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kamera Bales — Mitumba Grading Guide</title>
+        <style>
+          body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; line-height: 1.6; color: #333; }
+          h1 { color: #1A5C3A; }
+          h2 { color: #1A5C3A; margin-top: 30px; }
+          ul { margin-left: 20px; }
+          .footer { margin-top: 50px; border-top: 2px solid #1A5C3A; padding-top: 10px; font-size: 0.9rem; }
+        </style>
+      </head>
+      <body>
+        <h1>Mitumba Grading Guide</h1>
+        <p><strong>By Kamera Bales</strong> — Trusted by 500+ retailers across East Africa.</p>
+        <h2>How to Identify Grade A, B, and Premium Bales</h2>
+        <ul>
+          <li><strong>Grade A:</strong> High-quality, near-new items, minimal wear, no stains or defects.</li>
+          <li><strong>Grade B:</strong> Good quality, slight wear, minor imperfections but sellable.</li>
+          <li><strong>Premium:</strong> Branded, designer, or luxury items, excellent condition, high resale value.</li>
+        </ul>
+        <h2>Tips for Successful Bale Buying</h2>
+        <ul>
+          <li>Always request photos or videos of the actual bale contents before paying.</li>
+          <li>Check the weight and density of the bale — heavier usually means more items.</li>
+          <li>Source from reputable suppliers with consistent grading standards.</li>
+          <li>Start with a small order to test quality and reliability.</li>
+        </ul>
+        <h2>Why Kamera Bales?</h2>
+        <p>Every bale is hand-graded by our experts with 15+ years of experience. We provide real photos and offer flexible payment plans.</p>
+        <p>Contact us on <strong>0702 555 093</strong> or WhatsApp for current stock.</p>
+        <div class="footer">© 2026 Kamera Bales. All rights reserved.</div>
+      </body>
+      </html>
+    `;
 
     leadForms.forEach((form) => {
         form.addEventListener('submit', async (event) => {
@@ -131,12 +180,12 @@
             const submitBtn = form.querySelector('button[type="submit"]');
             const emailInput = form.querySelector('input[type="email"]');
             const originalText = submitBtn.textContent;
+            const downloadContainer = form.parentElement.querySelector('.download-link');
 
             if (!emailInput.value || !emailInput.checkValidity()) {
                 emailInput.focus();
                 return;
             }
-
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending...';
 
@@ -146,9 +195,30 @@
                     body: new FormData(form),
                     headers: { 'Accept': 'application/json' }
                 });
-
                 if (response.ok) {
-                    showLeadSuccess(form, submitBtn, originalText);
+                    // Generate downloadable guide
+                    const blob = new Blob([guideContent], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = url;
+                    downloadLink.download = 'mitumba-grading-guide.html';
+                    downloadLink.className = 'btn btn-secondary btn-sm';
+                    downloadLink.textContent = '⬇ Download Guide (HTML)';
+                    if (downloadContainer) {
+                        downloadContainer.innerHTML = '';
+                        downloadContainer.appendChild(downloadLink);
+                        downloadContainer.style.display = 'block';
+                    }
+                    // Success feedback
+                    submitBtn.textContent = '✅ Guide Sent!';
+                    setTimeout(() => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    }, 4000);
+                    form.reset();
+                    if (leadPopup && form.closest('.lead-popup')) {
+                        setTimeout(() => leadPopup.close(), 2000);
+                    }
                 } else {
                     throw new Error('Submission failed');
                 }
@@ -162,23 +232,9 @@
         });
     });
 
-    function showLeadSuccess(form, submitBtn, originalText) {
-        submitBtn.textContent = '✅ Guide Sent!';
-        submitBtn.disabled = true;
-        form.reset();
-        setTimeout(() => {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }, 4000);
-        if (leadPopup && form.closest('.lead-popup')) {
-            leadPopup.close();
-        }
-    }
-
     if (leadPopup) {
         const popupSeenKey = 'kameraLeadPopupSeen';
         const popupShownThisSession = sessionStorage.getItem(popupSeenKey);
-
         if (!popupShownThisSession && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             setTimeout(() => {
                 if (!leadPopup.open) {
@@ -187,13 +243,9 @@
                 }
             }, 5000);
         }
-
         popupClose.addEventListener('click', () => leadPopup.close());
-
         leadPopup.addEventListener('click', (event) => {
-            if (event.target === leadPopup) {
-                leadPopup.close();
-            }
+            if (event.target === leadPopup) leadPopup.close();
         });
     }
 
@@ -209,14 +261,12 @@
             const searchTerm = searchInput.value.toLowerCase().trim();
             const category = filterCategory.value;
             const grade = filterGrade.value;
-
             let visibleCount = 0;
 
             baleCards.forEach((card) => {
                 const cardCategory = card.dataset.category;
                 const cardGrade = card.dataset.grade.split(' ');
                 const cardSearch = card.dataset.search.toLowerCase();
-
                 const matchesSearch = cardSearch.includes(searchTerm) || searchTerm === '';
                 const matchesCategory = category === 'all' || cardCategory === category;
                 const matchesGrade = grade === 'all' || cardGrade.includes(grade);
@@ -247,15 +297,13 @@
                 resultsCount.textContent = `${visibleCount} of ${total} bales shown`;
             }
         };
-
         searchInput.addEventListener('input', filterBales);
         filterCategory.addEventListener('change', filterBales);
         filterGrade.addEventListener('change', filterBales);
-
         filterBales();
     }
 
-    // ---------- Stock Urgency (real data) ----------
+    // ---------- Stock Urgency ----------
     const stockElements = document.querySelectorAll('.stock-urgency');
     if (stockElements.length > 0) {
         const fetchStock = async () => {
@@ -270,35 +318,25 @@
                     womens: { total: 24, sold: 12 },
                     mens: { total: 18, sold: 7 },
                     childrens: { total: 15, sold: 4 },
-                    premium: { total: 10, sold: 8 }
+                    premium: { total: 10, sold: 8 },
+                    shoes: { total: 20, sold: 10 }
                 };
                 updateStockUI(fallbackData);
             }
         };
-
         const updateStockUI = (data) => {
             stockElements.forEach((el) => {
                 const category = el.dataset.category;
                 if (data[category]) {
                     const { total, sold } = data[category];
                     const remaining = total - sold;
-                    if (remaining <= 0) {
-                        el.textContent = 'Out of stock — next batch arriving soon';
-                        el.classList.add('low');
-                    } else if (remaining <= 5) {
-                        el.textContent = `Only ${remaining} bales left — order soon`;
-                        el.classList.add('low');
-                    } else if (remaining <= 10) {
-                        el.textContent = `Only ${remaining} bales left`;
-                        el.classList.add('medium');
-                    } else {
-                        el.textContent = `${remaining} bales available`;
-                        el.classList.add('high');
-                    }
+                    if (remaining <= 0) { el.textContent = 'Out of stock — next batch arriving soon'; el.classList.add('low'); }
+                    else if (remaining <= 5) { el.textContent = `Only ${remaining} bales left — order soon`; el.classList.add('low'); }
+                    else if (remaining <= 10) { el.textContent = `Only ${remaining} bales left`; el.classList.add('medium'); }
+                    else { el.textContent = `${remaining} bales available`; el.classList.add('high'); }
                 }
             });
         };
-
         fetchStock();
     }
 
@@ -310,7 +348,6 @@
         const prevBtn = carousel.querySelector('.carousel-btn.prev');
         const nextBtn = carousel.querySelector('.carousel-btn.next');
         const dotsContainer = carousel.querySelector('.carousel-dots');
-
         let currentIndex = 0;
         let autoPlayInterval = null;
 
@@ -323,49 +360,36 @@
             if (index === 0) dot.classList.add('active');
             dotsContainer.appendChild(dot);
         });
-
         const dots = Array.from(dotsContainer.children);
 
         const updateSlide = (index) => {
             currentIndex = index;
             const slideWidth = slides[0].getBoundingClientRect().width;
             track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-
             dots.forEach((dot, i) => {
                 dot.classList.toggle('active', i === currentIndex);
                 dot.setAttribute('aria-selected', i === currentIndex);
             });
-
             slides.forEach((slide, i) => {
                 slide.setAttribute('aria-hidden', i !== currentIndex);
                 slide.setAttribute('tabindex', i === currentIndex ? '0' : '-1');
             });
         };
-
         const goToSlide = (index) => {
             if (index < 0) index = slides.length - 1;
             if (index >= slides.length) index = 0;
             updateSlide(index);
         };
-
         const startAutoPlay = () => {
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             stopAutoPlay();
-            autoPlayInterval = setInterval(() => {
-                goToSlide(currentIndex + 1);
-            }, 5000);
+            autoPlayInterval = setInterval(() => goToSlide(currentIndex + 1), 5000);
         };
-
         const stopAutoPlay = () => {
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-                autoPlayInterval = null;
-            }
+            if (autoPlayInterval) { clearInterval(autoPlayInterval); autoPlayInterval = null; }
         };
-
         prevBtn.addEventListener('click', () => { goToSlide(currentIndex - 1); startAutoPlay(); });
         nextBtn.addEventListener('click', () => { goToSlide(currentIndex + 1); startAutoPlay(); });
-
         dots.forEach((dot) => {
             dot.addEventListener('click', () => {
                 const index = parseInt(dot.dataset.index, 10);
@@ -373,23 +397,16 @@
                 startAutoPlay();
             });
         });
-
         carousel.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') { e.preventDefault(); goToSlide(currentIndex - 1); startAutoPlay(); }
             else if (e.key === 'ArrowRight') { e.preventDefault(); goToSlide(currentIndex + 1); startAutoPlay(); }
         });
-
         carousel.addEventListener('mouseenter', stopAutoPlay);
         carousel.addEventListener('mouseleave', startAutoPlay);
         carousel.addEventListener('focusin', stopAutoPlay);
         carousel.addEventListener('focusout', startAutoPlay);
-
-        let touchStartX = 0;
-        let touchEndX = 0;
-        carousel.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            stopAutoPlay();
-        }, { passive: true });
+        let touchStartX = 0, touchEndX = 0;
+        carousel.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; stopAutoPlay(); }, { passive: true });
         carousel.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             const diff = touchStartX - touchEndX;
@@ -399,9 +416,7 @@
             }
             startAutoPlay();
         }, { passive: true });
-
         window.addEventListener('resize', () => updateSlide(currentIndex));
-
         updateSlide(0);
         startAutoPlay();
     }
@@ -420,14 +435,15 @@
             womens: { A: 18000, B: 14000, Premium: 25000 },
             mens:   { A: 18000, B: 14000, Premium: 25000 },
             childrens: { A: 15000, B: 12000, Premium: 22000 },
-            premium: { A: 28000, B: 24000, Premium: 35000 }
+            premium: { A: 28000, B: 24000, Premium: 35000 },
+            shoes: { A: 20000, B: 16000, Premium: 30000 }
         };
-
         const categoryLabels = {
             womens: "Women's Bales",
             mens: "Men's Bales",
             childrens: "Children's Bales",
-            premium: "Premium / Luxury Bales"
+            premium: "Premium / Luxury Bales",
+            shoes: "Shoes & Accessories"
         };
 
         const calculateTotal = () => {
@@ -439,7 +455,6 @@
             quoteTotal.textContent = `KSh ${total.toLocaleString('en-KE')}`;
             return { total, category, grade, quantity, unitPrice };
         };
-
         categorySelect.addEventListener('change', calculateTotal);
         gradeSelect.addEventListener('change', calculateTotal);
         quantityInput.addEventListener('input', calculateTotal);
@@ -455,7 +470,6 @@
                 `Unit Price: KSh ${unitPrice.toLocaleString('en-KE')}%0A` +
                 `Total Estimate: KSh ${total.toLocaleString('en-KE')}%0A%0A` +
                 `Please confirm availability and delivery. Thank you!`;
-
             const waNumber = '254702555093';
             const waUrl = `https://wa.me/${waNumber}?text=${message}`;
             window.open(waUrl, '_blank', 'noopener,noreferrer');
@@ -484,7 +498,6 @@
             printWindow.document.close();
             printWindow.print();
         });
-
         calculateTotal();
     }
 
@@ -493,27 +506,18 @@
     const lightboxImage = document.getElementById('lightbox-image');
     const lightboxClose = document.querySelector('.lightbox-close');
     const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
-
     if (lightbox && lightboxTriggers.length > 0) {
         const openLightbox = (src, alt) => {
             lightboxImage.src = src;
             lightboxImage.alt = alt || '';
-            if (typeof lightbox.showModal === 'function') {
-                lightbox.showModal();
-            } else {
-                lightbox.setAttribute('open', '');
-            }
+            if (typeof lightbox.showModal === 'function') lightbox.showModal();
+            else lightbox.setAttribute('open', '');
             lightboxClose.focus();
         };
-
         const closeLightbox = () => {
-            if (typeof lightbox.close === 'function') {
-                lightbox.close();
-            } else {
-                lightbox.removeAttribute('open');
-            }
+            if (typeof lightbox.close === 'function') lightbox.close();
+            else lightbox.removeAttribute('open');
         };
-
         lightboxTriggers.forEach((trigger) => {
             trigger.addEventListener('click', () => {
                 const img = trigger.querySelector('img');
@@ -522,23 +526,16 @@
                 openLightbox(fullSrc, alt);
             });
         });
-
         lightboxClose.addEventListener('click', closeLightbox);
-
         lightbox.addEventListener('click', (event) => {
-            if (event.target === lightbox) {
-                closeLightbox();
-            }
+            if (event.target === lightbox) closeLightbox();
         });
-
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && lightbox.hasAttribute('open')) {
-                closeLightbox();
-            }
+            if (event.key === 'Escape' && lightbox.hasAttribute('open')) closeLightbox();
         });
     }
 
-    // ---------- Floating WhatsApp Button (appear after scroll) ----------
+    // ---------- Floating WhatsApp Button ----------
     const floatingBtn = document.querySelector('.floating-whatsapp');
     if (floatingBtn) {
         const showFloatingBtn = () => {
@@ -550,39 +547,32 @@
                 floatingBtn.style.pointerEvents = 'none';
             }
         };
-
         floatingBtn.style.opacity = '0';
         floatingBtn.style.pointerEvents = 'none';
         floatingBtn.style.transition = 'opacity 0.3s ease';
-
         window.addEventListener('scroll', showFloatingBtn, { passive: true });
         showFloatingBtn();
     }
 
-    // ---------- Micro-interactions: button success feedback ----------
+    // ---------- Micro-interactions ----------
     const allSubmitButtons = document.querySelectorAll('button[type="submit"], .btn-primary');
     allSubmitButtons.forEach((btn) => {
         btn.addEventListener('click', function (event) {
             if (this.closest('form')) {
                 this.classList.add('btn-success');
-                setTimeout(() => {
-                    this.classList.remove('btn-success');
-                }, 2000);
+                setTimeout(() => this.classList.remove('btn-success'), 2000);
             }
         });
     });
-
     document.querySelectorAll('.btn').forEach((btn) => {
         btn.addEventListener('mousedown', () => {
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                btn.style.transform = 'scale(0.96)';
-            }
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) btn.style.transform = 'scale(0.96)';
         });
         btn.addEventListener('mouseup', () => { btn.style.transform = ''; });
         btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
     });
 
-    // ---------- Smooth Scroll for Anchor Links ----------
+    // ---------- Smooth Scroll ----------
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener('click', function (event) {
             const targetId = this.getAttribute('href');
@@ -593,30 +583,21 @@
                 const headerOffset = 80;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth',
-                });
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             }
         });
     });
 
-    // ---------- Reduced Motion Handling ----------
+    // ---------- Reduced Motion ----------
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (prefersReducedMotion.matches) {
-        document.documentElement.style.scrollBehavior = 'auto';
-    }
+    if (prefersReducedMotion.matches) document.documentElement.style.scrollBehavior = 'auto';
 
-    // ---------- PWA: Register Service Worker ----------
+    // ---------- PWA ----------
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/service-worker.js')
-                .then((registration) => {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                })
-                .catch((error) => {
-                    console.error('Service Worker registration failed:', error);
-                });
+                .then((registration) => console.log('Service Worker registered with scope:', registration.scope))
+                .catch((error) => console.error('Service Worker registration failed:', error));
         });
     }
 })();

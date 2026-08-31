@@ -15,16 +15,12 @@ const CORE_ASSETS = [
   '/assets/images/mens-bales.jpg',
   '/assets/images/children-bales.jpg',
   '/assets/images/premium-bales.jpg',
+  '/assets/images/shoes-bales.jpg',
   '/assets/images/customer-grace.jpg',
   '/assets/images/customer-daniel.jpg',
   '/assets/images/customer-amina.jpg',
   '/assets/images/customer-sarah.jpg',
-  '/assets/images/customer-joseph.jpg',
-  '/assets/images/badge-kebs.png',
-  '/assets/images/badge-mitumba-assoc.png',
-  '/assets/images/badge-trade.png',
-  '/assets/images/badge-verified.png',
-  '/assets/images/badge-5star.png'
+  '/assets/images/customer-joseph.jpg'
 ];
 
 self.addEventListener('install', (event) => {
