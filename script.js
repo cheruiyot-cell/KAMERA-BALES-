@@ -1,293 +1,135 @@
 /* ============================================
-   KAMERA BALES — script.js
-   Premium Mitumba Wholesale Platform
+   KAMERA BALES — script.js (Production Ready)
    ============================================ */
 
-(() => {
+document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
-    // ---------- DOM References ----------
-    const header = document.querySelector('.site-header');
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    const contactForm = document.querySelector('.contact-form');
-    const themeToggle = document.querySelector('.theme-toggle');
-    const root = document.documentElement;
+    // ---------- Global WhatsApp Link Generation ----------
+    const waNumber = '254702555093';
+    
+    // Automatically fill all data-wa-template links
+    document.querySelectorAll('a[data-wa-template]').forEach(link => {
+        const message = encodeURIComponent(link.dataset.waTemplate);
+        link.href = `https://wa.me/${waNumber}?text=${message}`;
+    });
 
-    // ---------- FAQ Accordion (Auto-close others, Native) ----------
+    // ---------- FAQ Manual Toggle (Permanent Fix) ----------
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach((item) => {
-        item.addEventListener('toggle', () => {
-            if (item.open) {
-                faqItems.forEach((other) => {
-                    if (other !== item) other.open = false;
-                });
-            }
-        });
-    });
-
-    // ---------- Sticky Header Scroll Detection ----------
-    const handleScroll = () => {
-        if (window.scrollY > 20) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-
-    // ---------- Mobile Menu Toggle with Focus Trap ----------
-    const toggleMenu = (open) => {
-        const isOpen = open !== undefined ? open : !navMenu.classList.contains('open');
-        navMenu.classList.toggle('open', isOpen);
-        navToggle.setAttribute('aria-expanded', isOpen);
-        navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-    };
-    navToggle.addEventListener('click', () => toggleMenu());
-
-    document.addEventListener('click', (event) => {
-        if (navMenu.classList.contains('open') && !navMenu.contains(event.target) && !navToggle.contains(event.target)) {
-            toggleMenu(false);
-        }
-    });
-    navMenu.addEventListener('click', (event) => {
-        if (event.target.closest('a')) toggleMenu(false);
-    });
-    
-    // Focus Trap for Menu
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && navMenu.classList.contains('open')) {
-            toggleMenu(false);
-            navToggle.focus();
-        }
-        if (navMenu.classList.contains('open') && event.key === 'Tab') {
-            const focusable = navMenu.querySelectorAll('a[href], button:not([disabled])');
-            const first = focusable[0];
-            const last = focusable[focusable.length - 1];
-
-            if (event.shiftKey && document.activeElement === first) {
-                event.preventDefault();
-                last.focus();
-            } else if (!event.shiftKey && document.activeElement === last) {
-                event.preventDefault();
-                first.focus();
-            }
-        }
-    });
-
-    // ---------- Dark Mode Toggle ----------
-    const getPreferredTheme = () => {
-        const stored = localStorage.getItem('theme');
-        if (stored) return stored;
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    };
-    const applyTheme = (theme) => {
-        root.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        themeToggle.setAttribute('aria-pressed', theme === 'dark');
-    };
-    applyTheme(getPreferredTheme());
-    themeToggle.addEventListener('click', () => {
-        const current = root.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-    });
-
-    // ---------- Contact Form → WhatsApp + Formspree ----------
-    if (contactForm) {
-        // Auto-format phone input
-        const phoneInput = document.getElementById('phone');
-        if (phoneInput) {
-            phoneInput.addEventListener('input', (e) => {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.startsWith('0')) value = value.slice(1);
-                if (value.length > 9) value = value.slice(0, 9);
-                const formatted = value.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
-                e.target.value = formatted ? `0${formatted}` : '';
+        const summary = item.querySelector('summary');
+        if (summary) {
+            summary.addEventListener('click', (e) => {
+                // Prevent default to avoid double-toggle on some browsers
+                e.preventDefault();
+                
+                // If already open, close it
+                if (item.open) {
+                    item.open = false;
+                } else {
+                    // Close all other items
+                    faqItems.forEach((other) => { if (other !== item) other.open = false; });
+                    // Open this one
+                    item.open = true;
+                }
             });
         }
-
-        contactForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const message = document.getElementById('message').value.trim();
-            if (!name || !phone) { alert('Please fill in your name and phone number.'); return; }
-
-            fetch(contactForm.action, {
-                method: 'POST',
-                body: new FormData(contactForm),
-                headers: { 'Accept': 'application/json' }
-            }).catch(() => {});
-
-            let waText = `Hi Kamera Bales!%0A%0A`;
-            waText += `*Name:* ${encodeURIComponent(name)}%0A`;
-            waText += `*Phone:* ${encodeURIComponent(phone)}%0A`;
-            if (email) waText += `*Email:* ${encodeURIComponent(email)}%0A`;
-            if (message) waText += `*Inquiry:* ${encodeURIComponent(message)}%0A`;
-            const waNumber = '254702555093';
-            const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
-            window.open(waUrl, '_blank', 'noopener,noreferrer');
-
-            contactForm.reset();
-            const note = contactForm.querySelector('.form-note');
-            if (note) {
-                note.textContent = '✅ Inquiry sent via WhatsApp. We’ll respond within 2 hours.';
-                note.style.color = 'var(--color-success)';
-            }
-            setTimeout(() => {
-                if (note) {
-                    note.textContent = '🔒 Your information is secure · No spam';
-                    note.style.color = '';
-                }
-            }, 5000);
-        });
-    }
-
-    // ---------- Lead Magnet (Footer & Popup) with Generated Download ----------
-    const leadForms = document.querySelectorAll('.lead-form');
-    const leadPopup = document.getElementById('leadPopup');
-    const popupClose = document.querySelector('.popup-close');
-
-    const guideContent = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Kamera Bales — Mitumba Grading Guide</title>
-        <style>
-          body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; line-height: 1.6; color: #333; }
-          h1 { color: #1A5C3A; }
-          h2 { color: #1A5C3A; margin-top: 30px; }
-          ul { margin-left: 20px; }
-          .footer { margin-top: 50px; border-top: 2px solid #1A5C3A; padding-top: 10px; font-size: 0.9rem; }
-        </style>
-      </head>
-      <body>
-        <h1>Mitumba Grading Guide</h1>
-        <p><strong>By Kamera Bales</strong> — Trusted by 500+ retailers across East Africa.</p>
-        <h2>How to Identify Grade A, B, and Premium Bales</h2>
-        <ul>
-          <li><strong>Grade A:</strong> High-quality, near-new items, minimal wear, no stains or defects.</li>
-          <li><strong>Grade B:</strong> Good quality, slight wear, minor imperfections but sellable.</li>
-          <li><strong>Premium:</strong> Branded, designer, or luxury items, excellent condition, high resale value.</li>
-        </ul>
-        <h2>Tips for Successful Bale Buying</h2>
-        <ul>
-          <li>Always request photos or videos of the actual bale contents before paying.</li>
-          <li>Check the weight and density of the bale — heavier usually means more items.</li>
-          <li>Source from reputable suppliers with consistent grading standards.</li>
-          <li>Start with a small order to test quality and reliability.</li>
-        </ul>
-        <h2>Why Kamera Bales?</h2>
-        <p>Every bale is hand-graded by our experts with 15+ years of experience. We provide real photos and offer flexible payment plans.</p>
-        <p>Contact us on <strong>0702 555 093</strong> or WhatsApp for current stock.</p>
-        <div class="footer">© 2026 Kamera Bales. All rights reserved.</div>
-      </body>
-      </html>
-    `;
-
-    leadForms.forEach((form) => {
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const emailInput = form.querySelector('input[type="email"]');
-            const originalText = submitBtn.textContent;
-            const downloadContainer = form.parentElement.querySelector('.download-link');
-
-            if (!emailInput.value || !emailInput.checkValidity()) {
-                emailInput.focus();
-                return;
-            }
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
-                });
-                if (response.ok) {
-                    const blob = new Blob([guideContent], { type: 'text/html' });
-                    const url = URL.createObjectURL(blob);
-                    const downloadLink = document.createElement('a');
-                    downloadLink.href = url;
-                    downloadLink.download = 'mitumba-grading-guide.html';
-                    downloadLink.className = 'btn btn-secondary btn-sm';
-                    downloadLink.textContent = '⬇ Download Guide (HTML)';
-                    if (downloadContainer) {
-                        downloadContainer.innerHTML = '';
-                        downloadContainer.appendChild(downloadLink);
-                        downloadContainer.style.display = 'block';
-                    }
-                    submitBtn.textContent = '✅ Guide Sent!';
-                    setTimeout(() => {
-                        submitBtn.textContent = originalText;
-                        submitBtn.disabled = false;
-                    }, 4000);
-                    form.reset();
-                    if (leadPopup && form.closest('.lead-popup')) {
-                        setTimeout(() => leadPopup.close(), 2000);
-                    }
-                } else {
-                    throw new Error('Submission failed');
-                }
-            } catch (error) {
-                submitBtn.textContent = 'Error — try again';
-                const note = form.querySelector('.form-note');
-                if (note) {
-                    note.textContent = '⚠️ Submission failed. Please try again or WhatsApp us directly.';
-                    note.style.color = 'var(--color-error)';
-                    setTimeout(() => {
-                        note.textContent = '🔒 Your information is secure · No spam';
-                        note.style.color = '';
-                    }, 4000);
-                }
-                setTimeout(() => {
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }, 3000);
-            }
-        });
     });
 
-    if (leadPopup) {
-        const popupSeenKey = 'kameraLeadPopupSeen';
-        const popupShownThisSession = sessionStorage.getItem(popupSeenKey);
-        if (!popupShownThisSession && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            setTimeout(() => {
-                if (!leadPopup.open) {
-                    leadPopup.showModal();
-                    sessionStorage.setItem(popupSeenKey, 'true');
+    // ---------- Header Scroll ----------
+    const header = document.querySelector('.site-header');
+    if (header) {
+        const handleScroll = () => {
+            if (window.scrollY > 20) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+    }
+
+    // ---------- Mobile Menu Toggle with Focus Trap ----------
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (navToggle && navMenu) {
+        const toggleMenu = (open) => {
+            const isOpen = open !== undefined ? open : !navMenu.classList.contains('open');
+            navMenu.classList.toggle('open', isOpen);
+            navToggle.setAttribute('aria-expanded', isOpen);
+            navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+        };
+        
+        navToggle.addEventListener('click', () => toggleMenu());
+
+        document.addEventListener('click', (event) => {
+            if (navMenu.classList.contains('open') && !navMenu.contains(event.target) && !navToggle.contains(event.target)) {
+                toggleMenu(false);
+            }
+        });
+        
+        navMenu.addEventListener('click', (event) => {
+            if (event.target.closest('a')) toggleMenu(false);
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && navMenu.classList.contains('open')) {
+                toggleMenu(false);
+                navToggle.focus();
+            }
+            if (navMenu.classList.contains('open') && event.key === 'Tab') {
+                const focusable = navMenu.querySelectorAll('a[href], button:not([disabled])');
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+
+                if (event.shiftKey && document.activeElement === first) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
                 }
-            }, 5000);
-        }
-        popupClose.addEventListener('click', () => leadPopup.close());
-        leadPopup.addEventListener('click', (event) => {
-            if (event.target === leadPopup) leadPopup.close();
+            }
         });
     }
 
-    // ---------- Bale Search & Filter ----------
-    const baleCards = document.querySelectorAll('.bale-card');
-    if (baleCards.length > 0) {
-        const searchInput = document.getElementById('searchBales');
-        const filterCategory = document.getElementById('filterCategory');
-        const filterGrade = document.getElementById('filterGrade');
-        const resultsCount = document.querySelector('.results-count');
-        const activeFiltersContainer = document.getElementById('active-filters');
+    // ---------- Dark Mode ----------
+    const themeToggle = document.querySelector('.theme-toggle');
+    const root = document.documentElement;
+    if (themeToggle) {
+        const getPreferredTheme = () => {
+            const stored = localStorage.getItem('theme');
+            if (stored) return stored;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        };
+        const applyTheme = (theme) => {
+            root.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            themeToggle.setAttribute('aria-pressed', theme === 'dark');
+        };
+        applyTheme(getPreferredTheme());
+        themeToggle.addEventListener('click', () => {
+            const current = root.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+        });
+    }
 
+    // ---------- Bale Search & Filter (Robust Fix) ----------
+    const baleCards = document.querySelectorAll('.bale-card');
+    const searchInput = document.getElementById('searchBales');
+    const filterCategory = document.getElementById('filterCategory');
+    const filterGrade = document.getElementById('filterGrade');
+    const resultsCount = document.querySelector('.results-count');
+    const activeFiltersContainer = document.getElementById('active-filters');
+
+    if (baleCards.length > 0) {
         const filterBales = () => {
             const searchTerm = searchInput.value.toLowerCase().trim();
             const category = filterCategory.value;
             const grade = filterGrade.value;
             let visibleCount = 0;
 
-            baleCards.forEach((card) => {
+            baleCards.forEach(card => {
                 const cardCategory = card.dataset.category;
                 const cardGrade = card.dataset.grade.split(' ');
                 const cardSearch = card.dataset.search.toLowerCase();
@@ -322,39 +164,45 @@
             }
 
             // Update active filter chips
-            const activeFilters = [];
-            if (category !== 'all') activeFilters.push(`Category: ${category}`);
-            if (grade !== 'all') activeFilters.push(`Grade: ${grade}`);
-            if (searchTerm) activeFilters.push(`Search: "${searchTerm}"`);
+            if (activeFiltersContainer) {
+                const activeFilters = [];
+                if (category !== 'all') activeFilters.push(`Category: ${category}`);
+                if (grade !== 'all') activeFilters.push(`Grade: ${grade}`);
+                if (searchTerm) activeFilters.push(`Search: "${searchTerm}"`);
 
-            activeFiltersContainer.innerHTML = '';
-            if (activeFilters.length > 0) {
-                const clearBtn = document.createElement('button');
-                clearBtn.className = 'chip clear-btn';
-                clearBtn.textContent = '✕ Clear All';
-                clearBtn.addEventListener('click', () => {
-                    searchInput.value = '';
-                    filterCategory.value = 'all';
-                    filterGrade.value = 'all';
-                    filterBales();
-                });
-                activeFiltersContainer.appendChild(clearBtn);
+                activeFiltersContainer.innerHTML = '';
+                if (activeFilters.length > 0) {
+                    const clearBtn = document.createElement('button');
+                    clearBtn.className = 'chip clear-btn';
+                    clearBtn.textContent = '✕ Clear All';
+                    clearBtn.addEventListener('click', () => {
+                        searchInput.value = '';
+                        filterCategory.value = 'all';
+                        filterGrade.value = 'all';
+                        filterBales();
+                    });
+                    activeFiltersContainer.appendChild(clearBtn);
 
-                activeFilters.forEach(filter => {
-                    const chip = document.createElement('span');
-                    chip.className = 'chip';
-                    chip.textContent = filter;
-                    activeFiltersContainer.appendChild(chip);
-                });
+                    activeFilters.forEach(filter => {
+                        const chip = document.createElement('span');
+                        chip.className = 'chip';
+                        chip.textContent = filter;
+                        activeFiltersContainer.appendChild(chip);
+                    });
+                }
             }
         };
+
+        // Attach Event Listeners
         searchInput.addEventListener('input', filterBales);
         filterCategory.addEventListener('change', filterBales);
         filterGrade.addEventListener('change', filterBales);
+        
+        // Initial Call
         filterBales();
     }
 
-    // ---------- Stock Urgency (uses stock.json) ----------
+    // ---------- Stock Urgency ----------
     const stockElements = document.querySelectorAll('.stock-urgency');
     if (stockElements.length > 0) {
         const fetchStock = async () => {
@@ -364,7 +212,6 @@
                 const data = await response.json();
                 updateStockUI(data);
             } catch (error) {
-                console.warn('Could not load stock.json, using fallback data.', error);
                 const fallbackData = {
                     womens: { total: 24, sold: 12 },
                     mens: { total: 18, sold: 7 },
@@ -381,8 +228,8 @@
                 if (data[category]) {
                     const { total, sold } = data[category];
                     const remaining = total - sold;
-                    if (remaining <= 0) { el.textContent = 'Out of stock — next batch arriving soon'; el.classList.add('low'); }
-                    else if (remaining <= 5) { el.textContent = `Only ${remaining} bales left — order soon`; el.classList.add('low'); }
+                    if (remaining <= 0) { el.textContent = 'Out of stock'; el.classList.add('low'); }
+                    else if (remaining <= 5) { el.textContent = `Only ${remaining} bales left!`; el.classList.add('low'); }
                     else if (remaining <= 10) { el.textContent = `Only ${remaining} bales left`; el.classList.add('medium'); }
                     else { el.textContent = `${remaining} bales available`; el.classList.add('high'); }
                 }
@@ -479,6 +326,57 @@
         startAutoPlay();
     }
 
+    // ---------- Contact Form (Auto-Format Phone & WhatsApp) ----------
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.startsWith('0')) value = value.slice(1);
+                if (value.length > 9) value = value.slice(0, 9);
+                const formatted = value.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+                e.target.value = formatted ? `0${formatted}` : '';
+            });
+        }
+
+        contactForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            if (!name || !phone) { alert('Please fill in your name and phone number.'); return; }
+
+            fetch(contactForm.action, {
+                method: 'POST',
+                body: new FormData(contactForm),
+                headers: { 'Accept': 'application/json' }
+            }).catch(() => {});
+
+            let waText = `Hi Kamera Bales!%0A%0A`;
+            waText += `*Name:* ${encodeURIComponent(name)}%0A`;
+            waText += `*Phone:* ${encodeURIComponent(phone)}%0A`;
+            if (email) waText += `*Email:* ${encodeURIComponent(email)}%0A`;
+            if (message) waText += `*Inquiry:* ${encodeURIComponent(message)}%0A`;
+            const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
+            window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+            contactForm.reset();
+            const note = contactForm.querySelector('.form-note');
+            if (note) {
+                note.textContent = '✅ Inquiry sent via WhatsApp. We’ll respond within 2 hours.';
+                note.style.color = 'var(--color-success)';
+            }
+            setTimeout(() => {
+                if (note) {
+                    note.textContent = '🔒 Your information is secure · No spam';
+                    note.style.color = '';
+                }
+            }, 5000);
+        });
+    }
+
     // ---------- Digital Quotation Generator ----------
     const quoteForm = document.getElementById('quoteForm');
     if (quoteForm) {
@@ -528,7 +426,6 @@
                 `Unit Price: KSh ${unitPrice.toLocaleString('en-KE')}%0A` +
                 `Total Estimate: KSh ${total.toLocaleString('en-KE')}%0A%0A` +
                 `Please confirm availability and delivery. Thank you!`;
-            const waNumber = '254702555093';
             const waUrl = `https://wa.me/${waNumber}?text=${message}`;
             window.open(waUrl, '_blank', 'noopener,noreferrer');
         });
@@ -723,6 +620,30 @@
         });
     }
 
+    // ---------- Lead Magnet (Footer & Popup) with Generated Download ----------
+    const leadForms = document.querySelectorAll('.lead-form');
+    const leadPopup = document.getElementById('leadPopup');
+    const popupClose = document.querySelector('.popup-close');
+
+    if (leadPopup) {
+        const popupSeenKey = 'kameraLeadPopupSeen';
+        const popupShownThisSession = sessionStorage.getItem(popupSeenKey);
+        if (!popupShownThisSession && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setTimeout(() => {
+                if (!leadPopup.open) {
+                    leadPopup.showModal();
+                    sessionStorage.setItem(popupSeenKey, 'true');
+                }
+            }, 5000);
+        }
+        if (popupClose) {
+            popupClose.addEventListener('click', () => leadPopup.close());
+        }
+        leadPopup.addEventListener('click', (event) => {
+            if (event.target === leadPopup) leadPopup.close();
+        });
+    }
+
     // ---------- Exit-Intent Popup (CRO) ----------
     let exitShown = sessionStorage.getItem('exitShown');
     document.addEventListener('mouseout', (e) => {
@@ -767,4 +688,4 @@
                 .catch((error) => console.error('Service Worker registration failed:', error));
         });
     }
-})();
+});

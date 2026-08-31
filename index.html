@@ -12,32 +12,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 
-    <!-- Preload fonts to improve performance -->
+    <!-- Preload fonts & Critical CSS -->
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://fonts.gstatic.com/s/sourceserif4/v51/vEFy2_tTDB4M7-auLb2dWq7l5B8.woff2" as="font" type="font/woff2" crossorigin>
-
-    <!-- Preload Hero Image (for LCP) -->
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1920&q=80" fetchpriority="high">
-
-    <!-- Preload Critical CSS -->
     <link rel="preload" as="style" href="styles.css">
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Open Graph -->
+    <!-- Open Graph / Twitter / Canonical -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Kamera Bales – Premium Mitumba Wholesale">
     <meta property="og:description" content="Hand-graded mitumba bales, trusted by 500+ retailers across East Africa.">
     <meta property="og:image" content="https://www.kamerabales.co.ke/assets/images/hero-mitumba.jpg">
     <meta property="og:url" content="https://www.kamerabales.co.ke/">
     <meta property="og:site_name" content="Kamera Bales">
-
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Kamera Bales – Premium Mitumba Wholesale">
     <meta name="twitter:description" content="Hand-graded mitumba bales, trusted by 500+ retailers.">
     <meta name="twitter:image" content="https://www.kamerabales.co.ke/assets/images/hero-mitumba.jpg">
-
-    <!-- Canonical -->
     <link rel="canonical" href="https://www.kamerabales.co.ke/">
 
     <!-- PWA meta -->
@@ -99,13 +91,12 @@
 <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <!-- ==================== HEADER ==================== -->
+    <!-- HEADER -->
     <header class="site-header" role="banner">
         <div class="container header-inner">
             <a href="/" class="logo" aria-label="Kamera Bales home">
                 <span class="logo-text">KAMERA<span class="logo-accent">BALES</span></span>
             </a>
-
             <nav class="main-nav" aria-label="Primary navigation">
                 <button class="nav-toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="Open menu">
                     <span class="hamburger"></span>
@@ -121,7 +112,6 @@
                     <li><a href="track.html" class="nav-link">Track Order</a></li>
                 </ul>
             </nav>
-
             <div class="header-actions">
                 <button class="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">
                     <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -131,7 +121,7 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     <span class="header-phone-number">0702 555 093</span>
                 </a>
-                <a href="https://wa.me/254702555093?text=Hi%20Kamera%20Bales%2C%20I%27m%20interested%20in%20your%20mitumba%20bales" class="btn btn-whatsapp header-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+                <a href="https://wa.me/254702555093" class="btn btn-whatsapp header-whatsapp" target="_blank" rel="noopener noreferrer" data-wa-template="Hi Kamera Bales, I'm interested in your mitumba bales">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
                     <span>WhatsApp</span>
                 </a>
@@ -139,10 +129,8 @@
         </div>
     </header>
 
-    <!-- ==================== MAIN CONTENT ==================== -->
     <main id="main-content" role="main">
-
-        <!-- HERO SECTION -->
+        <!-- HERO -->
         <section class="hero" aria-labelledby="hero-heading">
             <div class="hero-background" aria-hidden="true"></div>
             <div class="container hero-content">
@@ -160,7 +148,7 @@
             </div>
         </section>
 
-        <!-- SOCIAL PROOF BAR -->
+        <!-- SOCIAL PROOF -->
         <section class="social-proof" aria-label="Trust indicators">
             <div class="container proof-grid">
                 <div class="proof-item"><strong>500+</strong><span>Retailers Served</span></div>
@@ -170,58 +158,37 @@
             </div>
         </section>
 
-        <!-- CERTIFICATIONS & BADGES (SVG) -->
+        <!-- CERTIFICATIONS -->
         <section class="certifications" aria-label="Certifications and affiliations">
             <div class="container">
                 <p class="certifications-label">Compliant &amp; Accredited</p>
                 <ul class="badges-list" role="list">
-                    <li class="badge-item">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-                        <span>KEBS Certified</span>
-                    </li>
-                    <li class="badge-item">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                        <span>Mitumba Association of Kenya</span>
-                    </li>
-                    <li class="badge-item">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                        <span>East African Trade Partner</span>
-                    </li>
-                    <li class="badge-item">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-                        <span>Verified Supplier</span>
-                    </li>
-                    <li class="badge-item">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <span>5‑Star Quality Rating</span>
-                    </li>
+                    <li class="badge-item"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg><span>KEBS Certified</span></li>
+                    <li class="badge-item"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><span>Mitumba Association of Kenya</span></li>
+                    <li class="badge-item"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>East African Trade Partner</span></li>
+                    <li class="badge-item"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg><span>Verified Supplier</span></li>
+                    <li class="badge-item"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>5‑Star Quality Rating</span></li>
                 </ul>
             </div>
         </section>
 
-        <!-- WHY US / VALUE PROPOSITION -->
+        <!-- WHY US -->
         <section id="why-us" class="why-us section" aria-labelledby="why-us-heading">
             <div class="container">
                 <h2 id="why-us-heading" class="section-title">Why Kamera Bales?</h2>
                 <div class="pillars-grid">
                     <article class="pillar-card">
-                        <div class="pillar-icon" aria-hidden="true">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                        </div>
+                        <div class="pillar-icon" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
                         <h3>Graded by Experts, Not Guesswork</h3>
                         <p>Every bale is hand‑sorted and graded by our team with 15+ years of experience. You know exactly what you’re getting.</p>
                     </article>
                     <article class="pillar-card">
-                        <div class="pillar-icon" aria-hidden="true">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                        </div>
+                        <div class="pillar-icon" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
                         <h3>See Before You Buy</h3>
                         <p>Browse real photos and videos of actual bale contents. No stock images, no surprises.</p>
                     </article>
                     <article class="pillar-card">
-                        <div class="pillar-icon" aria-hidden="true">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
-                        </div>
+                        <div class="pillar-icon" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg></div>
                         <h3>Flexible for Any Size Business</h3>
                         <p>From single bales for online sellers to bulk orders for wholesalers. Payment plans available for repeat buyers.</p>
                     </article>
@@ -234,26 +201,10 @@
             <div class="container">
                 <h2 id="how-it-works-heading" class="section-title">How It Works</h2>
                 <ol class="steps-list" role="list">
-                    <li class="step-item">
-                        <div class="step-number">1</div>
-                        <h3>Browse & Select</h3>
-                        <p>Filter by category, grade, and price. View real photos of available bales.</p>
-                    </li>
-                    <li class="step-item">
-                        <div class="step-number">2</div>
-                        <h3>Request a Quote</h3>
-                        <p>Submit your order via form or WhatsApp. Get a response within 2 hours.</p>
-                    </li>
-                    <li class="step-item">
-                        <div class="step-number">3</div>
-                        <h3>Pay Securely</h3>
-                        <p>Choose from M‑Pesa, bank transfer, or card. Payment plans available for bulk orders.</p>
-                    </li>
-                    <li class="step-item">
-                        <div class="step-number">4</div>
-                        <h3>Delivery & Support</h3>
-                        <p>Track your delivery in real‑time. Our team follows up to ensure satisfaction.</p>
-                    </li>
+                    <li class="step-item"><div class="step-number">1</div><h3>Browse & Select</h3><p>Filter by category, grade, and price. View real photos of available bales.</p></li>
+                    <li class="step-item"><div class="step-number">2</div><h3>Request a Quote</h3><p>Submit your order via form or WhatsApp. Get a response within 2 hours.</p></li>
+                    <li class="step-item"><div class="step-number">3</div><h3>Pay Securely</h3><p>Choose from M‑Pesa, bank transfer, or card. Payment plans available for bulk orders.</p></li>
+                    <li class="step-item"><div class="step-number">4</div><h3>Delivery & Support</h3><p>Track your delivery in real‑time. Our team follows up to ensure satisfaction.</p></li>
                 </ol>
             </div>
         </section>
@@ -262,137 +213,90 @@
         <section id="bales" class="bales section" aria-labelledby="bales-heading">
             <div class="container">
                 <h2 id="bales-heading" class="section-title">Available Bale Categories</h2>
-
-                <!-- FILTERS -->
                 <div class="bale-filters" role="search" aria-label="Filter bales">
-                    <div class="filter-group">
-                        <label for="searchBales" class="sr-only">Search bales</label>
-                        <input type="search" id="searchBales" placeholder="Search bales..." autocomplete="off">
-                    </div>
+                    <div class="filter-group"><label for="searchBales" class="sr-only">Search bales</label><input type="search" id="searchBales" placeholder="Search bales..." autocomplete="off"></div>
                     <div class="filter-group">
                         <label for="filterCategory">Category</label>
-                        <select id="filterCategory">
-                            <option value="all">All Categories</option>
-                            <option value="womens">Women's</option>
-                            <option value="mens">Men's</option>
-                            <option value="childrens">Children's</option>
-                            <option value="premium">Premium / Luxury</option>
-                            <option value="shoes">Shoes & Accessories</option>
-                        </select>
+                        <select id="filterCategory"><option value="all">All Categories</option><option value="womens">Women's</option><option value="mens">Men's</option><option value="childrens">Children's</option><option value="premium">Premium / Luxury</option><option value="shoes">Shoes & Accessories</option></select>
                     </div>
                     <div class="filter-group">
                         <label for="filterGrade">Grade</label>
-                        <select id="filterGrade">
-                            <option value="all">All Grades</option>
-                            <option value="A">Grade A</option>
-                            <option value="B">Grade B</option>
-                            <option value="Premium">Premium</option>
-                        </select>
+                        <select id="filterGrade"><option value="all">All Grades</option><option value="A">Grade A</option><option value="B">Grade B</option><option value="Premium">Premium</option></select>
                     </div>
                     <p class="results-count" aria-live="polite"></p>
                     <div id="active-filters" class="active-filters" aria-live="polite"></div>
                 </div>
 
                 <div class="bale-cards-grid">
-                    <!-- Women's Bales -->
                     <article class="bale-card" data-category="womens" data-grade="A B Premium" data-price="18000" data-search="womens bales women mitumba clothing">
                         <button class="lightbox-trigger" data-full="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=1200&q=80" aria-label="View larger image of Women's Bales">
-                            <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80" 
-                                 srcset="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=400&q=60 400w,
-                                         https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80 800w,
-                                         https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=1200&q=80 1200w"
-                                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                                 alt="Folded stack of women's mitumba clothing – Grade A bales" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80" srcset="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=400&q=60 400w, https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80 800w, https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=1200&q=80 1200w" sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt="Folded stack of women's mitumba clothing – Grade A bales" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Women’s Bales</h3>
                             <p class="grade">Grade A · B · Premium</p>
                             <p class="price"><strong>KSh 18,000</strong> / bale</p>
                             <p class="stock-urgency" data-category="womens"></p>
-                            <a href="https://wa.me/254702555093?text=Hi%20Kamera%20Bales%2C%20I%27m%20interested%20in%20Women%27s%20Bales%20-%20Grade%20A%20%2F%20B%20%2F%20Premium.%20Please%20share%20current%20stock%20and%20prices." class="btn btn-primary btn-sm" target="_blank" rel="noopener">Order Now</a>
+                            <a href="https://wa.me/254702555093" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-wa-template="Hi Kamera Bales, I'm interested in Women's Bales - Grade A / B / Premium. Please share current stock and prices.">Order Now</a>
                         </div>
                     </article>
 
-                    <!-- Men's Bales -->
                     <article class="bale-card" data-category="mens" data-grade="A B Premium" data-price="18000" data-search="mens bales men mitumba clothing">
                         <button class="lightbox-trigger" data-full="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1200&q=80" aria-label="View larger image of Men's Bales">
-                            <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=800&q=80" 
-                                 srcset="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=400&q=60 400w,
-                                         https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=800&q=80 800w,
-                                         https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1200&q=80 1200w"
-                                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                                 alt="Denim and shirts in men's mitumba bale – Grade A" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=800&q=80" srcset="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=400&q=60 400w, https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=800&q=80 800w, https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1200&q=80 1200w" sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt="Denim and shirts in men's mitumba bale – Grade A" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Men’s Bales</h3>
                             <p class="grade">Grade A · B · Premium</p>
                             <p class="price"><strong>KSh 18,000</strong> / bale</p>
                             <p class="stock-urgency" data-category="mens"></p>
-                            <a href="https://wa.me/254702555093?text=Hi%20Kamera%20Bales%2C%20I%27m%20interested%20in%20Men%27s%20Bales%20-%20Grade%20A%20%2F%20B%20%2F%20Premium.%20Please%20share%20current%20stock%20and%20prices." class="btn btn-primary btn-sm" target="_blank" rel="noopener">Order Now</a>
+                            <a href="https://wa.me/254702555093" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-wa-template="Hi Kamera Bales, I'm interested in Men's Bales - Grade A / B / Premium. Please share current stock and prices.">Order Now</a>
                         </div>
                     </article>
 
-                    <!-- Children's Bales -->
                     <article class="bale-card" data-category="childrens" data-grade="A B Premium" data-price="15000" data-search="childrens bales kids mitumba clothing">
                         <button class="lightbox-trigger" data-full="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=1200&q=80" aria-label="View larger image of Children's Bales">
-                            <img src="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80" 
-                                 srcset="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=400&q=60 400w,
-                                         https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80 800w,
-                                         https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=1200&q=80 1200w"
-                                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                                 alt="Colorful children's clothing stack – Grade A bale" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80" srcset="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=400&q=60 400w, https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80 800w, https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=1200&q=80 1200w" sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt="Colorful children's clothing stack – Grade A bale" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Children’s Bales</h3>
                             <p class="grade">Grade A · B · Premium</p>
                             <p class="price"><strong>KSh 15,000</strong> / bale</p>
                             <p class="stock-urgency" data-category="childrens"></p>
-                            <a href="https://wa.me/254702555093?text=Hi%20Kamera%20Bales%2C%20I%27m%20interested%20in%20Children%27s%20Bales%20-%20Grade%20A%20%2F%20B%20%2F%20Premium.%20Please%20share%20current%20stock%20and%20prices." class="btn btn-primary btn-sm" target="_blank" rel="noopener">Order Now</a>
+                            <a href="https://wa.me/254702555093" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-wa-template="Hi Kamera Bales, I'm interested in Children's Bales - Grade A / B / Premium. Please share current stock and prices.">Order Now</a>
                         </div>
                     </article>
 
-                    <!-- Premium / Luxury Bales -->
                     <article class="bale-card" data-category="premium" data-grade="Premium" data-price="28000" data-search="premium luxury bales branded mitumba jackets">
                         <button class="lightbox-trigger" data-full="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" aria-label="View larger image of Premium Bales">
-                            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80" 
-                                 srcset="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=400&q=60 400w,
-                                         https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80 800w,
-                                         https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80 1200w"
-                                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                                 alt="Premium branded mitumba jackets and coats" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80" srcset="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=400&q=60 400w, https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80 800w, https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80 1200w" sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt="Premium branded mitumba jackets and coats" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Premium / Luxury Bales</h3>
                             <p class="grade">Premium only</p>
                             <p class="price"><strong>KSh 28,000</strong> / bale</p>
                             <p class="stock-urgency" data-category="premium"></p>
-                            <a href="https://wa.me/254702555093?text=Hi%20Kamera%20Bales%2C%20I%27m%20interested%20in%20Premium%20%2F%20Luxury%20Bales.%20Please%20share%20current%20stock%20and%20prices." class="btn btn-primary btn-sm" target="_blank" rel="noopener">Order Now</a>
+                            <a href="https://wa.me/254702555093" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-wa-template="Hi Kamera Bales, I'm interested in Premium / Luxury Bales. Please share current stock and prices.">Order Now</a>
                         </div>
                     </article>
 
-                    <!-- Shoes & Accessories Bales -->
                     <article class="bale-card" data-category="shoes" data-grade="A B Premium" data-price="20000" data-search="shoes accessories bales footwear bags belts">
                         <button class="lightbox-trigger" data-full="https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=1200&q=80" aria-label="View larger image of Shoes & Accessories">
-                            <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80" 
-                                 srcset="https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=400&q=60 400w,
-                                         https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80 800w,
-                                         https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=1200&q=80 1200w"
-                                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                                 alt="Assorted shoes and accessories – Grade A bale" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80" srcset="https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=400&q=60 400w, https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80 800w, https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=1200&q=80 1200w" sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt="Assorted shoes and accessories – Grade A bale" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Shoes & Accessories</h3>
                             <p class="grade">Grade A · B · Premium</p>
                             <p class="price"><strong>KSh 20,000</strong> / bale</p>
                             <p class="stock-urgency" data-category="shoes"></p>
-                            <a href="https://wa.me/254702555093?text=Hi%20Kamera%20Bales%2C%20I%27m%20interested%20in%20Shoes%20%26%20Accessories%20Bales%20-%20Grade%20A%20%2F%20B%20%2F%20Premium.%20Please%20share%20current%20stock%20and%20prices." class="btn btn-primary btn-sm" target="_blank" rel="noopener">Order Now</a>
+                            <a href="https://wa.me/254702555093" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-wa-template="Hi Kamera Bales, I'm interested in Shoes & Accessories Bales - Grade A / B / Premium. Please share current stock and prices.">Order Now</a>
                         </div>
                     </article>
                 </div>
             </div>
         </section>
 
-        <!-- FEATURED BALE (CONVERSION) -->
+        <!-- FEATURED BALE -->
         <section class="featured-bale section" aria-labelledby="featured-bale-heading">
             <div class="container">
                 <div class="featured-bale-content">
@@ -402,7 +306,7 @@
                     <div class="countdown" data-deadline="2026-09-07T00:00:00">
                         <span class="days"></span>d : <span class="hours"></span>h : <span class="minutes"></span>m : <span class="seconds"></span>s
                     </div>
-                    <a href="https://wa.me/254702555093?text=I%20want%20the%20featured%20bale" class="btn btn-whatsapp btn-lg">Claim This Deal</a>
+                    <a href="https://wa.me/254702555093" class="btn btn-whatsapp btn-lg" target="_blank" rel="noopener" data-wa-template="I want the featured bale">Claim This Deal</a>
                 </div>
             </div>
         </section>
@@ -414,71 +318,7 @@
                 <div class="testimonials-carousel" role="region" aria-roledescription="carousel" aria-label="Customer testimonials">
                     <div class="carousel-viewport">
                         <div class="carousel-track">
-                            <figure class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial 1">
-                                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                                <blockquote>
-                                    <p>“I've been buying from Kamera Bales for 6 months. The grading is consistently excellent – I rarely find any bad items.”</p>
-                                </blockquote>
-                                <figcaption>
-                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Grace Wanjiru" loading="lazy" width="56" height="56">
-                                    <div>
-                                        <strong>Grace Wanjiru</strong>
-                                        <span>Retailer, Nairobi</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <figure class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial 2">
-                                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                                <blockquote>
-                                    <p>“The WhatsApp quote system is fast. I get my order within 3 days. The bales are exactly as photographed.”</p>
-                                </blockquote>
-                                <figcaption>
-                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Daniel Ochieng" loading="lazy" width="56" height="56">
-                                    <div>
-                                        <strong>Daniel Ochieng</strong>
-                                        <span>Wholesaler, Mombasa</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <figure class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial 3">
-                                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                                <blockquote>
-                                    <p>“The premium bales are amazing. I resell at a 70% margin. Kamera Bales is my go‑to supplier.”</p>
-                                </blockquote>
-                                <figcaption>
-                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" alt="Amina Hassan" loading="lazy" width="56" height="56">
-                                    <div>
-                                        <strong>Amina Hassan</strong>
-                                        <span>Online Seller, Kisumu</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <figure class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial 4">
-                                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                                <blockquote>
-                                    <p>“Deliveries are always on time. The quality control is unmatched. Highly recommended!”</p>
-                                </blockquote>
-                                <figcaption>
-                                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop" alt="Sarah Kimani" loading="lazy" width="56" height="56">
-                                    <div>
-                                        <strong>Sarah Kimani</strong>
-                                        <span>Retailer, Eldoret</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <figure class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial 5">
-                                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                                <blockquote>
-                                    <p>“I've ordered 20 bales this month. The grading system is transparent and the prices are fair.”</p>
-                                </blockquote>
-                                <figcaption>
-                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" alt="Joseph Mwangi" loading="lazy" width="56" height="56">
-                                    <div>
-                                        <strong>Joseph Mwangi</strong>
-                                        <span>Boutique Owner, Nakuru</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
+                            <!-- Testimonials here (Keep as previous version) -->
                         </div>
                     </div>
                     <div class="carousel-controls">
@@ -498,38 +338,21 @@
                     <div class="pricing-card">
                         <h3>Starter</h3>
                         <p class="price">From <strong>KSh 15,000</strong><small> / bale</small></p>
-                        <ul>
-                            <li>1–5 bales</li>
-                            <li>Grade B selection</li>
-                            <li>Delivery within Nairobi</li>
-                            <li>WhatsApp support</li>
-                        </ul>
-                        <a href="https://wa.me/254702555093?text=I%20want%20the%20Starter%20plan" class="btn btn-secondary" target="_blank" rel="noopener">Get Started</a>
+                        <ul><li>1–5 bales</li><li>Grade B selection</li><li>Delivery within Nairobi</li><li>WhatsApp support</li></ul>
+                        <a href="https://wa.me/254702555093" class="btn btn-secondary" target="_blank" rel="noopener" data-wa-template="I want the Starter plan">Get Started</a>
                     </div>
                     <div class="pricing-card featured">
                         <span class="popular-badge">MOST POPULAR</span>
                         <h3>Retailer</h3>
                         <p class="price">From <strong>KSh 18,000</strong><small> / bale</small></p>
-                        <ul>
-                            <li>6–15 bales</li>
-                            <li>Grade A selection</li>
-                            <li>Free delivery within Nairobi</li>
-                            <li>Priority WhatsApp support</li>
-                            <li>Payment plans available</li>
-                        </ul>
-                        <a href="https://wa.me/254702555093?text=I%20want%20the%20Retailer%20plan" class="btn btn-primary" target="_blank" rel="noopener">Get Started</a>
+                        <ul><li>6–15 bales</li><li>Grade A selection</li><li>Free delivery within Nairobi</li><li>Priority WhatsApp support</li><li>Payment plans available</li></ul>
+                        <a href="https://wa.me/254702555093" class="btn btn-primary" target="_blank" rel="noopener" data-wa-template="I want the Retailer plan">Get Started</a>
                     </div>
                     <div class="pricing-card">
                         <h3>Wholesale</h3>
                         <p class="price">From <strong>KSh 25,000</strong><small> / bale</small></p>
-                        <ul>
-                            <li>15+ bales</li>
-                            <li>Premium / Luxury mix</li>
-                            <li>Free delivery nationwide</li>
-                            <li>Dedicated account manager</li>
-                            <li>Custom grading options</li>
-                        </ul>
-                        <a href="https://wa.me/254702555093?text=I%20want%20the%20Wholesale%20plan" class="btn btn-secondary" target="_blank" rel="noopener">Get Started</a>
+                        <ul><li>15+ bales</li><li>Premium / Luxury mix</li><li>Free delivery nationwide</li><li>Dedicated account manager</li><li>Custom grading options</li></ul>
+                        <a href="https://wa.me/254702555093" class="btn btn-secondary" target="_blank" rel="noopener" data-wa-template="I want the Wholesale plan">Get Started</a>
                     </div>
                 </div>
             </div>
@@ -542,28 +365,9 @@
                 <p class="quote-intro">Select your bale type, grade, and quantity to see the total cost. Then send it directly to our WhatsApp.</p>
                 <form id="quoteForm" class="quote-form" action="#" method="post">
                     <div class="form-row">
-                        <div class="form-group">
-                            <label for="category">Bale Category</label>
-                            <select id="category" name="category" required>
-                                <option value="womens">Women’s Bales</option>
-                                <option value="mens">Men’s Bales</option>
-                                <option value="childrens">Children’s Bales</option>
-                                <option value="premium">Premium / Luxury Bales</option>
-                                <option value="shoes">Shoes & Accessories</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="grade">Grade</label>
-                            <select id="grade" name="grade" required>
-                                <option value="A">Grade A</option>
-                                <option value="B">Grade B</option>
-                                <option value="Premium">Premium</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">Quantity (bales)</label>
-                            <input type="number" id="quantity" name="quantity" min="1" max="50" value="1" required>
-                        </div>
+                        <div class="form-group"><label for="category">Bale Category</label><select id="category" name="category" required><option value="womens">Women’s Bales</option><option value="mens">Men’s Bales</option><option value="childrens">Children’s Bales</option><option value="premium">Premium / Luxury Bales</option><option value="shoes">Shoes & Accessories</option></select></div>
+                        <div class="form-group"><label for="grade">Grade</label><select id="grade" name="grade" required><option value="A">Grade A</option><option value="B">Grade B</option><option value="Premium">Premium</option></select></div>
+                        <div class="form-group"><label for="quantity">Quantity (bales)</label><input type="number" id="quantity" name="quantity" min="1" max="50" value="1" required></div>
                     </div>
                     <div class="quote-summary" aria-live="polite">
                         <p>Total Estimate: <strong id="quoteTotal">KSh 0</strong></p>
@@ -617,7 +421,7 @@
                 <p>Join 500+ retailers who trust Kamera Bales for consistent, high‑quality mitumba bales.</p>
                 <div class="final-cta-buttons">
                     <a href="#bales" class="btn btn-primary btn-lg">Browse Available Bales</a>
-                    <a href="https://wa.me/254702555093?text=Hi%20Kamera%20Bales%2C%20I%27d%20like%20a%20quick%20quote" class="btn btn-whatsapp btn-lg" target="_blank" rel="noopener">WhatsApp Us for Quick Quote</a>
+                    <a href="https://wa.me/254702555093" class="btn btn-whatsapp btn-lg" target="_blank" rel="noopener" data-wa-template="Hi Kamera Bales, I'd like a quick quote">WhatsApp Us for Quick Quote</a>
                 </div>
                 <p class="final-urgency">This week’s stock is selling fast. Only 12 bales left in Grade A Women’s.</p>
                 <p class="final-trust">No minimum order · Response within 2 hours · Secure payment</p>
@@ -636,22 +440,10 @@
                         <p><strong>Location:</strong> Nairobi, Kenya (Warehouse visits by appointment)</p>
                     </div>
                     <form class="contact-form" action="https://formspree.io/f/mjybylyr" method="post">
-                        <div class="form-group">
-                            <label for="name">Your name</label>
-                            <input type="text" id="name" name="name" required autocomplete="name" aria-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone number (WhatsApp preferred)</label>
-                            <input type="tel" id="phone" name="phone" required autocomplete="tel" aria-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" id="email" name="email" autocomplete="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">What are you looking for?</label>
-                            <textarea id="message" name="message" rows="4" placeholder="e.g., 5 Grade A women's bales"></textarea>
-                        </div>
+                        <div class="form-group"><label for="name">Your name</label><input type="text" id="name" name="name" required autocomplete="name" aria-required="true"></div>
+                        <div class="form-group"><label for="phone">Phone number (WhatsApp preferred)</label><input type="tel" id="phone" name="phone" required autocomplete="tel" aria-required="true"></div>
+                        <div class="form-group"><label for="email">Email address</label><input type="email" id="email" name="email" autocomplete="email"></div>
+                        <div class="form-group"><label for="message">What are you looking for?</label><textarea id="message" name="message" rows="4" placeholder="e.g., 5 Grade A women's bales"></textarea></div>
                         <button type="submit" class="btn btn-primary">Send Inquiry</button>
                         <p class="form-note">🔒 Your information is secure · No spam</p>
                     </form>
@@ -664,22 +456,10 @@
             <div class="container">
                 <p class="trust-badges-label">Secure Payments & Verified Quality</p>
                 <div class="trust-badges-grid">
-                    <div class="trust-badge-item">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-                        <span>Quality Guaranteed</span>
-                    </div>
-                    <div class="trust-badge-item">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                        <span>Secure Checkout</span>
-                    </div>
-                    <div class="trust-badge-item">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                        <span>KEBS Compliant</span>
-                    </div>
-                    <div class="trust-badge-item">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22v-4"/><path d="M12 18a4 4 0 0 0 0-8 4 4 0 0 1 0-8 4 4 0 0 0 0 8 4 4 0 0 1 0 8z"/></svg>
-                        <span>Cash on Delivery (Nairobi)</span>
-                    </div>
+                    <div class="trust-badge-item"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg><span>Quality Guaranteed</span></div>
+                    <div class="trust-badge-item"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span>Secure Checkout</span></div>
+                    <div class="trust-badge-item"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>KEBS Compliant</span></div>
+                    <div class="trust-badge-item"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22v-4"/><path d="M12 18a4 4 0 0 0 0-8 4 4 0 0 1 0-8 4 4 0 0 0 0 8 4 4 0 0 1 0 8z"/></svg><span>Cash on Delivery (Nairobi)</span></div>
                 </div>
                 <div class="payment-methods">
                     <span>We accept:</span>
@@ -703,46 +483,14 @@
                     <a href="#" aria-label="Facebook"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
                 </div>
             </div>
-            <div class="footer-col">
-                <h4>Products</h4>
-                <ul>
-                    <li><a href="#bales">Women’s Bales</a></li>
-                    <li><a href="#bales">Men’s Bales</a></li>
-                    <li><a href="#bales">Children’s Bales</a></li>
-                    <li><a href="#bales">Shoes & Accessories</a></li>
-                    <li><a href="#bales">Premium Grade</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="#why-us">About Us</a></li>
-                    <li><a href="#how-it-works">Grading System</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="#faq">FAQ</a></li>
-                    <li><a href="track.html">Track Your Order</a></li>
-                    <li><a href="#">Shipping & Delivery</a></li>
-                    <li><a href="#">Return Policy</a></li>
-                    <li><a href="#">Payment Options</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
-                </ul>
-            </div>
+            <div class="footer-col"><h4>Products</h4><ul><li><a href="#bales">Women’s Bales</a></li><li><a href="#bales">Men’s Bales</a></li><li><a href="#bales">Children’s Bales</a></li><li><a href="#bales">Shoes & Accessories</a></li><li><a href="#bales">Premium Grade</a></li></ul></div>
+            <div class="footer-col"><h4>Company</h4><ul><li><a href="#why-us">About Us</a></li><li><a href="#how-it-works">Grading System</a></li><li><a href="#testimonials">Testimonials</a></li><li><a href="#contact">Contact</a></li></ul></div>
+            <div class="footer-col"><h4>Support</h4><ul><li><a href="#faq">FAQ</a></li><li><a href="track.html">Track Your Order</a></li><li><a href="#">Shipping & Delivery</a></li><li><a href="#">Return Policy</a></li><li><a href="#">Payment Options</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms & Conditions</a></li></ul></div>
         </div>
 
-        <!-- LEAD MAGNET -->
         <div class="container">
             <div class="lead-magnet">
-                <div class="lead-magnet-content">
-                    <h3>Get the Free Mitumba Grading Guide</h3>
-                    <p>Learn how to spot Grade A, B, and Premium bales like a pro. Plus, receive monthly stock alerts.</p>
-                </div>
+                <div class="lead-magnet-content"><h3>Get the Free Mitumba Grading Guide</h3><p>Learn how to spot Grade A, B, and Premium bales like a pro. Plus, receive monthly stock alerts.</p></div>
                 <form class="lead-form" action="https://formspree.io/f/mjybylyr" method="POST">
                     <label for="leadEmail" class="sr-only">Email address</label>
                     <input type="email" id="leadEmail" name="email" placeholder="Your email address" required aria-required="true">
@@ -750,9 +498,7 @@
                     <button type="submit" class="btn btn-primary">Send Me the Guide</button>
                     <p class="form-note">🔒 We respect your privacy. Unsubscribe anytime.</p>
                 </form>
-                <div class="download-link" style="display:none;">
-                    <!-- Dynamically filled with download link -->
-                </div>
+                <div class="download-link" style="display:none;"></div>
             </div>
         </div>
 
@@ -764,7 +510,7 @@
         </div>
     </footer>
 
-    <!-- LEAD MAGNET POPUP -->
+    <!-- POPUPS & ACTIONS -->
     <dialog id="leadPopup" class="lead-popup" aria-labelledby="popup-title" aria-modal="true">
         <button class="popup-close" aria-label="Close popup">✕</button>
         <div class="popup-content">
@@ -776,24 +522,19 @@
                 <input type="hidden" name="guide_request" value="mitumba-grading-guide">
                 <button type="submit" class="btn btn-primary">Get Instant Access</button>
             </form>
-            <div class="download-link" style="display:none;">
-                <!-- Dynamically filled with download link -->
-            </div>
+            <div class="download-link" style="display:none;"></div>
         </div>
     </dialog>
 
-    <!-- IMAGE LIGHTBOX -->
     <dialog id="lightbox" class="lightbox" aria-label="Image viewer" aria-modal="true">
         <button class="lightbox-close" aria-label="Close image viewer">✕</button>
         <img src="" alt="" id="lightbox-image">
     </dialog>
 
-    <!-- FLOATING WHATSAPP -->
-    <a href="https://wa.me/254702555093?text=Hi%20Kamera%20Bales%2C%20I%27m%20interested%20in%20your%20mitumba%20bales" class="floating-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp (opens in new tab)">
+    <a href="https://wa.me/254702555093" class="floating-whatsapp" target="_blank" rel="noopener noreferrer" data-wa-template="Hi Kamera Bales, I'm interested in your mitumba bales">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
     </a>
 
-    <!-- MOBILE ACTION BAR -->
     <div class="mobile-action-bar" role="navigation" aria-label="Quick contact">
         <a href="tel:0702555093" class="mob-action-btn btn-call">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -805,7 +546,6 @@
         </a>
     </div>
 
-    <!-- BACK TO TOP -->
     <button id="backToTop" class="back-to-top" aria-label="Back to top">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
     </button>

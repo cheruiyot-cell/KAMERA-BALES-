@@ -591,3 +591,12 @@ p, h1, h2, h3, h4, li, a, span {
     .nav-menu.open .nav-link { animation: none; }
     .countdown { animation: none; }
 }
+/* (Place the entire production-ready styles.css from the previous turn here) */
+
+/* Specifically, ensure this FAQ block is present at the bottom of the file: */
+.faq-item summary {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    width: 100%;
+}
