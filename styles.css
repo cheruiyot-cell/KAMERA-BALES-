@@ -9,8 +9,8 @@
     --color-primary: #1A5C3A;
     --color-primary-hover: #144A2E;
     --color-primary-light: rgba(26, 92, 58, 0.1);
-    --color-secondary: #D97706;
-    --color-secondary-light: rgba(217, 119, 6, 0.12);
+    --color-secondary: #B45309; /* Fixed for contrast */
+    --color-secondary-light: rgba(180, 83, 9, 0.12); /* Fixed */
     --color-background: #F8F5F0;
     --color-surface: #FFFFFF;
     --color-text-primary: #1A1A1A;
@@ -39,6 +39,10 @@
     --space-xl: 64px;
     --space-2xl: 96px;
     --space-3xl: 128px;
+    --space-4xl: 192px; /* Fixed: added previously undefined */
+
+    /* Grid gap */
+    --grid-gap: 24px; /* Fixed: added previously undefined */
 
     /* Containers */
     --container-xs: min(100% - 2rem, 480px);
