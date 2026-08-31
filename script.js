@@ -53,18 +53,14 @@
     };
     navToggle.addEventListener('click', () => toggleMenu());
 
-    // Close menu when clicking outside
     document.addEventListener('click', (event) => {
         if (navMenu.classList.contains('open') && !navMenu.contains(event.target) && !navToggle.contains(event.target)) {
             toggleMenu(false);
         }
     });
-
-    // Close menu when clicking a link
     navMenu.addEventListener('click', (event) => {
         if (event.target.closest('a')) toggleMenu(false);
     });
-
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && navMenu.classList.contains('open')) {
             toggleMenu(false);
@@ -224,6 +220,15 @@
                 }
             } catch (error) {
                 submitBtn.textContent = 'Error — try again';
+                const note = form.querySelector('.form-note');
+                if (note) {
+                    note.textContent = '⚠️ Submission failed. Please try again or WhatsApp us directly.';
+                    note.style.color = 'var(--color-error)';
+                    setTimeout(() => {
+                        note.textContent = '🔒 Your information is secure · No spam';
+                        note.style.color = '';
+                    }, 4000);
+                }
                 setTimeout(() => {
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
@@ -303,7 +308,7 @@
         filterBales();
     }
 
-    // ---------- Stock Urgency ----------
+    // ---------- Stock Urgency (uses stock.json) ----------
     const stockElements = document.querySelectorAll('.stock-urgency');
     if (stockElements.length > 0) {
         const fetchStock = async () => {
@@ -355,7 +360,7 @@
             const dot = document.createElement('button');
             dot.classList.add('carousel-dot');
             dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
-            dot.setAttribute('role', 'tab');
+            dot.setAttribute('role', 'button');
             dot.dataset.index = index;
             if (index === 0) dot.classList.add('active');
             dotsContainer.appendChild(dot);
@@ -478,12 +483,25 @@
         printBtn.addEventListener('click', () => {
             const { total, category, grade, quantity, unitPrice } = calculateTotal();
             const categoryLabel = categoryLabels[category] || category;
-            const printWindow = window.open('', '_blank', 'width=600,height=400');
+            const printWindow = window.open('', '_blank', 'width=700,height=500');
             printWindow.document.write(`
                 <html>
-                    <head><title>Kamera Bales Quote</title><style>body{font-family:Arial,sans-serif;padding:2rem;color:#1A1A1A}h1{font-size:1.5rem;margin-bottom:1rem}table{width:100%;border-collapse:collapse;margin-bottom:1rem}td,th{padding:0.5rem;border-bottom:1px solid #ddd;text-align:left}th{background:#f5f5f5}</style></head>
+                    <head>
+                        <title>Kamera Bales Quote</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 2rem; color: #1A1A1A; }
+                            h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+                            h2 { font-size: 1.2rem; color: #1A5C3A; }
+                            table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+                            td, th { padding: 0.6rem; border-bottom: 1px solid #ddd; text-align: left; }
+                            th { background: #f5f5f5; font-weight: bold; }
+                            .contact { margin-top: 2rem; font-size: 0.9rem; color: #555; }
+                            .logo { font-weight: bold; font-size: 1.5rem; color: #1A5C3A; }
+                        </style>
+                    </head>
                     <body>
-                        <h1>Kamera Bales — Quotation</h1>
+                        <div class="logo">KAMERA BALES</div>
+                        <h2>Quotation</h2>
                         <table>
                             <tr><th>Category</th><td>${categoryLabel}</td></tr>
                             <tr><th>Grade</th><td>${grade}</td></tr>
@@ -491,7 +509,12 @@
                             <tr><th>Unit Price</th><td>KSh ${unitPrice.toLocaleString('en-KE')}</td></tr>
                             <tr><th>Total Estimate</th><td><strong>KSh ${total.toLocaleString('en-KE')}</strong></td></tr>
                         </table>
-                        <p><em>Final price may vary based on stock and delivery. Contact: 0702 555 093</em></p>
+                        <p><em>Final price may vary based on current stock and delivery location.</em></p>
+                        <div class="contact">
+                            <p>Contact: 0702 555 093 | WhatsApp: <a href="https://wa.me/254702555093">Chat</a></p>
+                            <p>Email: info@kamerabales.co.ke | Nairobi, Kenya</p>
+                        </div>
+                        <p style="margin-top: 2rem; font-size: 0.8rem; color: #888;">Generated by Kamera Bales – ${new Date().toLocaleDateString()}</p>
                     </body>
                 </html>
             `);
@@ -501,39 +524,53 @@
         calculateTotal();
     }
 
-    // ---------- Image Lightbox ----------
+    // ---------- Image Lightbox (with fallback focus trap) ----------
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
     const lightboxClose = document.querySelector('.lightbox-close');
     const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
-    if (lightbox && lightboxTriggers.length > 0) {
-        const openLightbox = (src, alt) => {
-            lightboxImage.src = src;
-            lightboxImage.alt = alt || '';
-            if (typeof lightbox.showModal === 'function') lightbox.showModal();
-            else lightbox.setAttribute('open', '');
+
+    const hasNativeDialog = typeof lightbox.showModal === 'function';
+    let lastFocusedElement = null;
+
+    const openLightbox = (src, alt) => {
+        lightboxImage.src = src;
+        lightboxImage.alt = alt || '';
+        lastFocusedElement = document.activeElement;
+        if (hasNativeDialog) {
+            lightbox.showModal();
             lightboxClose.focus();
-        };
-        const closeLightbox = () => {
-            if (typeof lightbox.close === 'function') lightbox.close();
-            else lightbox.removeAttribute('open');
-        };
-        lightboxTriggers.forEach((trigger) => {
-            trigger.addEventListener('click', () => {
-                const img = trigger.querySelector('img');
-                const fullSrc = trigger.dataset.full || img.src;
-                const alt = img.alt || '';
-                openLightbox(fullSrc, alt);
-            });
+        } else {
+            lightbox.setAttribute('open', '');
+            document.body.style.overflow = 'hidden';
+            const focusable = lightbox.querySelectorAll('button, [href], [tabindex]');
+            if (focusable.length > 0) focusable[0].focus();
+        }
+    };
+    const closeLightbox = () => {
+        if (hasNativeDialog) {
+            lightbox.close();
+        } else {
+            lightbox.removeAttribute('open');
+            document.body.style.overflow = '';
+            if (lastFocusedElement) lastFocusedElement.focus();
+        }
+    };
+    lightboxTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', () => {
+            const img = trigger.querySelector('img');
+            const fullSrc = trigger.dataset.full || img.src;
+            const alt = img.alt || '';
+            openLightbox(fullSrc, alt);
         });
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (event) => {
-            if (event.target === lightbox) closeLightbox();
-        });
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && lightbox.hasAttribute('open')) closeLightbox();
-        });
-    }
+    });
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && lightbox.hasAttribute('open')) closeLightbox();
+    });
 
     // ---------- Floating WhatsApp Button ----------
     const floatingBtn = document.querySelector('.floating-whatsapp');
@@ -554,45 +591,85 @@
         showFloatingBtn();
     }
 
-    // ---------- Micro-interactions ----------
-    const allSubmitButtons = document.querySelectorAll('button[type="submit"], .btn-primary');
-    allSubmitButtons.forEach((btn) => {
-        btn.addEventListener('click', function (event) {
-            if (this.closest('form')) {
-                this.classList.add('btn-success');
-                setTimeout(() => this.classList.remove('btn-success'), 2000);
+    // ---------- Featured Bale Countdown ----------
+    const countdownElements = document.querySelectorAll('.countdown');
+    countdownElements.forEach(el => {
+        const deadline = new Date(el.dataset.deadline).getTime();
+        const daysEl = el.querySelector('.days');
+        const hoursEl = el.querySelector('.hours');
+        const minutesEl = el.querySelector('.minutes');
+        const secondsEl = el.querySelector('.seconds');
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const diff = deadline - now;
+            if (diff <= 0) {
+                el.innerHTML = '<strong>Offer expired</strong>';
+                return;
             }
-        });
-    });
-    document.querySelectorAll('.btn').forEach((btn) => {
-        btn.addEventListener('mousedown', () => {
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) btn.style.transform = 'scale(0.96)';
-        });
-        btn.addEventListener('mouseup', () => { btn.style.transform = ''; });
-        btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            daysEl.textContent = days;
+            hoursEl.textContent = hours;
+            minutesEl.textContent = minutes;
+            secondsEl.textContent = seconds;
+        };
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
     });
 
-    // ---------- Smooth Scroll ----------
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener('click', function (event) {
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                event.preventDefault();
-                const headerOffset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    // ---------- Analytics Event Tracking ----------
+    if (typeof gtag === 'function') {
+        document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+            link.addEventListener('click', () => {
+                gtag('event', 'whatsapp_click', { 'link_url': link.href });
+            });
+        });
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', () => {
+                gtag('event', 'form_submit', { 'form_id': form.id || 'unknown' });
+            });
+        });
+    }
+
+    // ---------- Exit-Intent Popup (CRO) ----------
+    let exitShown = sessionStorage.getItem('exitShown');
+    document.addEventListener('mouseout', function(e) {
+        if (e.relatedTarget === null && !e.toElement && !exitShown) {
+            const popup = document.getElementById('leadPopup');
+            if (popup && !popup.open) {
+                popup.showModal();
+                sessionStorage.setItem('exitShown', 'true');
             }
-        });
+        }
     });
 
-    // ---------- Reduced Motion ----------
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (prefersReducedMotion.matches) document.documentElement.style.scrollBehavior = 'auto';
+    // ---------- PWA Install Prompt ----------
+    let deferredPrompt;
+    const installBtn = document.createElement('button');
+    installBtn.textContent = 'Install App';
+    installBtn.className = 'btn btn-primary btn-sm';
+    installBtn.style.display = 'none';
+    document.body.appendChild(installBtn);
 
-    // ---------- PWA ----------
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBtn.style.display = 'block';
+    });
+
+    installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response: ${outcome}`);
+            deferredPrompt = null;
+            installBtn.style.display = 'none';
+        }
+    });
+
+    // ---------- PWA Service Worker ----------
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/service-worker.js')

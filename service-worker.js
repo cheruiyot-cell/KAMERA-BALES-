@@ -10,17 +10,10 @@ const CORE_ASSETS = [
   '/track.html',
   '/css/styles.css',
   '/js/script.js',
-  '/assets/images/hero-mitumba.jpg',
-  '/assets/images/womens-bales.jpg',
-  '/assets/images/mens-bales.jpg',
-  '/assets/images/children-bales.jpg',
-  '/assets/images/premium-bales.jpg',
-  '/assets/images/shoes-bales.jpg',
-  '/assets/images/customer-grace.jpg',
-  '/assets/images/customer-daniel.jpg',
-  '/assets/images/customer-amina.jpg',
-  '/assets/images/customer-sarah.jpg',
-  '/assets/images/customer-joseph.jpg'
+  '/manifest.json',
+  '/assets/icons/icon-192x192.svg',
+  '/assets/icons/icon-512x512.svg',
+  '/offline.html'
 ];
 
 self.addEventListener('install', (event) => {
@@ -57,7 +50,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
           return response;
         })
-        .catch(() => caches.match(request).then((cached) => cached || caches.match('/index.html')))
+        .catch(() => caches.match(request).then((cached) => cached || caches.match('/offline.html')))
     );
     return;
   }

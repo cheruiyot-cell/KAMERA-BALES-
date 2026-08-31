@@ -6,9 +6,48 @@
     <title>Track Your Order — Kamera Bales</title>
     <meta name="description" content="Track your Kamera Bales order with your tracking number. Real-time delivery status for mitumba bale orders across Kenya.">
     <meta name="theme-color" content="#1A5C3A">
+
+    <!-- Preconnect for Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Track Your Order — Kamera Bales">
+    <meta property="og:description" content="Track your Kamera Bales order with your tracking number.">
+    <meta property="og:image" content="https://www.kamerabales.co.ke/assets/images/hero-mitumba.jpg">
+    <meta property="og:url" content="https://www.kamerabales.co.ke/track.html">
+    <meta property="og:site_name" content="Kamera Bales">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Track Your Order — Kamera Bales">
+    <meta name="twitter:description" content="Track your Kamera Bales order with your tracking number.">
+    <meta name="twitter:image" content="https://www.kamerabales.co.ke/assets/images/hero-mitumba.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.kamerabales.co.ke/track.html">
+
+    <!-- PWA meta -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Kamera Bales">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Kamera Bales">
+    <meta name="msapplication-TileColor" content="#1A5C3A">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.svg">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,7 +69,7 @@
                     <li><a href="index.html#testimonials" class="nav-link">Testimonials</a></li>
                     <li><a href="index.html#pricing" class="nav-link">Pricing</a></li>
                     <li><a href="index.html#faq" class="nav-link">FAQ</a></li>
-                    <li><a href="track.html" class="nav-link">Track Order</a></li>
+                    <li><a href="track.html" class="nav-link" aria-current="page">Track Order</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
@@ -57,7 +96,7 @@
                 <p class="tracking-intro">Enter your tracking number to see the current status of your mitumba bale delivery.</p>
                 <form id="trackingForm" class="tracking-form" action="#" method="get">
                     <label for="trackingNumber" class="sr-only">Tracking number</label>
-                    <input type="text" id="trackingNumber" name="tracking" placeholder="e.g., KB-2025-0001" required>
+                    <input type="text" id="trackingNumber" name="tracking" placeholder="e.g., KB-2026-0001" required>
                     <button type="submit" class="btn btn-primary">Track Order</button>
                 </form>
             </div>
@@ -92,19 +131,19 @@
                 'KB-2026-0001': {
                     status: 'In Transit',
                     location: 'Nairobi Distribution Hub',
-                    updated: '2025-01-15 10:30',
+                    updated: '2026-08-31 10:30',
                     details: 'Your bale has left the warehouse and is on its way to Nakuru.'
                 },
                 'KB-2026-0002': {
                     status: 'Delivered',
                     location: 'Mombasa',
-                    updated: '2025-01-14 16:45',
+                    updated: '2026-08-30 16:45',
                     details: 'Delivered to D&J Wholesale. Signed by Daniel Ochieng.'
                 },
                 'KB-2026-0003': {
                     status: 'Processing',
                     location: 'Kamera Bales Warehouse',
-                    updated: '2025-01-13 09:00',
+                    updated: '2026-08-30 09:00',
                     details: 'Order confirmed, sorting and grading in progress.'
                 }
             };

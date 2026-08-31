@@ -12,8 +12,29 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 
+    <!-- Preload fonts to improve performance -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/sourceserif4/v51/vEFy2_tTDB4M7-auLb2dWq7l5B8.woff2" as="font" type="font/woff2" crossorigin>
+
     <!-- Preload hero image (for LCP) -->
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1920&q=80" fetchpriority="high">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kamera Bales – Premium Mitumba Wholesale">
+    <meta property="og:description" content="Hand-graded mitumba bales, trusted by 500+ retailers across East Africa.">
+    <meta property="og:image" content="https://www.kamerabales.co.ke/assets/images/hero-mitumba.jpg">
+    <meta property="og:url" content="https://www.kamerabales.co.ke/">
+    <meta property="og:site_name" content="Kamera Bales">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kamera Bales – Premium Mitumba Wholesale">
+    <meta name="twitter:description" content="Hand-graded mitumba bales, trusted by 500+ retailers.">
+    <meta name="twitter:image" content="https://www.kamerabales.co.ke/assets/images/hero-mitumba.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.kamerabales.co.ke/">
 
     <!-- PWA meta -->
     <link rel="manifest" href="manifest.json">
@@ -23,8 +44,16 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Kamera Bales">
     <meta name="msapplication-TileColor" content="#1A5C3A">
-    <meta name="msapplication-config" content="browserconfig.xml">
-    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.svg">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
 
     <link rel="stylesheet" href="styles.css">
 
@@ -120,7 +149,11 @@
                     <a href="#bales" class="btn btn-primary btn-lg">Browse Available Bales</a>
                     <a href="#how-it-works" class="btn btn-secondary btn-lg">See How Grading Works</a>
                 </div>
-                <p class="hero-trust">No minimum order for first‑time buyers · Response within 2 hours</p>
+                <div class="trust-inline">
+                    <span>No minimum order</span>
+                    <span>Response within 2 hours</span>
+                    <span>Secure payment</span>
+                </div>
             </div>
         </section>
 
@@ -265,14 +298,14 @@
                                          https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80 800w,
                                          https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=1200&q=80 1200w"
                                  sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                                 alt="Folded stack of women's mitumba clothing" width="800" height="600" loading="lazy" decoding="async">
+                                 alt="Folded stack of women's mitumba clothing – Grade A bales" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Women’s Bales</h3>
                             <p class="grade">Grade A · B · Premium</p>
-                            <p class="price">From KSh 18,000 / bale</p>
-                            <p class="stock-urgency" data-category="womens" aria-live="polite"></p>
-                            <a href="https://wa.me/254702555093?text=I%27m%20interested%20in%20Women%27s%20Bales" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">View Available</a>
+                            <p class="price"><strong>KSh 18,000</strong> / bale</p>
+                            <p class="stock-urgency" data-category="womens"></p>
+                            <a href="https://wa.me/254702555093?text=I%27m%20interested%20in%20Women%27s%20Bales" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Order Now</a>
                         </div>
                     </article>
 
@@ -284,14 +317,14 @@
                                          https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=800&q=80 800w,
                                          https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1200&q=80 1200w"
                                  sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                                 alt="Denim and shirts in men's mitumba bale" width="800" height="600" loading="lazy" decoding="async">
+                                 alt="Denim and shirts in men's mitumba bale – Grade A" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Men’s Bales</h3>
                             <p class="grade">Grade A · B · Premium</p>
-                            <p class="price">From KSh 18,000 / bale</p>
-                            <p class="stock-urgency" data-category="mens" aria-live="polite"></p>
-                            <a href="https://wa.me/254702555093?text=I%27m%20interested%20in%20Men%27s%20Bales" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">View Available</a>
+                            <p class="price"><strong>KSh 18,000</strong> / bale</p>
+                            <p class="stock-urgency" data-category="mens"></p>
+                            <a href="https://wa.me/254702555093?text=I%27m%20interested%20in%20Men%27s%20Bales" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Order Now</a>
                         </div>
                     </article>
 
@@ -303,14 +336,14 @@
                                          https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80 800w,
                                          https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=1200&q=80 1200w"
                                  sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                                 alt="Colorful children's clothing stack" width="800" height="600" loading="lazy" decoding="async">
+                                 alt="Colorful children's clothing stack – Grade A bale" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Children’s Bales</h3>
                             <p class="grade">Grade A · B · Premium</p>
-                            <p class="price">From KSh 15,000 / bale</p>
-                            <p class="stock-urgency" data-category="childrens" aria-live="polite"></p>
-                            <a href="https://wa.me/254702555093?text=I%27m%20interested%20in%20Children%27s%20Bales" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">View Available</a>
+                            <p class="price"><strong>KSh 15,000</strong> / bale</p>
+                            <p class="stock-urgency" data-category="childrens"></p>
+                            <a href="https://wa.me/254702555093?text=I%27m%20interested%20in%20Children%27s%20Bales" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Order Now</a>
                         </div>
                     </article>
 
@@ -322,14 +355,14 @@
                                          https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80 800w,
                                          https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80 1200w"
                                  sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                                 alt="Premium branded mitumba jackets and coats" width="800" height="600" loading="lazy" decoding="async">
+                                 alt="Premium branded mitumba jackets and coats" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Premium / Luxury Bales</h3>
                             <p class="grade">Premium only</p>
-                            <p class="price">From KSh 28,000 / bale</p>
-                            <p class="stock-urgency" data-category="premium" aria-live="polite"></p>
-                            <a href="https://wa.me/254702555093?text=I%27m%20interested%20in%20Premium%20Bales" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">View Available</a>
+                            <p class="price"><strong>KSh 28,000</strong> / bale</p>
+                            <p class="stock-urgency" data-category="premium"></p>
+                            <a href="https://wa.me/254702555093?text=I%27m%20interested%20in%20Premium%20Bales" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Order Now</a>
                         </div>
                     </article>
 
@@ -341,16 +374,31 @@
                                          https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80 800w,
                                          https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=1200&q=80 1200w"
                                  sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                                 alt="Assorted shoes and accessories" width="800" height="600" loading="lazy" decoding="async">
+                                 alt="Assorted shoes and accessories – Grade A bale" width="800" height="600" loading="lazy" fetchpriority="low" decoding="async">
                         </button>
                         <div class="bale-info">
                             <h3>Shoes & Accessories</h3>
                             <p class="grade">Grade A · B · Premium</p>
-                            <p class="price">From KSh 20,000 / bale</p>
-                            <p class="stock-urgency" data-category="shoes" aria-live="polite"></p>
-                            <a href="https://wa.me/254702555093?text=I%27m%20interested%20in%20Shoes%20%26%20Accessories%20Bales" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">View Available</a>
+                            <p class="price"><strong>KSh 20,000</strong> / bale</p>
+                            <p class="stock-urgency" data-category="shoes"></p>
+                            <a href="https://wa.me/254702555093?text=I%27m%20interested%20in%20Shoes%20%26%20Accessories%20Bales" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Order Now</a>
                         </div>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURED BALE (CONVERSION) -->
+        <section class="featured-bale section" aria-labelledby="featured-bale-heading">
+            <div class="container">
+                <div class="featured-bale-content">
+                    <span class="featured-label">🔥 Featured Deal</span>
+                    <h2 id="featured-bale-heading">Premium Women's Grade A – Save 10%</h2>
+                    <p>Limited time offer. Only 5 bales left at this price.</p>
+                    <div class="countdown" data-deadline="2026-09-07T00:00:00">
+                        <span class="days"></span>d : <span class="hours"></span>h : <span class="minutes"></span>m : <span class="seconds"></span>s
+                    </div>
+                    <a href="https://wa.me/254702555093?text=I%20want%20the%20featured%20bale" class="btn btn-whatsapp btn-lg">Claim This Deal</a>
                 </div>
             </div>
         </section>
@@ -362,7 +410,71 @@
                 <div class="testimonials-carousel" role="region" aria-roledescription="carousel" aria-label="Customer testimonials">
                     <div class="carousel-viewport">
                         <div class="carousel-track">
-                            <!-- Slides unchanged ... (same as previous version) -->
+                            <figure class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial 1">
+                                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                                <blockquote>
+                                    <p>“I've been buying from Kamera Bales for 6 months. The grading is consistently excellent – I rarely find any bad items.”</p>
+                                </blockquote>
+                                <figcaption>
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Grace Wanjiru" loading="lazy" width="56" height="56">
+                                    <div>
+                                        <strong>Grace Wanjiru</strong>
+                                        <span>Retailer, Nairobi</span>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                            <figure class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial 2">
+                                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                                <blockquote>
+                                    <p>“The WhatsApp quote system is fast. I get my order within 3 days. The bales are exactly as photographed.”</p>
+                                </blockquote>
+                                <figcaption>
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Daniel Ochieng" loading="lazy" width="56" height="56">
+                                    <div>
+                                        <strong>Daniel Ochieng</strong>
+                                        <span>Wholesaler, Mombasa</span>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                            <figure class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial 3">
+                                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                                <blockquote>
+                                    <p>“The premium bales are amazing. I resell at a 70% margin. Kamera Bales is my go‑to supplier.”</p>
+                                </blockquote>
+                                <figcaption>
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" alt="Amina Hassan" loading="lazy" width="56" height="56">
+                                    <div>
+                                        <strong>Amina Hassan</strong>
+                                        <span>Online Seller, Kisumu</span>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                            <figure class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial 4">
+                                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                                <blockquote>
+                                    <p>“Deliveries are always on time. The quality control is unmatched. Highly recommended!”</p>
+                                </blockquote>
+                                <figcaption>
+                                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop" alt="Sarah Kimani" loading="lazy" width="56" height="56">
+                                    <div>
+                                        <strong>Sarah Kimani</strong>
+                                        <span>Retailer, Eldoret</span>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                            <figure class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial 5">
+                                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                                <blockquote>
+                                    <p>“I've ordered 20 bales this month. The grading system is transparent and the prices are fair.”</p>
+                                </blockquote>
+                                <figcaption>
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" alt="Joseph Mwangi" loading="lazy" width="56" height="56">
+                                    <div>
+                                        <strong>Joseph Mwangi</strong>
+                                        <span>Boutique Owner, Nakuru</span>
+                                    </div>
+                                </figcaption>
+                            </figure>
                         </div>
                     </div>
                     <div class="carousel-controls">
@@ -379,7 +491,42 @@
             <div class="container">
                 <h2 id="pricing-heading" class="section-title">Transparent Pricing</h2>
                 <div class="pricing-grid">
-                    <!-- Cards unchanged ... (same as previous version) -->
+                    <div class="pricing-card">
+                        <h3>Starter</h3>
+                        <p class="price">From <strong>KSh 15,000</strong><small> / bale</small></p>
+                        <ul>
+                            <li>1–5 bales</li>
+                            <li>Grade B selection</li>
+                            <li>Delivery within Nairobi</li>
+                            <li>WhatsApp support</li>
+                        </ul>
+                        <a href="https://wa.me/254702555093?text=I%20want%20the%20Starter%20plan" class="btn btn-secondary" target="_blank" rel="noopener">Get Started</a>
+                    </div>
+                    <div class="pricing-card featured">
+                        <span class="popular-badge">MOST POPULAR</span>
+                        <h3>Retailer</h3>
+                        <p class="price">From <strong>KSh 18,000</strong><small> / bale</small></p>
+                        <ul>
+                            <li>6–15 bales</li>
+                            <li>Grade A selection</li>
+                            <li>Free delivery within Nairobi</li>
+                            <li>Priority WhatsApp support</li>
+                            <li>Payment plans available</li>
+                        </ul>
+                        <a href="https://wa.me/254702555093?text=I%20want%20the%20Retailer%20plan" class="btn btn-primary" target="_blank" rel="noopener">Get Started</a>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Wholesale</h3>
+                        <p class="price">From <strong>KSh 25,000</strong><small> / bale</small></p>
+                        <ul>
+                            <li>15+ bales</li>
+                            <li>Premium / Luxury mix</li>
+                            <li>Free delivery nationwide</li>
+                            <li>Dedicated account manager</li>
+                            <li>Custom grading options</li>
+                        </ul>
+                        <a href="https://wa.me/254702555093?text=I%20want%20the%20Wholesale%20plan" class="btn btn-secondary" target="_blank" rel="noopener">Get Started</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -431,7 +578,30 @@
             <div class="container container-sm">
                 <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
                 <div class="faq-list">
-                    <!-- Same 7 questions as before -->
+                    <details class="faq-item" open>
+                        <summary>What does "Grade A" mean?</summary>
+                        <p>Grade A bales contain high‑quality, near‑new items with minimal wear, no stains, and no defects. They are the best choice for resellers who want premium stock.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>How long does delivery take?</summary>
+                        <p>Within Nairobi: 1–2 business days. Other regions: 2–4 business days. You'll receive a tracking number once your order ships.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Can I see the bales before buying?</summary>
+                        <p>Yes! We provide real photos and videos of each bale on WhatsApp. You can also visit our Nairobi warehouse by appointment.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What payment methods do you accept?</summary>
+                        <p>We accept M‑Pesa, bank transfer, and major credit/debit cards. For bulk orders, we offer flexible payment plans.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Is there a minimum order?</summary>
+                        <p>No minimum order for first‑time buyers. For repeat buyers, we encourage larger orders for better rates, but you can still order single bales.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>How do I track my order?</summary>
+                        <p>Once your order ships, you'll receive a tracking number (e.g., KB-2026-0001). Enter it on our <a href="track.html">Track Order</a> page to see real‑time status.</p>
+                    </details>
                 </div>
             </div>
         </section>
@@ -464,11 +634,11 @@
                     <form class="contact-form" action="https://formspree.io/f/mjybylyr" method="post">
                         <div class="form-group">
                             <label for="name">Your name</label>
-                            <input type="text" id="name" name="name" required autocomplete="name">
+                            <input type="text" id="name" name="name" required autocomplete="name" aria-required="true">
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone number (WhatsApp preferred)</label>
-                            <input type="tel" id="phone" name="phone" required autocomplete="tel">
+                            <input type="tel" id="phone" name="phone" required autocomplete="tel" aria-required="true">
                         </div>
                         <div class="form-group">
                             <label for="email">Email address</label>
@@ -571,7 +741,7 @@
                 </div>
                 <form class="lead-form" action="https://formspree.io/f/mjybylyr" method="POST">
                     <label for="leadEmail" class="sr-only">Email address</label>
-                    <input type="email" id="leadEmail" name="email" placeholder="Your email address" required>
+                    <input type="email" id="leadEmail" name="email" placeholder="Your email address" required aria-required="true">
                     <input type="hidden" name="guide_request" value="mitumba-grading-guide">
                     <button type="submit" class="btn btn-primary">Send Me the Guide</button>
                     <p class="form-note">🔒 We respect your privacy. Unsubscribe anytime.</p>
@@ -598,7 +768,7 @@
             <p>Stop guessing bale quality. Download our 10‑page guide used by 500+ retailers.</p>
             <form class="lead-form" action="https://formspree.io/f/mjybylyr" method="POST">
                 <label for="popupEmail" class="sr-only">Email address</label>
-                <input type="email" id="popupEmail" name="email" placeholder="Your email address" required>
+                <input type="email" id="popupEmail" name="email" placeholder="Your email address" required aria-required="true">
                 <input type="hidden" name="guide_request" value="mitumba-grading-guide">
                 <button type="submit" class="btn btn-primary">Get Instant Access</button>
             </form>

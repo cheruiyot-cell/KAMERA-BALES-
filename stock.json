@@ -1,0 +1,7 @@
+{
+  "womens": { "total": 24, "sold": 12 },
+  "mens": { "total": 18, "sold": 7 },
+  "childrens": { "total": 15, "sold": 4 },
+  "premium": { "total": 10, "sold": 8 },
+  "shoes": { "total": 20, "sold": 10 }
+}
