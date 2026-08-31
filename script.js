@@ -14,15 +14,8 @@
     const themeToggle = document.querySelector('.theme-toggle');
     const root = document.documentElement;
 
-    // ---------- FAQ Accordion & Click-Outside ----------
+    // ---------- FAQ Accordion (Auto-close others) ----------
     const faqItems = document.querySelectorAll('.faq-item');
-    document.addEventListener('click', (event) => {
-        if (!event.target.closest('.faq-item')) {
-            faqItems.forEach((item) => {
-                if (item.open) item.open = false;
-            });
-        }
-    });
     faqItems.forEach((item) => {
         item.addEventListener('toggle', () => {
             if (item.open) {
