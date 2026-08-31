@@ -284,7 +284,7 @@ p, h1, h2, h3, h4, li, a, span {
 .pricing-card .price small { font-size: 1rem; font-weight: 400; color: var(--color-text-tertiary); }
 .pricing-card ul { text-align: left; margin-bottom: var(--space-lg); padding-left: var(--space-md); }
 .pricing-card li { position: relative; margin-bottom: var(--space-2xs); color: var(--color-text-secondary); font-size: 0.95rem; }
-.pricing-card li::before { content: '✓'; position: absolute; left: -var(--space-md); color: var(--color-primary); font-weight: 700; }
+.pricing-card li::before { content: '✓'; position: absolute; left: calc(-1 * var(--space-md)); color: var(--color-primary); font-weight: 700; }
 .pricing-card .btn { margin-top: auto; }
 
 /* Quote Generator */

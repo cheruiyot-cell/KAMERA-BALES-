@@ -484,6 +484,13 @@
             const { total, category, grade, quantity, unitPrice } = calculateTotal();
             const categoryLabel = categoryLabels[category] || category;
             const printWindow = window.open('', '_blank', 'width=700,height=500');
+
+            // Guard against popup blockers
+            if (!printWindow) {
+                alert('Please allow pop-ups to print the quote.');
+                return;
+            }
+
             printWindow.document.write(`
                 <html>
                     <head>
