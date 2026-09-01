@@ -33,22 +33,12 @@
             <a href="/" class="logo" aria-label="Kamera Bales home">
                 <span class="logo-text">KAMERA<span class="logo-accent">BALES</span></span>
             </a>
-            <nav class="main-nav" aria-label="Primary navigation">
-                <button class="nav-toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="Open menu">
-                    <span class="hamburger"></span>
-                </button>
-                <ul id="primary-menu" class="nav-menu" role="list">
-                    <li><a href="index.html#bales" class="nav-link">Bales</a></li>
-                    <li><a href="index.html#how-it-works" class="nav-link">How It Works</a></li>
-                    <li><a href="index.html#why-us" class="nav-link">Why Us</a></li>
-                    <li><a href="index.html#testimonials" class="nav-link">Testimonials</a></li>
-                    <li><a href="index.html#pricing" class="nav-link">Pricing</a></li>
-                    <li><a href="index.html#faq" class="nav-link">FAQ</a></li>
-                    <li><a href="track.html" class="nav-link" aria-current="page">Track Order</a></li>
-                    <li><a href="about.html" class="nav-link">About Us</a></li>
-                    <li><a href="contact.html" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
+
+            <button class="menu-toggle" aria-expanded="false" aria-controls="menu-overlay" aria-label="Open menu">
+                <span class="menu-icon"></span>
+                <span class="menu-text">Menu</span>
+            </button>
+
             <div class="header-actions">
                 <button class="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">
                     <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -65,6 +55,32 @@
             </div>
         </div>
     </header>
+
+    <div id="menu-overlay" class="menu-overlay" aria-hidden="true">
+        <div class="container">
+            <div class="menu-overlay-header">
+                <span class="logo-text">KAMERA<span class="logo-accent">BALES</span></span>
+                <button class="menu-close" aria-label="Close menu">✕</button>
+            </div>
+            <nav class="menu-overlay-nav" aria-label="Main menu">
+                <ul>
+                    <li><a href="index.html#bales" class="menu-link">Bales</a></li>
+                    <li><a href="index.html#how-it-works" class="menu-link">How It Works</a></li>
+                    <li><a href="index.html#why-us" class="menu-link">Why Us</a></li>
+                    <li><a href="index.html#testimonials" class="menu-link">Testimonials</a></li>
+                    <li><a href="index.html#pricing" class="menu-link">Pricing</a></li>
+                    <li><a href="index.html#faq" class="menu-link">FAQ</a></li>
+                    <li><a href="track.html" class="menu-link">Track Order</a></li>
+                    <li><a href="about.html" class="menu-link">About Us</a></li>
+                    <li><a href="contact.html" class="menu-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="menu-overlay-footer">
+                <a href="tel:0702555093" class="btn btn-outline-light">Call Us</a>
+                <a href="https://wa.me/254702555093" class="btn btn-whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+            </div>
+        </div>
+    </div>
 
     <main id="main-content" role="main">
         <section class="page-hero">
@@ -128,7 +144,6 @@
 
     <script src="script.js" defer></script>
     <script>
-        // Tracking form logic (demo)
         document.addEventListener('DOMContentLoaded', () => {
             const trackingForm = document.getElementById('trackingForm');
             const trackingInput = document.getElementById('trackingNumber');
@@ -146,7 +161,6 @@
                 const result = trackingData[trackingNumber];
 
                 if (result) {
-                    // Use DOM methods for safety
                     const card = document.createElement('div');
                     card.className = 'tracking-card';
 
