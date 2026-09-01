@@ -1983,8 +1983,8 @@ a, button, input, select, textarea, .bale-card {
 /* ---------- BACK TO TOP ---------- */
 .back-to-top {
     position: fixed;
-    bottom: var(--space-md);
-    right: var(--space-md);
+    bottom: 24px;
+    right: 24px;
     width: 48px;
     height: 48px;
     background: var(--color-primary);
@@ -2383,5 +2383,17 @@ a, button, input, select, textarea, .bale-card {
 @media (max-width: 768px) {
     .floating-whatsapp {
         display: none !important;
+    }
+}
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 24px;
+        right: 24px;
+    }
+}
+@media (min-width: 769px) {
+    .back-to-top {
+        bottom: 90px; /* above WhatsApp */
+        right: 24px;
     }
 }
