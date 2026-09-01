@@ -2385,15 +2385,18 @@ a, button, input, select, textarea, .bale-card {
         display: none !important;
     }
 }
-@media (max-width: 768px) {
+/* Desktop */
+@media (min-width: 769px) {
     .back-to-top {
-        bottom: 24px;
+        bottom: 90px;
         right: 24px;
     }
 }
-@media (min-width: 769px) {
+
+/* Mobile */
+@media (max-width: 768px) {
     .back-to-top {
-        bottom: 90px; /* above WhatsApp */
-        right: 24px;
+        bottom: 160px;
+        right: 12px;
     }
 }
