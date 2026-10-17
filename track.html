@@ -6,10 +6,21 @@
     <title>Track Your Order — Kamera Bales</title>
     <meta name="description" content="Track your Kamera Bales order with your tracking number. Real-time delivery status for mitumba bale orders across Kenya.">
     <meta name="theme-color" content="#1A5C3A">
+    <meta name="color-scheme" content="light dark">
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', stored || (prefers ? 'dark' : 'light'));
+            } catch (e) {}
+        })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
-    <link rel="preload" as="style" href="styles.css">
+
     <link rel="stylesheet" href="styles.css">
     <link rel="canonical" href="https://www.kamerabales.co.ke/track.html">
     <link rel="manifest" href="manifest.json">
@@ -17,13 +28,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Kamera Bales">
     <link rel="apple-touch-icon" href="assets/icons/icon-192x192.svg">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
-    </script>
 </head>
 <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -44,7 +48,7 @@
                     <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                     <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                 </button>
-                <a href="tel:0702555093" class="btn btn-outline-light header-phone" aria-label="Call 0702555093">
+                <a href="tel:0702555093" class="btn btn-header-call header-phone" aria-label="Call 0702555093">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     <span class="header-phone-number">0702 555 093</span>
                 </a>
@@ -76,7 +80,7 @@
                 </ul>
             </nav>
             <div class="menu-overlay-footer">
-                <a href="tel:0702555093" class="btn btn-outline-light">Call Us</a>
+                <a href="tel:0702555093" class="btn btn-secondary">Call Us</a>
                 <a href="https://wa.me/254702555093" class="btn btn-whatsapp" target="_blank" rel="noopener">WhatsApp</a>
             </div>
         </div>
@@ -108,8 +112,8 @@
                 <span class="logo-text">KAMERA<span class="logo-accent">BALES</span></span>
                 <p>Premium mitumba bales, graded by experts and delivered across East Africa.</p>
                 <div class="social-links">
-                    <a href="#" aria-label="Instagram"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
-                    <a href="#" aria-label="Facebook"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                    <a href="#" aria-label="Instagram"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+                    <a href="#" aria-label="Facebook"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
                 </div>
             </div>
             <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="grading.html">Grading System</a></li><li><a href="testimonials.html">Testimonials</a></li><li><a href="contact.html">Contact</a></li></ul></div>
@@ -128,19 +132,111 @@
     </a>
 
     <button id="backToTop" class="back-to-top" aria-label="Back to top">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
     </button>
 
     <div class="mobile-action-bar" role="navigation" aria-label="Quick contact">
         <a href="tel:0702555093" class="mob-action-btn btn-call">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             <span>Call</span>
         </a>
         <a href="https://wa.me/254702555093" class="mob-action-btn btn-wa" target="_blank" rel="noopener">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
             <span>WhatsApp</span>
         </a>
     </div>
+
+    <style>
+        /* Page-scoped styles for tracking result cards */
+        .tracking-form {
+            display: flex;
+            gap: var(--space-2xs);
+            margin-top: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .tracking-form input[type="text"] {
+            flex: 1 1 220px;
+            padding: var(--space-2xs) var(--space-xs);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            min-height: 48px;
+            background: var(--color-surface);
+            color: var(--color-text-primary);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .tracking-form input[type="text"]:focus {
+            border-color: var(--color-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px var(--color-primary-light);
+        }
+
+        .tracking-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            padding: var(--space-lg);
+            margin-block: var(--space-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2xs);
+        }
+
+        .tracking-card h2 {
+            margin: 0;
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+        }
+
+        .tracking-card p {
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+
+        .tracking-card.not-found {
+            border-left: 4px solid var(--color-error);
+        }
+
+        .tracking-status {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-2xs);
+            margin-bottom: var(--space-2xs);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: var(--space-4xs) var(--space-2xs);
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: #fff;
+            background: var(--color-text-tertiary);
+        }
+
+        .status-badge.status-in-transit { background: var(--color-secondary); }
+        .status-badge.status-delivered  { background: var(--color-success); }
+        .status-badge.status-processing { background: var(--color-primary); }
+
+        .updated-time {
+            font-size: 0.85rem;
+            color: var(--color-text-tertiary);
+        }
+
+        .tracking-card .btn {
+            align-self: flex-start;
+            margin-top: var(--space-2xs);
+        }
+
+        @media (max-width: 640px) {
+            .tracking-form .btn { width: 100%; }
+        }
+    </style>
 
     <script src="script.js" defer></script>
     <script>
@@ -148,11 +244,27 @@
             const trackingForm = document.getElementById('trackingForm');
             const trackingInput = document.getElementById('trackingNumber');
             const resultContainer = document.getElementById('trackingResult').querySelector('.container');
+            if (!trackingForm || !resultContainer) return;
 
             const trackingData = {
-                'KB-2026-0001': { status: 'In Transit', location: 'Nairobi Distribution Hub', updated: '2026-08-31 10:30', details: 'Your bale has left the warehouse and is on its way to Nakuru.' },
-                'KB-2026-0002': { status: 'Delivered', location: 'Mombasa', updated: '2026-08-30 16:45', details: 'Delivered to D&J Wholesale. Signed by Daniel Ochieng.' },
-                'KB-2026-0003': { status: 'Processing', location: 'Kamera Bales Warehouse', updated: '2026-08-30 09:00', details: 'Order confirmed, sorting and grading in progress.' }
+                'KB-2026-0001': {
+                    status: 'In Transit',
+                    location: 'Nairobi Distribution Hub',
+                    updated: '2026-08-31 10:30',
+                    details: 'Your bale has left the warehouse and is on its way to Nakuru.'
+                },
+                'KB-2026-0002': {
+                    status: 'Delivered',
+                    location: 'Mombasa',
+                    updated: '2026-08-30 16:45',
+                    details: 'Delivered to D&J Wholesale. Signed by Daniel Ochieng.'
+                },
+                'KB-2026-0003': {
+                    status: 'Processing',
+                    location: 'Kamera Bales Warehouse',
+                    updated: '2026-08-30 09:00',
+                    details: 'Order confirmed, sorting and grading in progress.'
+                }
             };
 
             trackingForm.addEventListener('submit', (e) => {
@@ -160,67 +272,72 @@
                 const trackingNumber = trackingInput.value.trim().toUpperCase();
                 const result = trackingData[trackingNumber];
 
+                resultContainer.innerHTML = '';
+
                 if (result) {
                     const card = document.createElement('div');
                     card.className = 'tracking-card';
 
                     const statusDiv = document.createElement('div');
                     statusDiv.className = 'tracking-status';
-                    
+
                     const badge = document.createElement('span');
-                    badge.className = `status-badge status-${result.status.toLowerCase().replace(' ', '-')}`;
+                    badge.className = `status-badge status-${result.status.toLowerCase().replace(/\s+/g, '-')}`;
                     badge.textContent = result.status;
-                    
+
                     const updatedTime = document.createElement('span');
                     updatedTime.className = 'updated-time';
                     updatedTime.textContent = `Updated: ${result.updated}`;
-                    
+
                     statusDiv.appendChild(badge);
                     statusDiv.appendChild(updatedTime);
-                    
+
                     const h2 = document.createElement('h2');
                     h2.textContent = result.location;
-                    
+
                     const p = document.createElement('p');
                     p.textContent = result.details;
-                    
+
                     const waLink = document.createElement('a');
                     waLink.href = `https://wa.me/254702555093?text=Hi%20Kamera%20Bales%2C%20I%20have%20a%20question%20about%20order%20${encodeURIComponent(trackingNumber)}`;
                     waLink.className = 'btn btn-whatsapp btn-sm';
                     waLink.target = '_blank';
                     waLink.rel = 'noopener';
                     waLink.textContent = 'Ask on WhatsApp';
-                    
+
                     card.appendChild(statusDiv);
                     card.appendChild(h2);
                     card.appendChild(p);
                     card.appendChild(waLink);
-                    
-                    resultContainer.innerHTML = '';
                     resultContainer.appendChild(card);
                 } else {
                     const card = document.createElement('div');
                     card.className = 'tracking-card not-found';
-                    
+
                     const h2 = document.createElement('h2');
                     h2.textContent = 'Tracking number not found';
-                    
+
                     const p = document.createElement('p');
                     p.textContent = 'Please check the number and try again. If you believe this is an error, contact us.';
-                    
+
                     const contactLink = document.createElement('a');
                     contactLink.href = 'https://wa.me/254702555093';
                     contactLink.className = 'btn btn-secondary btn-sm';
                     contactLink.target = '_blank';
                     contactLink.rel = 'noopener';
                     contactLink.textContent = 'Contact Support';
-                    
+
                     card.appendChild(h2);
                     card.appendChild(p);
                     card.appendChild(contactLink);
-                    
-                    resultContainer.innerHTML = '';
                     resultContainer.appendChild(card);
+                }
+
+                if (typeof gtag === 'function') {
+                    gtag('event', 'track_order', {
+                        tracking_number: trackingNumber,
+                        found: Boolean(result)
+                    });
                 }
             });
         });

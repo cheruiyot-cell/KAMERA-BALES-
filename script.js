@@ -1,19 +1,18 @@
 /* ============================================
-   KAMERA BALES — script.js (Production Ready)
-   Menu overlay, bale modal, streamlined processes
+   KAMERA BALES — script.js (Production v4)
    ============================================ */
 
 // ---------- Global Error Boundaries ----------
 function showErrorToast(message) {
-    document.querySelectorAll('.error-toast').forEach(t => t.remove());
-    
+    document.querySelectorAll('.error-toast').forEach((t) => t.remove());
+
     const toast = document.createElement('div');
     toast.className = 'error-toast';
     toast.setAttribute('role', 'alert');
     toast.setAttribute('aria-live', 'assertive');
     toast.textContent = message;
     document.body.appendChild(toast);
-    
+
     setTimeout(() => {
         if (toast.parentNode) toast.remove();
     }, 5000);
@@ -33,60 +32,92 @@ document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
     const waNumber = '254702555093';
+    const backgroundSelectors = [
+        'header.site-header',
+        'main',
+        'footer.site-footer',
+        '.mobile-action-bar',
+        '.floating-whatsapp'
+    ];
 
-    // ---------- Button Loading State Utility ----------
+    // ---------- Button Loading (preserves inline SVG) ----------
     const setButtonLoading = (button, isLoading, loadingText = 'Processing...') => {
+        if (!button) return;
         if (isLoading) {
-            if (!button.dataset.originalText) {
-                button.dataset.originalText = button.textContent;
+            if (!button.dataset.originalHtml) {
+                button.dataset.originalHtml = button.innerHTML;
             }
             button.classList.add('btn-loading');
-            button.textContent = loadingText;
+            const icon = button.querySelector('svg');
+            button.innerHTML = '';
+            if (icon) button.appendChild(icon);
+            const label = document.createElement('span');
+            label.textContent = loadingText;
+            button.appendChild(label);
             button.setAttribute('aria-busy', 'true');
             button.setAttribute('disabled', 'disabled');
         } else {
             button.classList.remove('btn-loading');
-            button.textContent = button.dataset.originalText || '';
+            button.innerHTML = button.dataset.originalHtml || '';
             button.removeAttribute('aria-busy');
             button.removeAttribute('disabled');
-            delete button.dataset.originalText;
+            delete button.dataset.originalHtml;
         }
     };
 
-    // ---------- Form Validation Enhancements ----------
+    // ---------- Inert helpers ----------
+    const setBackgroundInert = (inert) => {
+        backgroundSelectors.forEach((sel) => {
+            const el = document.querySelector(sel);
+            if (!el) return;
+            if (inert) el.setAttribute('inert', '');
+            else el.removeAttribute('inert');
+        });
+    };
+
+    const buildFocusTrap = (root) => (e) => {
+        if (e.key !== 'Tab') return;
+        const focusable = root.querySelectorAll(
+            'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
+    };
+
+    // ---------- Form Validation ----------
     const setupFormValidation = (form) => {
         const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
-
-        inputs.forEach(input => {
+        inputs.forEach((input) => {
             const errorMsg = document.createElement('p');
             errorMsg.className = 'error-message';
             errorMsg.setAttribute('role', 'alert');
             errorMsg.setAttribute('aria-live', 'assertive');
-            errorMsg.id = `error-${input.id || Math.random().toString(36).substr(2, 9)}`;
+            errorMsg.id = `error-${input.id || Math.random().toString(36).slice(2, 9)}`;
             input.setAttribute('aria-describedby', errorMsg.id);
-
             input.parentNode.insertBefore(errorMsg, input.nextSibling);
 
-            input.addEventListener('input', () => {
+            const clear = () => {
                 input.classList.remove('invalid');
                 input.classList.add('valid');
                 errorMsg.textContent = '';
                 errorMsg.classList.remove('visible');
                 input.removeAttribute('aria-invalid');
-            });
-
-            input.addEventListener('change', () => {
-                input.classList.remove('invalid');
-                input.classList.add('valid');
-                errorMsg.textContent = '';
-                errorMsg.classList.remove('visible');
-                input.removeAttribute('aria-invalid');
-            });
+            };
+            input.addEventListener('input', clear);
+            input.addEventListener('change', clear);
         });
 
         form.addEventListener('submit', (event) => {
             let isValid = true;
-            inputs.forEach(input => {
+            inputs.forEach((input) => {
                 const errorMsg = document.getElementById(input.getAttribute('aria-describedby'));
                 if (!input.value.trim()) {
                     input.classList.remove('valid');
@@ -111,22 +142,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     isValid = false;
                 }
             });
-
             if (!isValid) {
                 event.preventDefault();
                 const firstInvalid = form.querySelector('.invalid');
-                if (firstInvalid) {
-                    firstInvalid.focus();
-                }
+                if (firstInvalid) firstInvalid.focus();
             }
         });
     };
 
-    document.querySelectorAll('form').forEach(form => {
-        setupFormValidation(form);
-    });
+    document.querySelectorAll('form').forEach(setupFormValidation);
 
-    // ---------- 1. Unified WhatsApp Link Handler ----------
+    // ---------- 1. WhatsApp Template Links ----------
     document.addEventListener('click', (e) => {
         const waLink = e.target.closest('a[data-wa-template]');
         if (waLink) {
@@ -134,14 +160,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const message = encodeURIComponent(waLink.dataset.waTemplate);
             const url = `https://wa.me/${waNumber}?text=${message}`;
             window.open(url, '_blank', 'noopener,noreferrer');
-            
             if (typeof gtag === 'function') {
                 gtag('event', 'whatsapp_click', { link_url: url });
             }
         }
     });
 
-    // ---------- 2. FAQ Manual Toggle ----------
+    // ---------- 2. FAQ Accordion ----------
     try {
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach((item) => {
@@ -163,8 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const header = document.querySelector('.site-header');
         if (header) {
             const handleScroll = () => {
-                if (window.scrollY > 20) header.classList.add('scrolled');
-                else header.classList.remove('scrolled');
+                header.classList.toggle('scrolled', window.scrollY > 20);
             };
             window.addEventListener('scroll', handleScroll, { passive: true });
             handleScroll();
@@ -173,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Header scroll error:', error);
     }
 
-    // ---------- 4. Menu Overlay Toggle ----------
+    // ---------- 4. Menu Overlay (focus trap + inert) ----------
     try {
         const menuToggle = document.querySelector('.menu-toggle');
         const menuOverlay = document.getElementById('menu-overlay');
@@ -181,29 +205,33 @@ document.addEventListener('DOMContentLoaded', () => {
         const menuLinks = document.querySelectorAll('.menu-overlay-nav .menu-link');
 
         if (menuToggle && menuOverlay && menuClose) {
+            const trapFocus = buildFocusTrap(menuOverlay);
+
             const openMenu = () => {
                 menuOverlay.classList.add('open');
                 menuToggle.setAttribute('aria-expanded', 'true');
                 menuOverlay.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden';
+                setBackgroundInert(true);
+                menuOverlay.addEventListener('keydown', trapFocus);
                 menuClose.focus();
             };
+
             const closeMenu = () => {
                 menuOverlay.classList.remove('open');
                 menuToggle.setAttribute('aria-expanded', 'false');
                 menuOverlay.setAttribute('aria-hidden', 'true');
                 document.body.style.overflow = '';
+                setBackgroundInert(false);
+                menuOverlay.removeEventListener('keydown', trapFocus);
                 menuToggle.focus();
             };
+
             menuToggle.addEventListener('click', openMenu);
             menuClose.addEventListener('click', closeMenu);
-            menuLinks.forEach(link => {
-                link.addEventListener('click', closeMenu);
-            });
+            menuLinks.forEach((link) => link.addEventListener('click', closeMenu));
             document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && menuOverlay.classList.contains('open')) {
-                    closeMenu();
-                }
+                if (event.key === 'Escape' && menuOverlay.classList.contains('open')) closeMenu();
             });
         }
     } catch (error) {
@@ -215,21 +243,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const themeToggle = document.querySelector('.theme-toggle');
         const root = document.documentElement;
         if (themeToggle) {
-            const getPreferredTheme = () => {
-                const stored = localStorage.getItem('theme');
-                if (stored) return stored;
-                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            };
             const applyTheme = (theme) => {
                 root.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
                 themeToggle.setAttribute('aria-pressed', theme === 'dark');
                 themeToggle.classList.toggle('dark', theme === 'dark');
             };
-            applyTheme(getPreferredTheme());
+            const current = root.getAttribute('data-theme');
+            themeToggle.setAttribute('aria-pressed', current === 'dark');
+            themeToggle.classList.toggle('dark', current === 'dark');
+
             themeToggle.addEventListener('click', () => {
-                const current = root.getAttribute('data-theme');
-                const next = current === 'dark' ? 'light' : 'dark';
+                const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                 applyTheme(next);
             });
         }
@@ -253,26 +278,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const grade = filterGrade ? filterGrade.value : 'all';
                 let visibleCount = 0;
 
-                baleCards.forEach(card => {
+                baleCards.forEach((card) => {
                     const cardCategory = card.dataset.category;
-                    const cardGrade = card.dataset.grade.split(' ');
-                    const cardSearch = card.dataset.search.toLowerCase();
-                    const matchesSearch = cardSearch.includes(searchTerm) || searchTerm === '';
+                    const cardGrade = (card.dataset.grade || '').split(' ');
+                    const cardSearch = (card.dataset.search || '').toLowerCase();
+                    const matchesSearch = searchTerm === '' || cardSearch.includes(searchTerm);
                     const matchesCategory = category === 'all' || cardCategory === category;
                     const matchesGrade = grade === 'all' || cardGrade.includes(grade);
 
-                    if (matchesSearch && matchesCategory && matchesGrade) {
-                        card.style.display = '';
-                        visibleCount++;
-                    } else {
-                        card.style.display = 'none';
-                    }
+                    const show = matchesSearch && matchesCategory && matchesGrade;
+                    card.style.display = show ? '' : 'none';
+                    if (show) visibleCount++;
                 });
 
                 const grid = document.querySelector('.bale-cards-grid');
-                let noResultsMsg = grid.querySelector('.no-results');
+                let noResultsMsg = grid && grid.querySelector('.no-results');
                 if (visibleCount === 0) {
-                    if (!noResultsMsg) {
+                    if (!noResultsMsg && grid) {
                         noResultsMsg = document.createElement('p');
                         noResultsMsg.className = 'no-results';
                         noResultsMsg.textContent = 'No bales match your filters. Please try different criteria.';
@@ -288,14 +310,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (activeFiltersContainer) {
-                    const activeFilters = [];
-                    if (category !== 'all') activeFilters.push(`Category: ${category}`);
-                    if (grade !== 'all') activeFilters.push(`Grade: ${grade}`);
-                    if (searchTerm) activeFilters.push(`Search: "${searchTerm}"`);
+                    const active = [];
+                    if (category !== 'all') active.push(`Category: ${category}`);
+                    if (grade !== 'all') active.push(`Grade: ${grade}`);
+                    if (searchTerm) active.push(`Search: "${searchTerm}"`);
 
                     activeFiltersContainer.innerHTML = '';
-                    if (activeFilters.length > 0) {
+                    if (active.length > 0) {
                         const clearBtn = document.createElement('button');
+                        clearBtn.type = 'button';
                         clearBtn.className = 'chip clear-btn';
                         clearBtn.textContent = '✕ Clear All';
                         clearBtn.addEventListener('click', () => {
@@ -305,11 +328,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             filterBales();
                         });
                         activeFiltersContainer.appendChild(clearBtn);
-
-                        activeFilters.forEach(filter => {
+                        active.forEach((f) => {
                             const chip = document.createElement('span');
                             chip.className = 'chip';
-                            chip.textContent = filter;
+                            chip.textContent = f;
                             activeFiltersContainer.appendChild(chip);
                         });
                     }
@@ -329,37 +351,44 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
         const stockElements = document.querySelectorAll('.stock-urgency');
         if (stockElements.length > 0) {
-            const fetchStock = async () => {
-                try {
-                    const response = await fetch('stock.json');
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    const data = await response.json();
-                    updateStockUI(data);
-                } catch (error) {
-                    const fallbackData = {
-                        womens: { total: 24, sold: 12 },
-                        mens: { total: 18, sold: 7 },
-                        childrens: { total: 15, sold: 4 },
-                        premium: { total: 10, sold: 8 },
-                        shoes: { total: 20, sold: 10 }
-                    };
-                    updateStockUI(fallbackData);
-                }
-            };
             const updateStockUI = (data) => {
                 stockElements.forEach((el) => {
                     const category = el.dataset.category;
-                    if (data[category]) {
-                        const { total, sold } = data[category];
-                        const remaining = total - sold;
-                        if (remaining <= 0) { el.textContent = 'Out of stock'; el.classList.add('low'); }
-                        else if (remaining <= 5) { el.textContent = `Only ${remaining} bales left!`; el.classList.add('low'); }
-                        else if (remaining <= 10) { el.textContent = `Only ${remaining} bales left`; el.classList.add('medium'); }
-                        else { el.textContent = `${remaining} bales available`; el.classList.add('high'); }
+                    if (!data[category]) return;
+                    const { total, sold } = data[category];
+                    const remaining = total - sold;
+                    el.classList.remove('low', 'medium', 'high');
+                    if (remaining <= 0) {
+                        el.textContent = 'Out of stock';
+                        el.classList.add('low');
+                    } else if (remaining <= 5) {
+                        el.textContent = `Only ${remaining} bales left!`;
+                        el.classList.add('low');
+                    } else if (remaining <= 10) {
+                        el.textContent = `Only ${remaining} bales left`;
+                        el.classList.add('medium');
+                    } else {
+                        el.textContent = `${remaining} bales available`;
+                        el.classList.add('high');
                     }
                 });
             };
-            fetchStock();
+
+            const fallbackData = {
+                womens: { total: 24, sold: 12 },
+                mens: { total: 18, sold: 7 },
+                childrens: { total: 15, sold: 4 },
+                premium: { total: 10, sold: 8 },
+                shoes: { total: 20, sold: 10 }
+            };
+
+            fetch('stock.json')
+                .then((res) => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.json();
+                })
+                .then(updateStockUI)
+                .catch(() => updateStockUI(fallbackData));
         }
     } catch (error) {
         console.error('Stock urgency error:', error);
@@ -374,13 +403,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const prevBtn = carousel.querySelector('.carousel-btn.prev');
             const nextBtn = carousel.querySelector('.carousel-btn.next');
             const dotsContainer = carousel.querySelector('.carousel-dots');
+            const pauseBtn = carousel.querySelector('.carousel-pause');
+            const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+            const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
             let currentIndex = 0;
             let autoPlayInterval = null;
+            let userPaused = false;
 
             slides.forEach((_, index) => {
                 const dot = document.createElement('button');
+                dot.type = 'button';
                 dot.classList.add('carousel-dot');
-                dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
+                dot.setAttribute('aria-label', `Show testimonial ${index + 1} of ${slides.length}`);
                 dot.dataset.index = index;
                 if (index === 0) dot.classList.add('active');
                 dotsContainer.appendChild(dot);
@@ -391,10 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentIndex = index;
                 const slideWidth = slides[0].getBoundingClientRect().width;
                 track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-                dots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === currentIndex);
-                    dot.setAttribute('aria-selected', i === currentIndex);
-                });
+                dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
                 slides.forEach((slide, i) => {
                     if (i !== currentIndex) {
                         slide.setAttribute('aria-hidden', 'true');
@@ -407,47 +439,76 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             };
+
             const goToSlide = (index) => {
                 if (index < 0) index = slides.length - 1;
                 if (index >= slides.length) index = 0;
                 updateSlide(index);
             };
+
+            const shouldAutoPlay = () => !userPaused && !reduceMotion() && !isMobile();
+
             const startAutoPlay = () => {
-                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
                 stopAutoPlay();
-                autoPlayInterval = setInterval(() => goToSlide(currentIndex + 1), 5000);
+                if (!shouldAutoPlay()) {
+                    if (pauseBtn) pauseBtn.dataset.state = userPaused ? 'paused' : 'static';
+                    return;
+                }
+                autoPlayInterval = setInterval(() => goToSlide(currentIndex + 1), 7000);
+                if (pauseBtn) {
+                    pauseBtn.dataset.state = 'playing';
+                    pauseBtn.setAttribute('aria-label', 'Pause auto-rotation');
+                }
             };
             const stopAutoPlay = () => {
-                if (autoPlayInterval) { clearInterval(autoPlayInterval); autoPlayInterval = null; }
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
             };
-            prevBtn.addEventListener('click', () => { goToSlide(currentIndex - 1); startAutoPlay(); });
-            nextBtn.addEventListener('click', () => { goToSlide(currentIndex + 1); startAutoPlay(); });
+
+            if (prevBtn) prevBtn.addEventListener('click', () => { goToSlide(currentIndex - 1); startAutoPlay(); });
+            if (nextBtn) nextBtn.addEventListener('click', () => { goToSlide(currentIndex + 1); startAutoPlay(); });
             dots.forEach((dot) => {
                 dot.addEventListener('click', () => {
-                    const index = parseInt(dot.dataset.index, 10);
-                    goToSlide(index);
+                    goToSlide(parseInt(dot.dataset.index, 10));
                     startAutoPlay();
                 });
             });
+
+            if (pauseBtn) {
+                pauseBtn.addEventListener('click', () => {
+                    userPaused = !userPaused;
+                    if (userPaused) stopAutoPlay();
+                    else startAutoPlay();
+                    pauseBtn.setAttribute('aria-label', userPaused ? 'Resume auto-rotation' : 'Pause auto-rotation');
+                    pauseBtn.dataset.state = userPaused ? 'paused' : 'playing';
+                });
+            }
+
             carousel.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') { e.preventDefault(); goToSlide(currentIndex - 1); startAutoPlay(); }
-                else if (e.key === 'ArrowRight') { e.preventDefault(); goToSlide(currentIndex + 1); startAutoPlay(); }
+                if (e.key === 'ArrowLeft') { e.preventDefault(); goToSlide(currentIndex - 1); }
+                else if (e.key === 'ArrowRight') { e.preventDefault(); goToSlide(currentIndex + 1); }
             });
             carousel.addEventListener('mouseenter', stopAutoPlay);
             carousel.addEventListener('mouseleave', startAutoPlay);
             carousel.addEventListener('focusin', stopAutoPlay);
             carousel.addEventListener('focusout', startAutoPlay);
-            let touchStartX = 0, touchEndX = 0;
-            carousel.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; stopAutoPlay(); }, { passive: true });
+
+            let touchStartX = 0;
+            carousel.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                stopAutoPlay();
+            }, { passive: true });
             carousel.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                const diff = touchStartX - touchEndX;
+                const diff = touchStartX - e.changedTouches[0].screenX;
                 if (Math.abs(diff) > 50) {
                     if (diff > 0) goToSlide(currentIndex + 1);
                     else goToSlide(currentIndex - 1);
                 }
                 startAutoPlay();
             }, { passive: true });
+
             window.addEventListener('resize', () => updateSlide(currentIndex));
             updateSlide(0);
             startAutoPlay();
@@ -456,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Carousel error:', error);
     }
 
-    // ---------- 9. Contact Form (WhatsApp only) ----------
+    // ---------- 9. Contact Form ----------
     try {
         const contactForm = document.querySelector('.contact-form');
         if (contactForm) {
@@ -470,16 +531,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     e.target.value = formatted ? `0${formatted}` : '';
                 });
             }
+
             contactForm.addEventListener('submit', (event) => {
+                if (event.defaultPrevented) return;
                 event.preventDefault();
-                const name = document.getElementById('name').value.trim();
-                const phone = document.getElementById('phone').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const message = document.getElementById('message').value.trim();
-                if (!name || !phone) {
-                    alert('Please fill in your name and phone number.');
-                    return;
-                }
+
+                const name = (document.getElementById('name')?.value || '').trim();
+                const phone = (document.getElementById('phone')?.value || '').trim();
+                const email = (document.getElementById('email')?.value || '').trim();
+                const message = (document.getElementById('message')?.value || '').trim();
 
                 const submitBtn = contactForm.querySelector('button[type="submit"]');
                 setButtonLoading(submitBtn, true, 'Sending...');
@@ -489,34 +549,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 waText += `*Phone:* ${encodeURIComponent(phone)}%0A`;
                 if (email) waText += `*Email:* ${encodeURIComponent(email)}%0A`;
                 if (message) waText += `*Inquiry:* ${encodeURIComponent(message)}%0A`;
+
                 const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
-                window.open(waUrl, '_blank', 'noopener,noreferrer');
+                const opened = window.open(waUrl, '_blank', 'noopener,noreferrer');
 
                 if (typeof gtag === 'function') {
                     gtag('event', 'form_submit', { form_id: 'contact_form' });
                 }
 
-                contactForm.reset();
                 const note = contactForm.querySelector('.form-note');
-                if (note) {
-                    note.textContent = '✅ Inquiry sent via WhatsApp. We’ll respond within 2 hours.';
-                    note.style.color = 'var(--color-success)';
-                }
-
-                setTimeout(() => {
-                    setButtonLoading(submitBtn, false);
+                if (opened) {
+                    contactForm.reset();
                     if (note) {
-                        note.textContent = '🔒 Your information is secure · No spam';
-                        note.style.color = '';
+                        note.textContent = '✅ Inquiry handed off to WhatsApp. We respond within 2 hours.';
+                        note.style.color = 'var(--color-success)';
                     }
-                }, 3000);
+                    setTimeout(() => {
+                        setButtonLoading(submitBtn, false);
+                        if (note) {
+                            note.textContent = '🔒 Your information is secure · No spam';
+                            note.style.color = '';
+                        }
+                    }, 3500);
+                } else {
+                    if (note) {
+                        note.textContent = '⚠️ Pop-up blocked. Please allow pop-ups or WhatsApp us directly.';
+                        note.style.color = 'var(--color-error)';
+                    }
+                    setButtonLoading(submitBtn, false);
+                }
             });
         }
     } catch (error) {
         console.error('Contact form error:', error);
     }
 
-    // ---------- 10. Digital Quotation Generator ----------
+    // ---------- 10. Quote Generator ----------
     try {
         const quoteForm = document.getElementById('quoteForm');
         if (quoteForm) {
@@ -528,11 +596,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const printBtn = document.getElementById('printQuoteBtn');
 
             const priceMatrix = {
-                womens: { A: 18000, B: 14000, Premium: 25000 },
-                mens:   { A: 18000, B: 14000, Premium: 25000 },
+                womens:    { A: 18000, B: 14000, Premium: 25000 },
+                mens:      { A: 18000, B: 14000, Premium: 25000 },
                 childrens: { A: 15000, B: 12000, Premium: 22000 },
-                premium: { A: 28000, B: 24000, Premium: 35000 },
-                shoes: { A: 20000, B: 16000, Premium: 30000 }
+                premium:   { A: 28000, B: 24000, Premium: 35000 },
+                shoes:     { A: 20000, B: 16000, Premium: 30000 }
             };
             const categoryLabels = {
                 womens: "Women's Bales",
@@ -546,11 +614,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const category = categorySelect.value;
                 const grade = gradeSelect.value;
                 const quantity = parseInt(quantityInput.value, 10) || 1;
-                const unitPrice = priceMatrix[category]?.[grade] || 0;
+                const unitPrice = (priceMatrix[category] && priceMatrix[category][grade]) || 0;
                 const total = unitPrice * quantity;
                 quoteTotal.textContent = `KSh ${total.toLocaleString('en-KE')}`;
                 return { total, category, grade, quantity, unitPrice };
             };
+
             categorySelect.addEventListener('change', calculateTotal);
             gradeSelect.addEventListener('change', calculateTotal);
             quantityInput.addEventListener('input', calculateTotal);
@@ -558,7 +627,8 @@ document.addEventListener('DOMContentLoaded', () => {
             generateBtn.addEventListener('click', () => {
                 const { total, category, grade, quantity, unitPrice } = calculateTotal();
                 const categoryLabel = categoryLabels[category] || category;
-                const message = `Hi Kamera Bales!%0A%0A` +
+                const message =
+                    `Hi Kamera Bales!%0A%0A` +
                     `*Quote Request*%0A` +
                     `Category: ${encodeURIComponent(categoryLabel)}%0A` +
                     `Grade: ${grade}%0A` +
@@ -567,17 +637,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     `Total Estimate: KSh ${total.toLocaleString('en-KE')}%0A%0A` +
                     `Please confirm availability and delivery. Thank you!`;
                 const waUrl = `https://wa.me/${waNumber}?text=${message}`;
-                
+
                 setButtonLoading(generateBtn, true, 'Opening WhatsApp...');
                 window.open(waUrl, '_blank', 'noopener,noreferrer');
-                
+
                 if (typeof gtag === 'function') {
-                    gtag('event', 'quote_generate', { category: category, grade: grade });
+                    gtag('event', 'quote_generate', { category, grade });
                 }
-                
-                setTimeout(() => {
-                    setButtonLoading(generateBtn, false);
-                }, 2000);
+
+                setTimeout(() => setButtonLoading(generateBtn, false), 2000);
             });
 
             printBtn.addEventListener('click', () => {
@@ -589,6 +657,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 printWindow.document.write(`
+                    <!DOCTYPE html>
                     <html>
                         <head>
                             <title>Kamera Bales Quote</title>
@@ -615,7 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </table>
                             <p><em>Final price may vary based on current stock and delivery location.</em></p>
                             <div class="contact">
-                                <p>Contact: 0702 555 093 | WhatsApp: <a href="https://wa.me/254702555093">Chat</a></p>
+                                <p>Contact: 0702 555 093 | WhatsApp: 0702 555 093</p>
                                 <p>Email: info@kamerabales.co.ke | Nairobi, Kenya</p>
                             </div>
                             <p style="margin-top: 2rem; font-size: 0.8rem; color: #888;">Generated by Kamera Bales – ${new Date().toLocaleDateString()}</p>
@@ -625,13 +694,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 printWindow.document.close();
                 printWindow.print();
             });
+
             calculateTotal();
         }
     } catch (error) {
         console.error('Quote generator error:', error);
     }
 
-    // ---------- 11. Bale Detail Modal (New) ----------
+    // ---------- 11. Bale Detail Modal ----------
     try {
         const baleModal = document.getElementById('baleModal');
         const baleModalClose = document.querySelector('.bale-modal-close');
@@ -641,11 +711,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const baleModalPrice = document.querySelector('.bale-modal-price');
         const baleModalDesc = document.getElementById('baleModalDesc');
         const baleModalWa = document.getElementById('baleModalWa');
-        const baleModalQuote = document.getElementById('baleModalQuote');
 
         if (baleModal) {
             const hasNativeDialog = typeof baleModal.showModal === 'function';
             let lastFocusedElement = null;
+            const trapFocus = buildFocusTrap(baleModal);
+
+            const cleanupModal = () => {
+                document.body.style.overflow = '';
+                setBackgroundInert(false);
+                baleModal.removeEventListener('keydown', trapFocus);
+                if (lastFocusedElement) lastFocusedElement.focus();
+            };
 
             const openModal = (card) => {
                 baleModalTitle.textContent = card.dataset.title;
@@ -660,24 +737,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 lastFocusedElement = document.activeElement;
 
-                if (hasNativeDialog) {
-                    baleModal.showModal();
-                    baleModalClose.focus();
-                } else {
-                    baleModal.setAttribute('open', '');
-                    document.body.style.overflow = 'hidden';
-                    baleModalClose.focus();
-                }
-
-                // Lock scroll and hide background from screen readers
+                if (hasNativeDialog) baleModal.showModal();
+                else baleModal.setAttribute('open', '');
                 document.body.style.overflow = 'hidden';
-                ['header.site-header', 'main', 'footer.site-footer'].forEach(selector => {
-                    const el = document.querySelector(selector);
-                    if (el) el.setAttribute('aria-hidden', 'true');
-                });
-
-                // Focus trap
-                baleModal.addEventListener('keydown', trapFocusHandler);
+                setBackgroundInert(true);
+                baleModal.addEventListener('keydown', trapFocus);
+                baleModalClose.focus();
             };
 
             const closeModal = () => {
@@ -685,39 +750,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     baleModal.close();
                 } else {
                     baleModal.removeAttribute('open');
-                }
-                document.body.style.overflow = '';
-                ['header.site-header', 'main', 'footer.site-footer'].forEach(selector => {
-                    const el = document.querySelector(selector);
-                    if (el) el.removeAttribute('aria-hidden');
-                });
-
-                baleModal.removeEventListener('keydown', trapFocusHandler);
-
-                if (lastFocusedElement) {
-                    lastFocusedElement.focus();
+                    cleanupModal();
                 }
             };
 
-            const trapFocusHandler = (e) => {
-                const focusable = baleModal.querySelectorAll(
-                    'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
-                );
-                if (focusable.length === 0) return;
-                const first = focusable[0];
-                const last = focusable[focusable.length - 1];
-                if (e.key === 'Tab') {
-                    if (e.shiftKey && document.activeElement === first) {
-                        e.preventDefault();
-                        last.focus();
-                    } else if (!e.shiftKey && document.activeElement === last) {
-                        e.preventDefault();
-                        first.focus();
-                    }
-                }
-            };
+            if (hasNativeDialog) {
+                baleModal.addEventListener('close', cleanupModal);
+                baleModal.addEventListener('cancel', cleanupModal);
+            }
 
-            document.querySelectorAll('.view-details').forEach(btn => {
+            document.querySelectorAll('.view-details').forEach((btn) => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const card = btn.closest('.bale-card');
@@ -729,15 +771,12 @@ document.addEventListener('DOMContentLoaded', () => {
             baleModal.addEventListener('click', (event) => {
                 if (event.target === baleModal) closeModal();
             });
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && baleModal.hasAttribute('open')) closeModal();
-            });
         }
     } catch (error) {
         console.error('Bale modal error:', error);
     }
 
-    // ---------- 12. Floating WhatsApp Button ----------
+    // ---------- 12. Floating WhatsApp Visibility ----------
     try {
         const floatingBtn = document.querySelector('.floating-whatsapp');
         if (floatingBtn) {
@@ -762,17 +801,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Floating button error:', error);
     }
 
-    // ---------- 13. Back to Top Button ----------
+    // ---------- 13. Back to Top ----------
     try {
         const backToTopBtn = document.getElementById('backToTop');
         if (backToTopBtn) {
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 500) {
-                    backToTopBtn.classList.add('visible');
-                } else {
-                    backToTopBtn.classList.remove('visible');
-                }
-            });
+                backToTopBtn.classList.toggle('visible', window.scrollY > 500);
+            }, { passive: true });
             backToTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
@@ -785,18 +820,19 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.menu-link');
-        const observerOptions = { root: null, rootMargin: '0px 0px -60% 0px', threshold: 0 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const currentId = entry.target.id;
-                    navLinks.forEach(link => {
-                        link.classList.toggle('active', link.getAttribute('href') === `#${currentId}`);
-                    });
-                }
-            });
-        }, observerOptions);
-        sections.forEach(section => observer.observe(section));
+        if (sections.length > 0) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const currentId = entry.target.id;
+                        navLinks.forEach((link) => {
+                            link.classList.toggle('active', link.getAttribute('href') === `#${currentId}`);
+                        });
+                    }
+                });
+            }, { root: null, rootMargin: '0px 0px -60% 0px', threshold: 0 });
+            sections.forEach((section) => observer.observe(section));
+        }
     } catch (error) {
         console.error('Scrollspy error:', error);
     }
@@ -804,27 +840,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- 15. Featured Bale Countdown ----------
     try {
         const countdownElements = document.querySelectorAll('.countdown');
-        countdownElements.forEach(el => {
+        countdownElements.forEach((el) => {
             const deadline = new Date(el.dataset.deadline).getTime();
             const daysEl = el.querySelector('.days');
             const hoursEl = el.querySelector('.hours');
             const minutesEl = el.querySelector('.minutes');
             const secondsEl = el.querySelector('.seconds');
             const updateCountdown = () => {
-                const now = new Date().getTime();
-                const diff = deadline - now;
+                const diff = deadline - Date.now();
                 if (diff <= 0) {
                     el.innerHTML = '<strong>Offer expired</strong>';
                     return;
                 }
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                daysEl.textContent = days;
-                hoursEl.textContent = hours;
-                minutesEl.textContent = minutes;
-                secondsEl.textContent = seconds;
+                daysEl.textContent = Math.floor(diff / 86400000);
+                hoursEl.textContent = Math.floor((diff % 86400000) / 3600000);
+                minutesEl.textContent = Math.floor((diff % 3600000) / 60000);
+                secondsEl.textContent = Math.floor((diff % 60000) / 1000);
             };
             updateCountdown();
             setInterval(updateCountdown, 1000);
@@ -833,107 +864,95 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Countdown error:', error);
     }
 
-    // ---------- 16. Lead Magnet Popup ----------
+    // ---------- 16. Lead Magnet Popup (desktop only) ----------
     try {
         const leadForms = document.querySelectorAll('.lead-form');
         const leadPopup = document.getElementById('leadPopup');
         const popupClose = document.querySelector('.popup-close');
 
-        // Handle lead forms
-        leadForms.forEach(form => {
-            form.addEventListener('submit', (e) => {
+        leadForms.forEach((form) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const submitBtn = form.querySelector('button[type="submit"]');
-                setButtonLoading(submitBtn, true, 'Sending...');
-
-                fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
-                }).catch(() => {});
-
-                const note = form.querySelector('.form-note');
-                if (note) {
-                    note.textContent = '✅ Guide sent! Check your email.';
-                    note.style.color = 'var(--color-success)';
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
                 }
 
-                setTimeout(() => {
-                    setButtonLoading(submitBtn, false);
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const note = form.querySelector('.form-note');
+                setButtonLoading(submitBtn, true, 'Sending...');
+
+                try {
+                    const res = await fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
                     form.reset();
                     if (note) {
-                        note.textContent = '🔒 We respect your privacy. Unsubscribe anytime.';
-                        note.style.color = '';
+                        note.textContent = '✅ Guide sent. Check your inbox.';
+                        note.style.color = 'var(--color-success)';
                     }
-                }, 2000);
+                } catch (err) {
+                    console.error('Lead form error:', err);
+                    if (note) {
+                        note.textContent = '⚠️ We could not send the guide. Please try again or WhatsApp us.';
+                        note.style.color = 'var(--color-error)';
+                    }
+                } finally {
+                    setButtonLoading(submitBtn, false);
+                }
             });
         });
 
         if (leadPopup) {
             let lastFocusedElement = null;
+            const trapFocus = buildFocusTrap(leadPopup);
 
-            const trapFocusHandler = (e) => {
-                const focusable = leadPopup.querySelectorAll(
-                    'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
-                );
-                if (focusable.length === 0) return;
-                const first = focusable[0];
-                const last = focusable[focusable.length - 1];
-                if (e.key === 'Tab') {
-                    if (e.shiftKey && document.activeElement === first) {
-                        e.preventDefault();
-                        last.focus();
-                    } else if (!e.shiftKey && document.activeElement === last) {
-                        e.preventDefault();
-                        first.focus();
-                    }
-                }
-            };
-
-            const openLeadPopup = () => {
-                lastFocusedElement = document.activeElement;
-                if (typeof leadPopup.showModal === 'function') {
-                    leadPopup.showModal();
-                } else {
-                    leadPopup.setAttribute('open', '');
-                }
-                document.body.style.overflow = 'hidden';
-                ['header.site-header', 'main', 'footer.site-footer'].forEach(selector => {
-                    const el = document.querySelector(selector);
-                    if (el) el.setAttribute('aria-hidden', 'true');
-                });
-                leadPopup.addEventListener('keydown', trapFocusHandler);
-                if (popupClose) popupClose.focus();
-            };
-
-            const closeLeadPopup = () => {
-                if (typeof leadPopup.close === 'function') {
-                    leadPopup.close();
-                } else {
-                    leadPopup.removeAttribute('open');
-                }
+            const cleanupPopup = () => {
                 document.body.style.overflow = '';
-                ['header.site-header', 'main', 'footer.site-footer'].forEach(selector => {
-                    const el = document.querySelector(selector);
-                    if (el) el.removeAttribute('aria-hidden');
-                });
-                leadPopup.removeEventListener('keydown', trapFocusHandler);
+                setBackgroundInert(false);
+                leadPopup.removeEventListener('keydown', trapFocus);
                 if (lastFocusedElement) lastFocusedElement.focus();
             };
 
+            const closeLeadPopup = () => {
+                if (typeof leadPopup.close === 'function') leadPopup.close();
+                else {
+                    leadPopup.removeAttribute('open');
+                    cleanupPopup();
+                }
+            };
+
+            if (typeof leadPopup.showModal === 'function') {
+                leadPopup.addEventListener('close', cleanupPopup);
+                leadPopup.addEventListener('cancel', cleanupPopup);
+            }
+
+            const canPromptPopup = () =>
+                window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches &&
+                !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
             const popupSeenKey = 'kameraLeadPopupSeen';
-            const popupShownThisSession = sessionStorage.getItem(popupSeenKey);
-            if (!popupShownThisSession && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const seen = sessionStorage.getItem(popupSeenKey);
+
+            if (!seen && canPromptPopup()) {
                 setTimeout(() => {
-                    if (!leadPopup.open) {
-                        openLeadPopup();
+                    if (!leadPopup.open && canPromptPopup()) {
+                        lastFocusedElement = document.activeElement;
+                        if (typeof leadPopup.showModal === 'function') leadPopup.showModal();
+                        else leadPopup.setAttribute('open', '');
+                        document.body.style.overflow = 'hidden';
+                        setBackgroundInert(true);
+                        leadPopup.addEventListener('keydown', trapFocus);
+                        if (popupClose) popupClose.focus();
                         sessionStorage.setItem(popupSeenKey, 'true');
                     }
-                }, 5000);
+                }, 12000);
             }
-            if (popupClose) {
-                popupClose.addEventListener('click', closeLeadPopup);
-            }
+
+            if (popupClose) popupClose.addEventListener('click', closeLeadPopup);
             leadPopup.addEventListener('click', (event) => {
                 if (event.target === leadPopup) closeLeadPopup();
             });
@@ -945,15 +964,19 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Lead magnet error:', error);
     }
 
-    // ---------- 17. Exit-Intent Popup ----------
+    // ---------- 17. Exit-Intent Popup (desktop only) ----------
     try {
         let exitShown = sessionStorage.getItem('exitShown');
+        const isDesktop = () => window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
+
         document.addEventListener('mouseout', (e) => {
-            if (!e.relatedTarget && !e.toElement && !exitShown) {
+            if (!isDesktop() || exitShown) return;
+            if (!e.relatedTarget && !e.toElement) {
                 const popup = document.getElementById('leadPopup');
                 if (popup && !popup.open) {
                     popup.showModal();
                     sessionStorage.setItem('exitShown', 'true');
+                    exitShown = 'true';
                 }
             }
         });
@@ -993,12 +1016,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
-                    .then((registration) => {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                    })
-                    .catch((error) => {
-                        console.error('Service Worker registration failed:', error);
-                    });
+                    .then((reg) => console.log('Service Worker registered:', reg.scope))
+                    .catch((err) => console.error('Service Worker registration failed:', err));
             });
         }
     } catch (error) {
