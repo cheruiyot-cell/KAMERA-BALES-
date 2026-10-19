@@ -1,28 +1,22 @@
 /* ============================================
-   KAMERA BALES — script.js (Production v4)
+   KAMERA BALES — script.js (Production v5)
    ============================================ */
 
-// ---------- Global Error Boundaries ----------
 function showErrorToast(message) {
     document.querySelectorAll('.error-toast').forEach((t) => t.remove());
-
     const toast = document.createElement('div');
     toast.className = 'error-toast';
     toast.setAttribute('role', 'alert');
     toast.setAttribute('aria-live', 'assertive');
     toast.textContent = message;
     document.body.appendChild(toast);
-
-    setTimeout(() => {
-        if (toast.parentNode) toast.remove();
-    }, 5000);
+    setTimeout(() => { if (toast.parentNode) toast.remove(); }, 5000);
 }
 
 window.addEventListener('error', (event) => {
     console.error('Uncaught error:', event.error);
     showErrorToast('Something went wrong. Please refresh the page.');
 });
-
 window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled promise rejection:', event.reason);
     showErrorToast('An unexpected error occurred. Please try again.');
@@ -33,20 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const waNumber = '254702555093';
     const backgroundSelectors = [
-        'header.site-header',
-        'main',
-        'footer.site-footer',
-        '.mobile-action-bar',
-        '.floating-whatsapp'
+        'header.site-header', 'main', 'footer.site-footer',
+        '.mobile-action-bar', '.floating-whatsapp'
     ];
 
-    // ---------- Button Loading (preserves inline SVG) ----------
     const setButtonLoading = (button, isLoading, loadingText = 'Processing...') => {
         if (!button) return;
         if (isLoading) {
-            if (!button.dataset.originalHtml) {
-                button.dataset.originalHtml = button.innerHTML;
-            }
+            if (!button.dataset.originalHtml) button.dataset.originalHtml = button.innerHTML;
             button.classList.add('btn-loading');
             const icon = button.querySelector('svg');
             button.innerHTML = '';
@@ -65,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // ---------- Inert helpers ----------
     const setBackgroundInert = (inert) => {
         backgroundSelectors.forEach((sel) => {
             const el = document.querySelector(sel);
@@ -83,17 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (focusable.length === 0) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-        }
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     };
 
-    // ---------- Form Validation ----------
+    // ---------- Form Validation (skip lead forms) ----------
     const setupFormValidation = (form) => {
+        if (form.classList.contains('lead-form')) return;
         const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
         inputs.forEach((input) => {
             const errorMsg = document.createElement('p');
@@ -103,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMsg.id = `error-${input.id || Math.random().toString(36).slice(2, 9)}`;
             input.setAttribute('aria-describedby', errorMsg.id);
             input.parentNode.insertBefore(errorMsg, input.nextSibling);
-
             const clear = () => {
                 input.classList.remove('invalid');
                 input.classList.add('valid');
@@ -119,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let isValid = true;
             inputs.forEach((input) => {
                 const errorMsg = document.getElementById(input.getAttribute('aria-describedby'));
+                if (!errorMsg) return;
                 if (!input.value.trim()) {
                     input.classList.remove('valid');
                     input.classList.add('invalid');
@@ -149,10 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
-
     document.querySelectorAll('form').forEach(setupFormValidation);
 
-    // ---------- 1. WhatsApp Template Links ----------
+    // ---------- WhatsApp template links ----------
     document.addEventListener('click', (e) => {
         const waLink = e.target.closest('a[data-wa-template]');
         if (waLink) {
@@ -160,53 +142,50 @@ document.addEventListener('DOMContentLoaded', () => {
             const message = encodeURIComponent(waLink.dataset.waTemplate);
             const url = `https://wa.me/${waNumber}?text=${message}`;
             window.open(url, '_blank', 'noopener,noreferrer');
-            if (typeof gtag === 'function') {
-                gtag('event', 'whatsapp_click', { link_url: url });
-            }
+            if (typeof gtag === 'function') gtag('event', 'whatsapp_click', { link_url: url });
         }
     });
 
-    // ---------- 2. FAQ Accordion ----------
+    // ---------- aria-current for menu links ----------
+    document.querySelectorAll('.menu-link').forEach((link) => {
+        const href = link.getAttribute('href') || '';
+        if (href.includes('#')) return;
+        if (new URL(link.href, location.href).pathname === location.pathname) {
+            link.setAttribute('aria-current', 'page');
+        }
+    });
+
+    // ---------- FAQ accordion ----------
     try {
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach((item) => {
             const summary = item.querySelector('summary');
             if (summary) {
                 summary.addEventListener('click', () => {
-                    faqItems.forEach((other) => {
-                        if (other !== item && other.open) other.open = false;
-                    });
+                    faqItems.forEach((other) => { if (other !== item && other.open) other.open = false; });
                 });
             }
         });
-    } catch (error) {
-        console.error('FAQ error:', error);
-    }
+    } catch (error) { console.error('FAQ error:', error); }
 
-    // ---------- 3. Header Scroll ----------
+    // ---------- Header scroll ----------
     try {
         const header = document.querySelector('.site-header');
         if (header) {
-            const handleScroll = () => {
-                header.classList.toggle('scrolled', window.scrollY > 20);
-            };
+            const handleScroll = () => header.classList.toggle('scrolled', window.scrollY > 20);
             window.addEventListener('scroll', handleScroll, { passive: true });
             handleScroll();
         }
-    } catch (error) {
-        console.error('Header scroll error:', error);
-    }
+    } catch (error) { console.error('Header scroll error:', error); }
 
-    // ---------- 4. Menu Overlay (focus trap + inert) ----------
+    // ---------- Mobile menu ----------
     try {
         const menuToggle = document.querySelector('.menu-toggle');
         const menuOverlay = document.getElementById('menu-overlay');
         const menuClose = document.querySelector('.menu-close');
         const menuLinks = document.querySelectorAll('.menu-overlay-nav .menu-link');
-
         if (menuToggle && menuOverlay && menuClose) {
             const trapFocus = buildFocusTrap(menuOverlay);
-
             const openMenu = () => {
                 menuOverlay.classList.add('open');
                 menuToggle.setAttribute('aria-expanded', 'true');
@@ -216,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 menuOverlay.addEventListener('keydown', trapFocus);
                 menuClose.focus();
             };
-
             const closeMenu = () => {
                 menuOverlay.classList.remove('open');
                 menuToggle.setAttribute('aria-expanded', 'false');
@@ -226,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 menuOverlay.removeEventListener('keydown', trapFocus);
                 menuToggle.focus();
             };
-
             menuToggle.addEventListener('click', openMenu);
             menuClose.addEventListener('click', closeMenu);
             menuLinks.forEach((link) => link.addEventListener('click', closeMenu));
@@ -234,11 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (event.key === 'Escape' && menuOverlay.classList.contains('open')) closeMenu();
             });
         }
-    } catch (error) {
-        console.error('Menu overlay error:', error);
-    }
+    } catch (error) { console.error('Menu overlay error:', error); }
 
-    // ---------- 5. Dark Mode ----------
+    // ---------- Dark mode ----------
     try {
         const themeToggle = document.querySelector('.theme-toggle');
         const root = document.documentElement;
@@ -252,17 +227,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const current = root.getAttribute('data-theme');
             themeToggle.setAttribute('aria-pressed', current === 'dark');
             themeToggle.classList.toggle('dark', current === 'dark');
-
             themeToggle.addEventListener('click', () => {
-                const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-                applyTheme(next);
+                applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
             });
         }
-    } catch (error) {
-        console.error('Dark mode error:', error);
-    }
+    } catch (error) { console.error('Dark mode error:', error); }
 
-    // ---------- 6. Bale Search & Filter ----------
+    // ---------- Bale search & filter ----------
     try {
         const baleCards = document.querySelectorAll('.bale-card');
         const searchInput = document.getElementById('searchBales');
@@ -285,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const matchesSearch = searchTerm === '' || cardSearch.includes(searchTerm);
                     const matchesCategory = category === 'all' || cardCategory === category;
                     const matchesGrade = grade === 'all' || cardGrade.includes(grade);
-
                     const show = matchesSearch && matchesCategory && matchesGrade;
                     card.style.display = show ? '' : 'none';
                     if (show) visibleCount++;
@@ -300,21 +270,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         noResultsMsg.textContent = 'No bales match your filters. Please try different criteria.';
                         grid.appendChild(noResultsMsg);
                     }
-                } else if (noResultsMsg) {
-                    noResultsMsg.remove();
-                }
+                } else if (noResultsMsg) noResultsMsg.remove();
 
-                if (resultsCount) {
-                    const total = baleCards.length;
-                    resultsCount.textContent = `${visibleCount} of ${total} bales shown`;
-                }
+                if (resultsCount) resultsCount.textContent = `${visibleCount} of ${baleCards.length} bales shown`;
 
                 if (activeFiltersContainer) {
                     const active = [];
                     if (category !== 'all') active.push(`Category: ${category}`);
                     if (grade !== 'all') active.push(`Grade: ${grade}`);
                     if (searchTerm) active.push(`Search: "${searchTerm}"`);
-
                     activeFiltersContainer.innerHTML = '';
                     if (active.length > 0) {
                         const clearBtn = document.createElement('button');
@@ -337,64 +301,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             };
-
             if (searchInput) searchInput.addEventListener('input', filterBales);
             if (filterCategory) filterCategory.addEventListener('change', filterBales);
             if (filterGrade) filterGrade.addEventListener('change', filterBales);
             filterBales();
         }
-    } catch (error) {
-        console.error('Bale filter error:', error);
-    }
+    } catch (error) { console.error('Bale filter error:', error); }
 
-    // ---------- 7. Stock Urgency ----------
-    try {
-        const stockElements = document.querySelectorAll('.stock-urgency');
-        if (stockElements.length > 0) {
-            const updateStockUI = (data) => {
-                stockElements.forEach((el) => {
-                    const category = el.dataset.category;
-                    if (!data[category]) return;
-                    const { total, sold } = data[category];
-                    const remaining = total - sold;
-                    el.classList.remove('low', 'medium', 'high');
-                    if (remaining <= 0) {
-                        el.textContent = 'Out of stock';
-                        el.classList.add('low');
-                    } else if (remaining <= 5) {
-                        el.textContent = `Only ${remaining} bales left!`;
-                        el.classList.add('low');
-                    } else if (remaining <= 10) {
-                        el.textContent = `Only ${remaining} bales left`;
-                        el.classList.add('medium');
-                    } else {
-                        el.textContent = `${remaining} bales available`;
-                        el.classList.add('high');
-                    }
-                });
-            };
-
-            const fallbackData = {
-                womens: { total: 24, sold: 12 },
-                mens: { total: 18, sold: 7 },
-                childrens: { total: 15, sold: 4 },
-                premium: { total: 10, sold: 8 },
-                shoes: { total: 20, sold: 10 }
-            };
-
-            fetch('stock.json')
-                .then((res) => {
-                    if (!res.ok) throw new Error('Network response was not ok');
-                    return res.json();
-                })
-                .then(updateStockUI)
-                .catch(() => updateStockUI(fallbackData));
-        }
-    } catch (error) {
-        console.error('Stock urgency error:', error);
-    }
-
-    // ---------- 8. Testimonials Carousel ----------
+    // ---------- Testimonials carousel ----------
     try {
         const carousel = document.querySelector('.testimonials-carousel');
         if (carousel) {
@@ -439,15 +353,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             };
-
             const goToSlide = (index) => {
                 if (index < 0) index = slides.length - 1;
                 if (index >= slides.length) index = 0;
                 updateSlide(index);
             };
-
             const shouldAutoPlay = () => !userPaused && !reduceMotion() && !isMobile();
-
             const startAutoPlay = () => {
                 stopAutoPlay();
                 if (!shouldAutoPlay()) {
@@ -461,31 +372,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
             const stopAutoPlay = () => {
-                if (autoPlayInterval) {
-                    clearInterval(autoPlayInterval);
-                    autoPlayInterval = null;
-                }
+                if (autoPlayInterval) { clearInterval(autoPlayInterval); autoPlayInterval = null; }
             };
 
             if (prevBtn) prevBtn.addEventListener('click', () => { goToSlide(currentIndex - 1); startAutoPlay(); });
             if (nextBtn) nextBtn.addEventListener('click', () => { goToSlide(currentIndex + 1); startAutoPlay(); });
-            dots.forEach((dot) => {
-                dot.addEventListener('click', () => {
-                    goToSlide(parseInt(dot.dataset.index, 10));
-                    startAutoPlay();
-                });
-            });
-
+            dots.forEach((dot) => dot.addEventListener('click', () => {
+                goToSlide(parseInt(dot.dataset.index, 10)); startAutoPlay();
+            }));
             if (pauseBtn) {
                 pauseBtn.addEventListener('click', () => {
                     userPaused = !userPaused;
-                    if (userPaused) stopAutoPlay();
-                    else startAutoPlay();
+                    if (userPaused) stopAutoPlay(); else startAutoPlay();
                     pauseBtn.setAttribute('aria-label', userPaused ? 'Resume auto-rotation' : 'Pause auto-rotation');
                     pauseBtn.dataset.state = userPaused ? 'paused' : 'playing';
                 });
             }
-
             carousel.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowLeft') { e.preventDefault(); goToSlide(currentIndex - 1); }
                 else if (e.key === 'ArrowRight') { e.preventDefault(); goToSlide(currentIndex + 1); }
@@ -497,8 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let touchStartX = 0;
             carousel.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-                stopAutoPlay();
+                touchStartX = e.changedTouches[0].screenX; stopAutoPlay();
             }, { passive: true });
             carousel.addEventListener('touchend', (e) => {
                 const diff = touchStartX - e.changedTouches[0].screenX;
@@ -513,11 +414,9 @@ document.addEventListener('DOMContentLoaded', () => {
             updateSlide(0);
             startAutoPlay();
         }
-    } catch (error) {
-        console.error('Carousel error:', error);
-    }
+    } catch (error) { console.error('Carousel error:', error); }
 
-    // ---------- 9. Contact Form ----------
+    // ---------- Contact form ----------
     try {
         const contactForm = document.querySelector('.contact-form');
         if (contactForm) {
@@ -531,60 +430,40 @@ document.addEventListener('DOMContentLoaded', () => {
                     e.target.value = formatted ? `0${formatted}` : '';
                 });
             }
-
             contactForm.addEventListener('submit', (event) => {
                 if (event.defaultPrevented) return;
                 event.preventDefault();
-
                 const name = (document.getElementById('name')?.value || '').trim();
                 const phone = (document.getElementById('phone')?.value || '').trim();
                 const email = (document.getElementById('email')?.value || '').trim();
                 const message = (document.getElementById('message')?.value || '').trim();
-
                 const submitBtn = contactForm.querySelector('button[type="submit"]');
                 setButtonLoading(submitBtn, true, 'Sending...');
-
                 let waText = `Hi Kamera Bales!%0A%0A`;
                 waText += `*Name:* ${encodeURIComponent(name)}%0A`;
                 waText += `*Phone:* ${encodeURIComponent(phone)}%0A`;
                 if (email) waText += `*Email:* ${encodeURIComponent(email)}%0A`;
                 if (message) waText += `*Inquiry:* ${encodeURIComponent(message)}%0A`;
-
                 const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
                 const opened = window.open(waUrl, '_blank', 'noopener,noreferrer');
-
-                if (typeof gtag === 'function') {
-                    gtag('event', 'form_submit', { form_id: 'contact_form' });
-                }
-
+                if (typeof gtag === 'function') gtag('event', 'form_submit', { form_id: 'contact_form' });
                 const note = contactForm.querySelector('.form-note');
                 if (opened) {
                     contactForm.reset();
-                    if (note) {
-                        note.textContent = '✅ Inquiry handed off to WhatsApp. We respond within 2 hours.';
-                        note.style.color = 'var(--color-success)';
-                    }
+                    if (note) { note.textContent = '✅ Inquiry handed off to WhatsApp. We respond within 2 hours.'; note.style.color = 'var(--color-success)'; }
                     setTimeout(() => {
                         setButtonLoading(submitBtn, false);
-                        if (note) {
-                            note.textContent = '🔒 Your information is secure · No spam';
-                            note.style.color = '';
-                        }
+                        if (note) { note.textContent = '🔒 Your information is secure · No spam'; note.style.color = ''; }
                     }, 3500);
                 } else {
-                    if (note) {
-                        note.textContent = '⚠️ Pop-up blocked. Please allow pop-ups or WhatsApp us directly.';
-                        note.style.color = 'var(--color-error)';
-                    }
+                    if (note) { note.textContent = '⚠️ Pop-up blocked. Please allow pop-ups or WhatsApp us directly.'; note.style.color = 'var(--color-error)'; }
                     setButtonLoading(submitBtn, false);
                 }
             });
         }
-    } catch (error) {
-        console.error('Contact form error:', error);
-    }
+    } catch (error) { console.error('Contact form error:', error); }
 
-    // ---------- 10. Quote Generator ----------
+    // ---------- Quote generator ----------
     try {
         const quoteForm = document.getElementById('quoteForm');
         if (quoteForm) {
@@ -603,13 +482,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 shoes:     { A: 20000, B: 16000, Premium: 30000 }
             };
             const categoryLabels = {
-                womens: "Women's Bales",
-                mens: "Men's Bales",
-                childrens: "Children's Bales",
-                premium: "Premium / Luxury Bales",
-                shoes: "Shoes & Accessories"
+                womens: "Women's Bales", mens: "Men's Bales", childrens: "Children's Bales",
+                premium: "Premium / Luxury Bales", shoes: "Shoes & Accessories"
             };
-
             const calculateTotal = () => {
                 const category = categorySelect.value;
                 const grade = gradeSelect.value;
@@ -619,10 +494,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 quoteTotal.textContent = `KSh ${total.toLocaleString('en-KE')}`;
                 return { total, category, grade, quantity, unitPrice };
             };
-
             categorySelect.addEventListener('change', calculateTotal);
             gradeSelect.addEventListener('change', calculateTotal);
             quantityInput.addEventListener('input', calculateTotal);
+
+            // Prevent Enter-key page reload / data loss
+            quoteForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                generateBtn.click();
+            });
 
             generateBtn.addEventListener('click', () => {
                 const { total, category, grade, quantity, unitPrice } = calculateTotal();
@@ -637,14 +517,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     `Total Estimate: KSh ${total.toLocaleString('en-KE')}%0A%0A` +
                     `Please confirm availability and delivery. Thank you!`;
                 const waUrl = `https://wa.me/${waNumber}?text=${message}`;
-
                 setButtonLoading(generateBtn, true, 'Opening WhatsApp...');
                 window.open(waUrl, '_blank', 'noopener,noreferrer');
-
-                if (typeof gtag === 'function') {
-                    gtag('event', 'quote_generate', { category, grade });
-                }
-
+                if (typeof gtag === 'function') gtag('event', 'quote_generate', { category, grade });
                 setTimeout(() => setButtonLoading(generateBtn, false), 2000);
             });
 
@@ -652,56 +527,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 const { total, category, grade, quantity, unitPrice } = calculateTotal();
                 const categoryLabel = categoryLabels[category] || category;
                 const printWindow = window.open('', '_blank', 'width=700,height=500');
-                if (!printWindow) {
-                    alert('Please allow pop-ups to print the quote.');
-                    return;
-                }
+                if (!printWindow) { alert('Please allow pop-ups to print the quote.'); return; }
                 printWindow.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                        <head>
-                            <title>Kamera Bales Quote</title>
-                            <style>
-                                body { font-family: Arial, sans-serif; padding: 2rem; color: #1A1A1A; }
-                                h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-                                h2 { font-size: 1.2rem; color: #1A5C3A; }
-                                table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
-                                td, th { padding: 0.6rem; border-bottom: 1px solid #ddd; text-align: left; }
-                                th { background: #f5f5f5; font-weight: bold; }
-                                .contact { margin-top: 2rem; font-size: 0.9rem; color: #555; }
-                                .logo { font-weight: bold; font-size: 1.5rem; color: #1A5C3A; }
-                            </style>
-                        </head>
-                        <body>
-                            <div class="logo">KAMERA BALES</div>
-                            <h2>Quotation</h2>
-                            <table>
-                                <tr><th>Category</th><td>${categoryLabel}</td></tr>
-                                <tr><th>Grade</th><td>${grade}</td></tr>
-                                <tr><th>Quantity</th><td>${quantity} bale(s)</td></tr>
-                                <tr><th>Unit Price</th><td>KSh ${unitPrice.toLocaleString('en-KE')}</td></tr>
-                                <tr><th>Total Estimate</th><td><strong>KSh ${total.toLocaleString('en-KE')}</strong></td></tr>
-                            </table>
-                            <p><em>Final price may vary based on current stock and delivery location.</em></p>
-                            <div class="contact">
-                                <p>Contact: 0702 555 093 | WhatsApp: 0702 555 093</p>
-                                <p>Email: info@kamerabales.co.ke | Nairobi, Kenya</p>
-                            </div>
-                            <p style="margin-top: 2rem; font-size: 0.8rem; color: #888;">Generated by Kamera Bales – ${new Date().toLocaleDateString()}</p>
-                        </body>
-                    </html>
+                    <!DOCTYPE html><html><head><title>Kamera Bales Quote</title>
+                    <style>body{font-family:Arial,sans-serif;padding:2rem;color:#1A1A1A}h1{font-size:1.8rem;margin-bottom:.5rem}h2{font-size:1.2rem;color:#1A5C3A}table{width:100%;border-collapse:collapse;margin:1.5rem 0}td,th{padding:.6rem;border-bottom:1px solid #ddd;text-align:left}th{background:#f5f5f5;font-weight:bold}.contact{margin-top:2rem;font-size:.9rem;color:#555}.logo{font-weight:bold;font-size:1.5rem;color:#1A5C3A}</style>
+                    </head><body>
+                    <div class="logo">KAMERA BALES</div><h2>Quotation</h2>
+                    <table>
+                    <tr><th>Category</th><td>${categoryLabel}</td></tr>
+                    <tr><th>Grade</th><td>${grade}</td></tr>
+                    <tr><th>Quantity</th><td>${quantity} bale(s)</td></tr>
+                    <tr><th>Unit Price</th><td>KSh ${unitPrice.toLocaleString('en-KE')}</td></tr>
+                    <tr><th>Total Estimate</th><td><strong>KSh ${total.toLocaleString('en-KE')}</strong></td></tr>
+                    </table>
+                    <p><em>Final price may vary based on current stock and delivery location. Volume discounts apply at 6+ and 15+ bales.</em></p>
+                    <div class="contact"><p>Contact: 0702 555 093 | WhatsApp: 0702 555 093</p><p>Email: info@kamerabales.co.ke | Nairobi, Kenya</p></div>
+                    <p style="margin-top:2rem;font-size:.8rem;color:#888">Generated by Kamera Bales – ${new Date().toLocaleDateString()}</p>
+                    </body></html>
                 `);
                 printWindow.document.close();
                 printWindow.print();
             });
-
             calculateTotal();
         }
-    } catch (error) {
-        console.error('Quote generator error:', error);
-    }
+    } catch (error) { console.error('Quote generator error:', error); }
 
-    // ---------- 11. Bale Detail Modal ----------
+    // ---------- Bale detail modal ----------
     try {
         const baleModal = document.getElementById('baleModal');
         const baleModalClose = document.querySelector('.bale-modal-close');
@@ -711,6 +562,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const baleModalPrice = document.querySelector('.bale-modal-price');
         const baleModalDesc = document.getElementById('baleModalDesc');
         const baleModalWa = document.getElementById('baleModalWa');
+        const baleModalQuote = document.getElementById('baleModalQuote');
 
         if (baleModal) {
             const hasNativeDialog = typeof baleModal.showModal === 'function';
@@ -731,12 +583,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 baleModalPrice.textContent = `From KSh ${Number(card.dataset.price).toLocaleString('en-KE')} / bale`;
                 baleModalImg.src = card.dataset.fullImage;
                 baleModalImg.alt = card.dataset.title;
-
                 const waMessage = `Hi Kamera Bales! I'm interested in ${card.dataset.title} (${card.dataset.grade}). Please share current stock.`;
                 baleModalWa.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
-
                 lastFocusedElement = document.activeElement;
-
                 if (hasNativeDialog) baleModal.showModal();
                 else baleModal.setAttribute('open', '');
                 document.body.style.overflow = 'hidden';
@@ -746,12 +595,8 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const closeModal = () => {
-                if (hasNativeDialog) {
-                    baleModal.close();
-                } else {
-                    baleModal.removeAttribute('open');
-                    cleanupModal();
-                }
+                if (hasNativeDialog) baleModal.close();
+                else { baleModal.removeAttribute('open'); cleanupModal(); }
             };
 
             if (hasNativeDialog) {
@@ -771,52 +616,44 @@ document.addEventListener('DOMContentLoaded', () => {
             baleModal.addEventListener('click', (event) => {
                 if (event.target === baleModal) closeModal();
             });
-        }
-    } catch (error) {
-        console.error('Bale modal error:', error);
-    }
 
-    // ---------- 12. Floating WhatsApp Visibility ----------
+            // Fix dead-end "Get Quote" inside modal
+            if (baleModalQuote) {
+                baleModalQuote.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    closeModal();
+                    const target = document.getElementById('quote-generator');
+                    if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+                });
+            }
+        }
+    } catch (error) { console.error('Bale modal error:', error); }
+
+    // ---------- Floating WhatsApp + Back to top ----------
     try {
         const floatingBtn = document.querySelector('.floating-whatsapp');
-        if (floatingBtn) {
-            const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
-            const showFloatingBtn = () => {
-                if (isMobile() || window.scrollY > 300) {
-                    floatingBtn.style.opacity = '1';
-                    floatingBtn.style.pointerEvents = 'auto';
-                } else {
-                    floatingBtn.style.opacity = '0';
-                    floatingBtn.style.pointerEvents = 'none';
-                }
-            };
-            floatingBtn.style.opacity = '0';
-            floatingBtn.style.pointerEvents = 'none';
-            floatingBtn.style.transition = 'opacity 0.3s ease';
-            window.addEventListener('scroll', showFloatingBtn, { passive: true });
-            window.addEventListener('resize', showFloatingBtn, { passive: true });
-            showFloatingBtn();
-        }
-    } catch (error) {
-        console.error('Floating button error:', error);
-    }
-
-    // ---------- 13. Back to Top ----------
-    try {
         const backToTopBtn = document.getElementById('backToTop');
-        if (backToTopBtn) {
-            window.addEventListener('scroll', () => {
-                backToTopBtn.classList.toggle('visible', window.scrollY > 500);
-            }, { passive: true });
-            backToTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
-    } catch (error) {
-        console.error('Back to top error:', error);
-    }
 
-    // ---------- 14. Scrollspy ----------
+        const updateFloating = () => {
+            if (floatingBtn) {
+                if (window.scrollY > 300) floatingBtn.classList.add('is-visible');
+                else floatingBtn.classList.remove('is-visible');
+            }
+        };
+        const updateBackToTop = () => {
+            if (backToTopBtn) backToTopBtn.classList.toggle('visible', window.scrollY > 500);
+        };
+        const onScroll = () => { updateFloating(); updateBackToTop(); };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        onScroll();
+
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        }
+    } catch (error) { console.error('Floating controls error:', error); }
+
+    // ---------- Scrollspy ----------
     try {
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.menu-link');
@@ -833,38 +670,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }, { root: null, rootMargin: '0px 0px -60% 0px', threshold: 0 });
             sections.forEach((section) => observer.observe(section));
         }
-    } catch (error) {
-        console.error('Scrollspy error:', error);
-    }
+    } catch (error) { console.error('Scrollspy error:', error); }
 
-    // ---------- 15. Featured Bale Countdown ----------
-    try {
-        const countdownElements = document.querySelectorAll('.countdown');
-        countdownElements.forEach((el) => {
-            const deadline = new Date(el.dataset.deadline).getTime();
-            const daysEl = el.querySelector('.days');
-            const hoursEl = el.querySelector('.hours');
-            const minutesEl = el.querySelector('.minutes');
-            const secondsEl = el.querySelector('.seconds');
-            const updateCountdown = () => {
-                const diff = deadline - Date.now();
-                if (diff <= 0) {
-                    el.innerHTML = '<strong>Offer expired</strong>';
-                    return;
-                }
-                daysEl.textContent = Math.floor(diff / 86400000);
-                hoursEl.textContent = Math.floor((diff % 86400000) / 3600000);
-                minutesEl.textContent = Math.floor((diff % 3600000) / 60000);
-                secondsEl.textContent = Math.floor((diff % 60000) / 1000);
-            };
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-        });
-    } catch (error) {
-        console.error('Countdown error:', error);
-    }
-
-    // ---------- 16. Lead Magnet Popup (desktop only) ----------
+    // ---------- Lead forms (Formspree) ----------
     try {
         const leadForms = document.querySelectorAll('.lead-form');
         const leadPopup = document.getElementById('leadPopup');
@@ -873,15 +681,10 @@ document.addEventListener('DOMContentLoaded', () => {
         leadForms.forEach((form) => {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                if (!form.checkValidity()) {
-                    form.reportValidity();
-                    return;
-                }
-
+                if (!form.checkValidity()) { form.reportValidity(); return; }
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const note = form.querySelector('.form-note');
                 setButtonLoading(submitBtn, true, 'Sending...');
-
                 try {
                     const res = await fetch(form.action, {
                         method: 'POST',
@@ -890,16 +693,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);
                     form.reset();
-                    if (note) {
-                        note.textContent = '✅ Guide sent. Check your inbox.';
-                        note.style.color = 'var(--color-success)';
-                    }
+                    if (note) { note.textContent = '✅ Guide sent. Check your inbox.'; note.style.color = 'var(--color-success)'; }
                 } catch (err) {
                     console.error('Lead form error:', err);
-                    if (note) {
-                        note.textContent = '⚠️ We could not send the guide. Please try again or WhatsApp us.';
-                        note.style.color = 'var(--color-error)';
-                    }
+                    if (note) { note.textContent = '⚠️ We could not send the guide. Please try again or WhatsApp us.'; note.style.color = 'var(--color-error)'; }
                 } finally {
                     setButtonLoading(submitBtn, false);
                 }
@@ -909,35 +706,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (leadPopup) {
             let lastFocusedElement = null;
             const trapFocus = buildFocusTrap(leadPopup);
-
             const cleanupPopup = () => {
                 document.body.style.overflow = '';
                 setBackgroundInert(false);
                 leadPopup.removeEventListener('keydown', trapFocus);
                 if (lastFocusedElement) lastFocusedElement.focus();
             };
-
             const closeLeadPopup = () => {
                 if (typeof leadPopup.close === 'function') leadPopup.close();
-                else {
-                    leadPopup.removeAttribute('open');
-                    cleanupPopup();
-                }
+                else { leadPopup.removeAttribute('open'); cleanupPopup(); }
             };
-
             if (typeof leadPopup.showModal === 'function') {
                 leadPopup.addEventListener('close', cleanupPopup);
                 leadPopup.addEventListener('cancel', cleanupPopup);
             }
-
             const canPromptPopup = () =>
                 window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches &&
                 !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
             const popupSeenKey = 'kameraLeadPopupSeen';
-            const seen = sessionStorage.getItem(popupSeenKey);
-
-            if (!seen && canPromptPopup()) {
+            if (!sessionStorage.getItem(popupSeenKey) && canPromptPopup()) {
                 setTimeout(() => {
                     if (!leadPopup.open && canPromptPopup()) {
                         lastFocusedElement = document.activeElement;
@@ -949,9 +736,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (popupClose) popupClose.focus();
                         sessionStorage.setItem(popupSeenKey, 'true');
                     }
-                }, 12000);
+                }, 25000);
             }
-
             if (popupClose) popupClose.addEventListener('click', closeLeadPopup);
             leadPopup.addEventListener('click', (event) => {
                 if (event.target === leadPopup) closeLeadPopup();
@@ -960,67 +746,55 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (event.key === 'Escape' && leadPopup.hasAttribute('open')) closeLeadPopup();
             });
         }
-    } catch (error) {
-        console.error('Lead magnet error:', error);
-    }
+    } catch (error) { console.error('Lead magnet error:', error); }
 
-    // ---------- 17. Exit-Intent Popup (desktop only) ----------
+    // ---------- Exit intent (desktop only, once) ----------
     try {
         let exitShown = sessionStorage.getItem('exitShown');
         const isDesktop = () => window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
-
         document.addEventListener('mouseout', (e) => {
             if (!isDesktop() || exitShown) return;
             if (!e.relatedTarget && !e.toElement) {
                 const popup = document.getElementById('leadPopup');
-                if (popup && !popup.open) {
+                if (popup && !popup.open && typeof popup.showModal === 'function') {
                     popup.showModal();
                     sessionStorage.setItem('exitShown', 'true');
                     exitShown = 'true';
                 }
             }
         });
-    } catch (error) {
-        console.error('Exit intent error:', error);
-    }
+    } catch (error) { console.error('Exit intent error:', error); }
 
-    // ---------- 18. PWA Install Prompt ----------
+    // ---------- PWA install prompt ----------
     try {
         let deferredPrompt;
         const installBtn = document.createElement('button');
         installBtn.textContent = 'Install App';
         installBtn.className = 'install-prompt-btn';
+        installBtn.setAttribute('aria-label', 'Install Kamera Bales app');
         document.body.appendChild(installBtn);
-
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             installBtn.classList.add('visible');
         });
-
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`User response: ${outcome}`);
+                await deferredPrompt.userChoice;
                 deferredPrompt = null;
                 installBtn.classList.remove('visible');
             }
         });
-    } catch (error) {
-        console.error('PWA prompt error:', error);
-    }
+    } catch (error) { console.error('PWA prompt error:', error); }
 
-    // ---------- 19. Service Worker Registration ----------
+    // ---------- Service worker ----------
     try {
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
-                    .then((reg) => console.log('Service Worker registered:', reg.scope))
                     .catch((err) => console.error('Service Worker registration failed:', err));
             });
         }
-    } catch (error) {
-        console.error('Service Worker error:', error);
-    }
+    } catch (error) { console.error('Service Worker error:', error); }
 });

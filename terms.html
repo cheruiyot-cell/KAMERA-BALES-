@@ -6,16 +6,10 @@
     <title>Terms & Conditions — Kamera Bales</title>
     <meta name="description" content="Terms and conditions for ordering from Kamera Bales mitumba wholesale.">
     <meta name="theme-color" content="#1A5C3A">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0D0D">
     <meta name="color-scheme" content="light dark">
-    <script>
-        (function () {
-            try {
-                var stored = localStorage.getItem('theme');
-                var prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.setAttribute('data-theme', stored || (prefers ? 'dark' : 'light'));
-            } catch (e) {}
-        })();
-    </script>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231A5C3A'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' font-weight='700' fill='white' text-anchor='middle'%3EKB%3C/text%3E%3C/svg%3E">
+    <script>(function(){try{var s=localStorage.getItem('theme');var p=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.setAttribute('data-theme',s||(p?'dark':'light'));}catch(e){}})();</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
@@ -23,7 +17,7 @@
     <link rel="canonical" href="https://www.kamerabales.co.ke/terms.html">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Kamera Bales">
     <link rel="apple-touch-icon" href="assets/icons/icon-192x192.svg">
 </head>
@@ -32,13 +26,8 @@
 
     <header class="site-header" role="banner">
         <div class="container header-inner">
-            <a href="/" class="logo" aria-label="Kamera Bales home">
-                <span class="logo-text">KAMERA<span class="logo-accent">BALES</span></span>
-            </a>
-            <button class="menu-toggle" aria-expanded="false" aria-controls="menu-overlay" aria-label="Open menu">
-                <span class="menu-icon"></span>
-                <span class="menu-text">Menu</span>
-            </button>
+            <a href="/" class="logo" aria-label="Kamera Bales home"><span class="logo-text">KAMERA<span class="logo-accent">BALES</span></span></a>
+            <button class="menu-toggle" aria-expanded="false" aria-controls="menu-overlay" aria-label="Open menu"><span class="menu-icon"></span><span class="menu-text">Menu</span></button>
             <div class="header-actions">
                 <button class="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">
                     <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -58,10 +47,7 @@
 
     <div id="menu-overlay" class="menu-overlay" aria-hidden="true">
         <div class="container">
-            <div class="menu-overlay-header">
-                <span class="logo-text">KAMERA<span class="logo-accent">BALES</span></span>
-                <button class="menu-close" aria-label="Close menu">✕</button>
-            </div>
+            <div class="menu-overlay-header"><span class="logo-text">KAMERA<span class="logo-accent">BALES</span></span><button class="menu-close" aria-label="Close menu">✕</button></div>
             <nav class="menu-overlay-nav" aria-label="Main menu">
                 <ul>
                     <li><a href="index.html#bales" class="menu-link">Bales</a></li>
@@ -75,10 +61,7 @@
                     <li><a href="contact.html" class="menu-link">Contact</a></li>
                 </ul>
             </nav>
-            <div class="menu-overlay-footer">
-                <a href="tel:0702555093" class="btn btn-secondary">Call Us</a>
-                <a href="https://wa.me/254702555093" class="btn btn-whatsapp" target="_blank" rel="noopener">WhatsApp</a>
-            </div>
+            <div class="menu-overlay-footer"><a href="tel:0702555093" class="btn btn-secondary">Call Us</a><a href="https://wa.me/254702555093" class="btn btn-whatsapp" target="_blank" rel="noopener">WhatsApp</a></div>
         </div>
     </div>
 
@@ -94,14 +77,21 @@
             <div class="container container-sm">
                 <h2>1. Orders</h2>
                 <p>All orders are confirmed via WhatsApp or phone. An order is only considered confirmed after payment is received or a payment plan is agreed.</p>
-                <h3 style="margin-top:1rem;">2. Payment</h3>
+
+                <h2>2. Payment</h2>
                 <p>Payment is due before dispatch unless otherwise agreed. We accept M-Pesa, bank transfer, and card.</p>
-                <h3 style="margin-top:1rem;">3. Delivery</h3>
+
+                <h2>3. Delivery</h2>
                 <p>Delivery timelines are estimates. Delays due to weather, strikes, or logistics issues will be communicated.</p>
-                <h3 style="margin-top:1rem;">4. Returns</h3>
+
+                <h2>4. Returns</h2>
                 <p>Returns are governed by our <a href="returns.html">Return Policy</a>.</p>
-                <h3 style="margin-top:1rem;">5. Liability</h3>
+
+                <h2>5. Liability</h2>
                 <p>Kamera Bales is not liable for indirect losses, including resale profit loss.</p>
+
+                <h2>6. Contact</h2>
+                <p>Questions about these terms? Email <a href="mailto:info@kamerabales.co.ke">info@kamerabales.co.ke</a> or WhatsApp <a href="https://wa.me/254702555093" target="_blank" rel="noopener">0702 555 093</a>.</p>
             </div>
         </section>
     </main>
@@ -112,38 +102,22 @@
                 <span class="logo-text">KAMERA<span class="logo-accent">BALES</span></span>
                 <p>Premium mitumba bales, graded by experts and delivered across East Africa.</p>
                 <div class="social-links">
-                    <a href="#" aria-label="Instagram"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
-                    <a href="#" aria-label="Facebook"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                    <a href="https://wa.me/254702555093" aria-label="Chat on WhatsApp" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
+                    <a href="mailto:info@kamerabales.co.ke" aria-label="Email us"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
                 </div>
             </div>
-            <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="grading.html">Grading System</a></li><li><a href="testimonials.html">Testimonials</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-            <div class="footer-col"><h4>Support</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="track.html">Track Your Order</a></li><li><a href="shipping.html">Shipping & Delivery</a></li><li><a href="returns.html">Return Policy</a></li><li><a href="payment.html">Payment Options</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms & Conditions</a></li></ul></div>
+            <nav class="footer-col" aria-labelledby="footer-company-terms"><h4 id="footer-company-terms">Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="grading.html">Grading System</a></li><li><a href="testimonials.html">Testimonials</a></li><li><a href="contact.html">Contact</a></li></ul></nav>
+            <nav class="footer-col" aria-labelledby="footer-support-terms"><h4 id="footer-support-terms">Support</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="track.html">Track Your Order</a></li><li><a href="shipping.html">Shipping & Delivery</a></li><li><a href="returns.html">Return Policy</a></li><li><a href="payment.html">Payment Options</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms & Conditions</a></li></ul></nav>
         </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <p>© 2026 Kamera Bales. All rights reserved.</p>
-                <p>Trusted by 500+ retailers across East Africa</p>
-            </div>
-        </div>
+        <div class="footer-bottom"><div class="container"><p>© 2026 Kamera Bales. All rights reserved.</p><p>Trusted by retailers across East Africa</p></div></div>
     </footer>
 
-    <a href="https://wa.me/254702555093" class="floating-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp (opens in new tab)">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-    </a>
-
-    <button id="backToTop" class="back-to-top" aria-label="Back to top">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
-    </button>
+    <a href="https://wa.me/254702555093" class="floating-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp (opens in new tab)"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
+    <button id="backToTop" class="back-to-top" aria-label="Back to top"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg></button>
 
     <div class="mobile-action-bar" role="navigation" aria-label="Quick contact">
-        <a href="tel:0702555093" class="mob-action-btn btn-call">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span>Call</span>
-        </a>
-        <a href="https://wa.me/254702555093" class="mob-action-btn btn-wa" target="_blank" rel="noopener">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-            <span>WhatsApp</span>
-        </a>
+        <a href="tel:0702555093" class="mob-action-btn btn-call"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>Call</span></a>
+        <a href="https://wa.me/254702555093" class="mob-action-btn btn-wa" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg><span>WhatsApp</span></a>
     </div>
 
     <script src="script.js" defer></script>
